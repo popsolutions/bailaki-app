@@ -1,0 +1,36 @@
+name: odoo_client
+description: A new Flutter application.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.10.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^0.1.2
+  uuid: ^2.0.1
+  http: ^0.12.0+2
+  shared_preferences: ^0.5.6
+  flutter_easyloading: ^2.2.2
+  sprintf: ^4.0.2
+  url_launcher: ^5.7.10
+  flutter_tindercard: ^0.2.0
+  mobx:
+  flutter_mobx:
+  get_it:
+  image_picker: ^0.6.7+22
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  build_runner:
+  mobx_codegen:
+  
+  
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/
