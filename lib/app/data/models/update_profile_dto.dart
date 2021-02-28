@@ -6,8 +6,16 @@ class UpdateProfileDto {
   final String function;
   final DateTime birthdate_date;
   final String gender;
+  final int refferedFriendMaxDistance;
+  final bool interestMaleGender;
+  final bool interestFemaleGender;
+  final bool interestOtherGenres;
 
   UpdateProfileDto({
+    this.interestMaleGender,
+    this.interestFemaleGender,
+    this.interestOtherGenres,
+    this.refferedFriendMaxDistance,
     this.profile_description,
     this.music_genre_ids,
     this.music_skill_id,
@@ -18,11 +26,20 @@ class UpdateProfileDto {
   });
 
   Map<String, dynamic> toJson() => {
-        'profile_description': profile_description,
-        'music_genre_ids': music_genre_ids,
-        'music_skill_id': music_skill_id,
-        'function': function,
-        'birthdate_date': birthdate_date,
-        'gender': gender
+        if (refferedFriendMaxDistance != null)
+          'reffered_friend_max_distance': refferedFriendMaxDistance,
+        if (interestMaleGender != null)
+          'interest_male_gender': interestMaleGender,
+        if (interestFemaleGender != null)
+          'interest_female_gender': interestFemaleGender,
+        if (interestOtherGenres != null)
+          'interest_other_genres': interestOtherGenres,
+        if (profile_description != null)
+          'profile_description': profile_description,
+        if (music_genre_ids != null) 'music_genre_ids': music_genre_ids,
+        if (music_skill_id != null) 'music_skill_id': music_skill_id,
+        if (function != null) 'function': function,
+        if (birthdate_date != null) 'birthdate_date': birthdate_date,
+        if (gender != null) 'gender': gender
       };
 }

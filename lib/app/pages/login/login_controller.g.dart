@@ -50,13 +50,13 @@ mixin _$LoginController on _LoginControllerBase, Store {
   final _$_loginRequestAtom = Atom(name: '_LoginControllerBase._loginRequest');
 
   @override
-  ObservableFuture<UserProfile> get _loginRequest {
+  ObservableFuture<LoginResult> get _loginRequest {
     _$_loginRequestAtom.reportRead();
     return super._loginRequest;
   }
 
   @override
-  set _loginRequest(ObservableFuture<UserProfile> value) {
+  set _loginRequest(ObservableFuture<LoginResult> value) {
     _$_loginRequestAtom.reportWrite(value, super._loginRequest, () {
       super._loginRequest = value;
     });

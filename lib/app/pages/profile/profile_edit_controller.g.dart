@@ -41,6 +41,21 @@ mixin _$ProfileEditController on _ProfileEditControllerBase, Store {
     });
   }
 
+  final _$_birthdateAtom = Atom(name: '_ProfileEditControllerBase._birthdate');
+
+  @override
+  DateTime get _birthdate {
+    _$_birthdateAtom.reportRead();
+    return super._birthdate;
+  }
+
+  @override
+  set _birthdate(DateTime value) {
+    _$_birthdateAtom.reportWrite(value, super._birthdate, () {
+      super._birthdate = value;
+    });
+  }
+
   final _$_ProfileEditControllerBaseActionController =
       ActionController(name: '_ProfileEditControllerBase');
 

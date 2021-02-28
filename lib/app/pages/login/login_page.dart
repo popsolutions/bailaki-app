@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/models/login_result.dart';
 import 'package:odoo_client/app/data/pojo/user.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/pages/login/login_controller.dart';
@@ -9,6 +10,8 @@ import 'package:odoo_client/shared/components/custom_text_form_field.dart';
 import 'package:odoo_client/shared/components/primary_button.dart';
 import 'package:odoo_client/shared/components/dialogs.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
+import 'package:odoo_client/shared/controllers/music_genres_controller.dart';
+import 'package:odoo_client/shared/controllers/music_skills_controller.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key key}) : super(key: key);
@@ -19,6 +22,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   AuthenticationController _authenticationController;
+  MusicGenresController _musicGenresController;
+  MusicSkillsController _musicSkillsController;
   LoginController _loginController;
 
   ReactionDisposer _loginReaction;
@@ -26,6 +31,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     _authenticationController = GetIt.I.get<AuthenticationController>();
+    _musicGenresController = GetIt.I.get<MusicGenresController>();
+    _musicSkillsController = GetIt.I.get<MusicSkillsController>();
     _loginController = GetIt.I.get<LoginController>();
 
     _loginReaction =
@@ -52,8 +59,11 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _onLoginSuccess(UserProfile user) {
+  void _onLoginSuccess(LoginResult result) {
+    final user = result.userProfile;
     _authenticationController.authenticate(user);
+    _musicSkillsController.init(result.musicSkills,user.music_skill_id);
+    _musicGenresController.init(result.musicGenres,user.music_genre_ids);
     Navigator.of(context).pushReplacementNamed('/home');
   }
 

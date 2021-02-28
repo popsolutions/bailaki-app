@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:odoo_client/shared/controllers/music_genres_controller.dart';
+import 'package:odoo_client/shared/controllers/music_skills_controller.dart';
 
 class MusicalPreferencesPage extends StatefulWidget {
   const MusicalPreferencesPage({Key key}) : super(key: key);
@@ -7,100 +11,76 @@ class MusicalPreferencesPage extends StatefulWidget {
 }
 
 class _MusicalPreferencesPageState extends State<MusicalPreferencesPage> {
-  List<String> _musicalPreferences = [
-    "Arrocha",
-    "Axé",
-    "Bachata",
-    "Black Music",
-    "Bolero",
-    "Dança de rua",
-    "Dança de salão",
-    "Eletrônica",
-    "Flashback",
-    "Forró",
-    "Funk",
-    "Hip Hop",
-    "Kizomba",
-    "Reggaeton",
-    "Rock and Roll",
-    "Rockabilly",
-    "Salsa e Merengue",
-    "Samba de gafiera",
-    "Samba rock",
-    "Sertanejo & Country",
-    "Tango",
-    "Tecnobrega",
-    "Vanerão",
-    "Zouk",
-    "Zumba",
-    "Lindy Hope",
-    "K-Pop"
-  ];
+  MusicGenresController _musicGenresController;
 
-  Set<String> _selecteds = {};
-
-  void _addSelected(String item) {
-    _selecteds.add(item);
-    setState(() {});
-  }
-
-  void _deleteSelected(String item) {
-    _selecteds.remove(item);
-    setState(() {});
+  @override
+  void initState() {
+    _musicGenresController = GetIt.I.get<MusicGenresController>();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.black,
-        title: Text("Estilos musicais"),
-        centerTitle: true,
-      ),
-      body: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-                height: 120,
-                padding: const EdgeInsets.only(
-                    left: 12, right: 12, top: 20, bottom: 15),
-                color: Color.fromRGBO(245, 247, 250, 1),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                        "Selecione os estilos musicais que você gostaria de compartilhar com as pessoas."),
-                    Text(
-                      "ESTILOS MUSICAIS",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 14,
-                        color: Color.fromARGB(92, 92, 92, 1),
-                      ),
-                    )
-                  ],
-                )),
-            Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
-              child: Wrap(
-                spacing: 10,
-                children: _musicalPreferences
-                    .map((item) => MusicalPreferenceTile(
-                          title: item,
-                          isSelected: _selecteds.contains(item),
-                          onPressed: () {
-                            if (!_selecteds.contains(item))
-                              _addSelected(item);
-                            else
-                              _deleteSelected(item);
-                          },
-                        ))
-                    .toList(),
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, List.of(_musicGenresController.musicGenres));
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text("Estilos musicais"),
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Container(
+                  height: 120,
+                  padding: const EdgeInsets.only(
+                      left: 12, right: 12, top: 20, bottom: 15),
+                  color: Color.fromRGBO(245, 247, 250, 1),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                          "Selecione os estilos musicais que você gostaria de compartilhar com as pessoas."),
+                      Text(
+                        "ESTILOS MUSICAIS",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                          color: Color.fromARGB(92, 92, 92, 1),
+                        ),
+                      )
+                    ],
+                  )),
+              Padding(
+                padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
+                child: Observer(builder: (_) {
+                  return Wrap(
+                    spacing: 10,
+                    children: _musicGenresController.musicGenres.map((item) {
+                      final isSelected = _musicGenresController
+                          .selectedMusicGenres
+                          .contains(item);
+                      return MusicalPreferenceTile(
+                        title: item.name,
+                        isSelected: isSelected,
+                        onPressed: () {
+                          if (!_musicGenresController.addSelected(item)) {
+                            _musicGenresController.removeSelected(item);
+                          }
+                        },
+                      );
+                    }).toList(),
+                  );
+                }),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -1,5 +1,8 @@
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/models/memory_image.dart';
 import 'package:odoo_client/app/data/models/update_profile_dto.dart';
+import 'package:odoo_client/app/data/pojo/music_genre.dart';
+import 'package:odoo_client/app/data/pojo/music_skill.dart';
 import 'package:odoo_client/app/data/services/user_service.dart';
 part 'profile_edit_controller.g.dart';
 
@@ -17,7 +20,12 @@ abstract class _ProfileEditControllerBase with Store {
 
   ObservableFuture get updateProfileRequest => _updateProfileRequest;
 
+  @observable
+  PhotoWall photoWall;
+
   String _aboutYou;
+
+  String get aboutYou => _aboutYou;
 
   List<int> _danceStyles;
 
@@ -25,20 +33,24 @@ abstract class _ProfileEditControllerBase with Store {
 
   String _function;
 
-  String _educationalLevel;
+  String get function => _function;
 
   @observable
   String _gender;
 
   String get gender => _gender;
 
-  set aboutYou(String value) => _aboutYou = value.trim();
-  set danceStyles(List<int> items) => _danceStyles = items;
-  set danceLevel(int value) => _danceLevel = value;
-  set function(String value) => _function = value.trim();
-  set educationLevel(String value) => _educationalLevel = value.trim();
-  set gender(String value) => _gender = value.trim();
+  @observable
+  DateTime _birthdate;
+  DateTime get birthdate => _birthdate;
+
+  set aboutYou(String value) => _aboutYou = value?.trim();
+  set danceStyles(List<MusicGenre> items) => _danceStyles = items.map((e) => e.id).toList();
+  set danceLevel(MusicSkill value) => _danceLevel = value.id;
+  set function(String value) => _function = value?.trim();
+  set gender(String value) => _gender = value?.trim();
   set partnerId(int value) => _partnerId = value;
+  set birthdate(DateTime value) => _birthdate = value;
 
   @action
   void submit() {
@@ -54,4 +66,12 @@ abstract class _ProfileEditControllerBase with Store {
         ))
         .asObservable();
   }
+}
+
+class PhotoWall{
+ final MemoryImage principal;
+ final MemoryImage primary;
+ final MemoryImage secondary;
+
+  PhotoWall(this.principal, this.primary, this.secondary);
 }

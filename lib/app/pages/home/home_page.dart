@@ -195,6 +195,8 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final user = _authenticationController.currentUser;
+   
     return Scaffold(
       appBar: PreferredSize(
           child: SafeArea(
@@ -244,6 +246,7 @@ class _HomePageState extends State<HomePage> {
                 );
               } else {
                 final current = data.first;
+                
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
@@ -252,7 +255,8 @@ class _HomePageState extends State<HomePage> {
                       child: _buildCard(
                         name: current.name,
                         age: 19,
-                        url: current.imageUrl,
+                        url: 
+                          "https://bailaki.com.br/web/image?model=res.partner&field=image&${user.sessionId}&id=${current.id}",
                         onTap: () => Navigator.of(context).pushNamed(
                             '/partner_detail',
                             arguments: current.id),

@@ -1,7 +1,11 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:get_it/get_it.dart';
+import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/pages/settings/preferences_controller.dart';
 import 'package:odoo_client/shared/components/container_tile.dart';
+import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key key}) : super(key: key);
@@ -10,8 +14,48 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  double distance = 0.0;
-  var rangeValues = RangeValues(18, 18);
+  PreferencesController _preferencesController;
+  AuthenticationController _authenticationController;
+  ReactionDisposer _updateSettingsReaction;
+
+  @override
+  void initState() {
+    super.initState();
+    _authenticationController = GetIt.I.get<AuthenticationController>();
+    _preferencesController = GetIt.I.get<PreferencesController>();
+    _initPreferencesData();
+    _updateSettingsReaction = reaction<FutureStatus>(
+        (_) => _preferencesController.updateRequest.status, _onUpdateRequest);
+  }
+
+  void _initPreferencesData() {
+    final userProfile = _authenticationController.currentUser;
+    _preferencesController.interestingInFemales = userProfile.interestFemales;
+    _preferencesController.interestingInMales = userProfile.interestMales;
+    _preferencesController.interestingInOthers =
+        userProfile.interestOtherGenres;
+    _preferencesController.maxDistance = userProfile.refferedMaxFriendDistance;
+  }
+
+  void _onUpdateRequest(FutureStatus requestStatus) {
+    final response = _preferencesController.updateRequest;
+    switch (requestStatus) {
+      case FutureStatus.fulfilled:
+        _onSuccess(response.value);
+        break;
+      default:
+    }
+  }
+
+  void _onSuccess(value) {
+    final currentUser = _authenticationController.currentUser;
+    _authenticationController.authenticate(currentUser.copyWith(
+        interestFemales: _preferencesController.interestingInFemales,
+        interestMales: _preferencesController.interestingInMales,
+        interestOtherGenres: _preferencesController.interestingInOthers,
+        refferedMaxFriendDistance: _preferencesController.maxDistance));
+    _updateSettingsReaction();
+  }
 
   Widget _buildSwitchTile({
     String title,
@@ -104,104 +148,122 @@ class _SettingsPageState extends State<SettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-    appBar: AppBar(
-        backgroundColor: Colors.black
-      ),
-      backgroundColor: Color.fromRGBO(239, 242, 239, 1),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.only(top: 25),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeaderTitle(title: "Descoberta"),
-              const SizedBox(height: 10),
-              _buildRangeTile(
-                leading: "Distância máxima",
-                trailing: "100 km",
-                maxText: "100",
-                minText: "0",
-                child: CupertinoSlider(
-                  divisions: 100,
-                  thumbColor: const Color.fromRGBO(254, 0, 236, 1),
-                  value: distance,
-                  min: 0,
-                  max: 100,
-                  onChanged: (e) {
-                    setState(() {
-                      distance = e;
-                    });
-                  },
-                ),
-              ),
-              const SizedBox(height: 10),
-              _buildRangeTile(
-                leading: "Faixa etária",
-                trailing:
-                    "${rangeValues.start.toInt()} - ${rangeValues.end.toInt()}",
-                maxText: "55+",
-                minText: "18",
-                child: SliderTheme(
-                  data: Theme.of(context).sliderTheme.copyWith(
-                        thumbColor: const Color.fromRGBO(254, 0, 236, 1),
-                        trackHeight: 0.1,
-                        thumbShape:
-                            RoundSliderThumbShape(enabledThumbRadius: 40.0),
-                        overlayShape:
-                            RoundSliderOverlayShape(overlayRadius: 15.0),
-                      ),
-                  child: RangeSlider(
-                    divisions: 55,
-                    labels: RangeLabels("${rangeValues.start.toInt()}",
-                        "${rangeValues.end.toInt()}"),
-                    values: rangeValues,
-                    min: 18,
-                    max: 55,
-                    onChanged: (e) {
-                      setState(() {
-                        rangeValues = e;
-                      });
-                    },
+    return WillPopScope(
+      onWillPop: () async {
+        _preferencesController.submit();
+        return true;
+      },
+      child: Scaffold(
+        appBar: AppBar(backgroundColor: Colors.black),
+        backgroundColor: Color.fromRGBO(239, 242, 239, 1),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.only(top: 25),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildHeaderTitle(title: "Descoberta"),
+                const SizedBox(height: 10),
+                Observer(
+                  builder: (_) => _buildRangeTile(
+                    leading: "Distância máxima",
+                    trailing: "${_preferencesController.maxDistance} km",
+                    maxText: "100",
+                    minText: "0",
+                    child: CupertinoSlider(
+                      divisions: 100,
+                      thumbColor: const Color.fromRGBO(254, 0, 236, 1),
+                      value: _preferencesController.maxDistance.toDouble(),
+                      min: 0,
+                      max: 100,
+                      onChanged: (e) =>
+                          _preferencesController.maxDistance = e.truncate(),
+                    ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 25),
-              _buildHeaderTitle(title: "Procurando por"),
-              const SizedBox(height: 10),
-              _buildSwitchTile(
-                title: "Homens",
-                state: false,
-                onChanged: (e) {},
-              ),
-              const SizedBox(height: 10),
-              _buildSwitchTile(
-                title: "Mulheres",
-                state: false,
-                onChanged: (e) {},
-              ),
-              const SizedBox(height: 10),
-              _buildSwitchTile(
-                title: "Outros",
-                state: false,
-                onChanged: (e) {},
-              ),
-              const SizedBox(height: 25),
-              _buildHeaderTitle(title: "Notificações"),
-              const SizedBox(height: 10),
-              _buildSwitchTile(
-                title: "Novos matches",
-                state: false,
-                onChanged: (e) {},
-              ),
-              const SizedBox(height: 10),
-              _buildSwitchTile(
-                title: "Mensagens",
-                state: false,
-                onChanged: (e) {},
-              ),
-              const SizedBox(height: 10),
-            ],
+                const SizedBox(height: 10),
+                Observer(builder: (_) {
+                  final rangeValues = _preferencesController.ageRange;
+                  return _buildRangeTile(
+                    leading: "Faixa etária",
+                    trailing:
+                        "${rangeValues.start.toInt()} - ${rangeValues.end.toInt()}",
+                    maxText: "55+",
+                    minText: "18",
+                    child: SliderTheme(
+                      data: Theme.of(context).sliderTheme.copyWith(
+                            thumbColor: const Color.fromRGBO(254, 0, 236, 1),
+                            trackHeight: 0.1,
+                            thumbShape:
+                                RoundSliderThumbShape(enabledThumbRadius: 40.0),
+                            overlayShape:
+                                RoundSliderOverlayShape(overlayRadius: 15.0),
+                          ),
+                      child: RangeSlider(
+                        divisions: 33,
+                        labels: RangeLabels("${rangeValues.start.toInt()}",
+                            "${rangeValues.end.toInt()}"),
+                        values: rangeValues,
+                        min: 18,
+                        max: 55,
+                        onChanged: (e) => _preferencesController.ageRange = e,
+                      ),
+                    ),
+                  );
+                }),
+                const SizedBox(height: 25),
+                _buildHeaderTitle(title: "Procurando por"),
+                const SizedBox(height: 10),
+                Observer(builder: (_) {
+                  return _buildSwitchTile(
+                    title: "Homens",
+                    state: _preferencesController.interestingInMales,
+                    onChanged: (e) =>
+                        _preferencesController.interestingInMales = e,
+                  );
+                }),
+                const SizedBox(height: 10),
+                Observer(builder: (_) {
+                  return _buildSwitchTile(
+                    title: "Mulheres",
+                    state: _preferencesController.interestingInFemales,
+                    onChanged: (e) =>
+                        _preferencesController.interestingInFemales = e,
+                  );
+                }),
+                const SizedBox(height: 10),
+                Observer(builder: (_) {
+                  return _buildSwitchTile(
+                    title: "Outros",
+                    state: _preferencesController.interestingInOthers,
+                    onChanged: (e) =>
+                        _preferencesController.interestingInOthers = e,
+                  );
+                }),
+                const SizedBox(height: 25),
+                _buildHeaderTitle(title: "Notificações"),
+                const SizedBox(height: 10),
+                Observer(builder: (_) {
+                  return _buildSwitchTile(
+                    title: "Novos matches",
+                    state:
+                        _preferencesController.receiveNewMatchesNotifications,
+                    onChanged: (e) => _preferencesController
+                        .receiveNewMatchesNotifications = e,
+                  );
+                }),
+                const SizedBox(height: 10),
+                Observer(builder: (_) {
+                  return _buildSwitchTile(
+                    title: "Mensagens",
+                    state: _preferencesController.receiveChatNotifications,
+                    onChanged: (e) =>
+                        _preferencesController.receiveChatNotifications = e,
+                  );
+                }),
+                const SizedBox(height: 10),
+              ],
+            ),
           ),
         ),
       ),

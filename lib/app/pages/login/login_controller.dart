@@ -1,5 +1,6 @@
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/login_dto.dart';
+import 'package:odoo_client/app/data/models/login_result.dart';
 import 'package:odoo_client/app/data/pojo/user.dart';
 import 'package:odoo_client/app/data/services/login_facade.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
@@ -21,12 +22,12 @@ abstract class _LoginControllerBase with Store {
   String _password;
 
   @observable
-  ObservableFuture<UserProfile> _loginRequest = ObservableFuture.value(null);
+  ObservableFuture<LoginResult> _loginRequest = ObservableFuture.value(null);
 
   String get email => _email;
   String get password => _password;
 
-  ObservableFuture<UserProfile> get loginRequest => _loginRequest;
+  ObservableFuture<LoginResult> get loginRequest => _loginRequest;
 
   @computed
   bool get isLoading => _loginRequest.status == FutureStatus.pending;

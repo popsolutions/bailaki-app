@@ -36,9 +36,9 @@ class _HomeState extends Base<Home> {
                   _partners.add(
                     new Partner(
                       id: i["id"],
-                      email: i["email"] is! bool ? i["email"] : "N/A",
+                  
                       name: i["name"],
-                      phone: i["phone"] is! bool ? i["phone"] : "N/A",
+                   
                       imageUrl: getURL() +
                           "/web/image?model=res.partner&field=image&" +
                           session +
@@ -186,7 +186,7 @@ class _HomeState extends Base<Home> {
                       subtitle: Container(
                         padding: const EdgeInsets.only(top: 5.0),
                         child: Text(
-                          _partners[i].email,
+                          '',
                           style: TextStyle(color: Colors.grey, fontSize: 15.0),
                         ),
                       ),

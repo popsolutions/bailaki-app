@@ -1,3 +1,4 @@
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:odoo_client/app/data/services/login_facade.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
@@ -19,7 +20,10 @@ import 'package:odoo_client/app/pages/login/login_controller.dart';
 import 'package:odoo_client/app/pages/patner/partner_detail_controller.dart';
 import 'package:odoo_client/app/pages/profile/my_profile_controller.dart';
 import 'package:odoo_client/app/pages/profile/profile_edit_controller.dart';
+import 'package:odoo_client/app/pages/settings/preferences_controller.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
+import 'package:odoo_client/shared/controllers/music_genres_controller.dart';
+import 'package:odoo_client/shared/controllers/music_skills_controller.dart';
 
 void setupSharedModule() {
   final locator = GetIt.I;
@@ -62,17 +66,22 @@ void setupSharedModule() {
     ),
   );
 
-  locator.registerLazySingleton(
-    () => AuthenticationController(),
-  );
+  locator.registerLazySingleton(() => AuthenticationController());
+
+  locator.registerLazySingleton(() => MusicGenresController());
+
+  locator.registerLazySingleton(() => MusicSkillsController());
 
   locator.registerFactory(
     () => MyProfileController(),
   );
 
+  locator
+      .registerFactory(() => PreferencesController(locator.get<UserService>()));
+
   locator.registerFactory(
-    () => HomeController(
-        locator.get<PartnerService>(), locator.get<RelationService>()),
+    () => HomeController(locator.get<PartnerService>(),
+        locator.get<RelationService>(), Geolocator()),
   );
 
   locator.registerFactory(
@@ -88,13 +97,15 @@ void setupSharedModule() {
   );
 
   locator.registerFactory(
-    () => LoginController(
-        locator.get<LoginFacade>()
-        ),
+    () => LoginController(locator.get<LoginFacade>()),
   );
 
   locator.registerFactory<LoginFacade>(
     () => LoginFacadeImpl(
-        locator.get<LoginService>(), locator.get<UserService>(), null, null),
+      locator.get<LoginService>(),
+      locator.get<UserService>(),
+      locator.get<MusicGenreService>(),
+      locator.get<MusicSkillService>(),
+    ),
   );
 }

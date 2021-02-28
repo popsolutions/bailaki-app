@@ -118,7 +118,7 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      "Hortolândia/SP - 139.96 Km",
+                                      "${data.city}/${data.activityState} - 139.96 Km",
                                       style: TextStyle(
                                         color: Color.fromRGBO(142, 144, 141, 1),
                                       ),

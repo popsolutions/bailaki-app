@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class GenrePage extends StatefulWidget {
@@ -19,40 +18,46 @@ class _GenreePageState extends State<GenrePage> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Text("Gênero"),
-          centerTitle: true,
-        ),
-        body: Column(
-          children: [
-            Container(
-              color: Colors.white,
-              child: ListView.separated(
-                  padding: const EdgeInsets.only(top: 5, bottom: 20),
-                  shrinkWrap: true,
-                  separatorBuilder: (_, index) => const Divider(),
-                  itemBuilder: (_, index) {
-                    final item = _genrees[index];
-                    final isSelected = _selected == item;
-                    return ListTile(
-                      dense: true,
-                      onTap: () => _select(item),
-                      trailing: isSelected
-                          ? Icon(Icons.check, color: Colors.blue)
-                          : null,
-                      title: Text(
-                        item,
-                        style: TextStyle(
-                            color: isSelected ? Colors.blue : Colors.grey),
-                      ),
-                    );
-                  },
-                  itemCount: 3),
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.pop(context, _selected);
+        return true;
+      },
+      child: SafeArea(
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.black,
+            title: Text("Gênero"),
+            centerTitle: true,
+          ),
+          body: Column(
+            children: [
+              Container(
+                color: Colors.white,
+                child: ListView.separated(
+                    padding: const EdgeInsets.only(top: 5, bottom: 20),
+                    shrinkWrap: true,
+                    separatorBuilder: (_, index) => const Divider(),
+                    itemBuilder: (_, index) {
+                      final item = _genrees[index];
+                      final isSelected = _selected == item;
+                      return ListTile(
+                        dense: true,
+                        onTap: () => _select(item),
+                        trailing: isSelected
+                            ? Icon(Icons.check, color: Colors.blue)
+                            : null,
+                        title: Text(
+                          item,
+                          style: TextStyle(
+                              color: isSelected ? Colors.blue : Colors.grey),
+                        ),
+                      );
+                    },
+                    itemCount: 3),
+              ),
+            ],
+          ),
         ),
       ),
     );
