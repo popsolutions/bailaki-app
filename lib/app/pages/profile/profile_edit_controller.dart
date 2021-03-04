@@ -56,7 +56,7 @@ abstract class _ProfileEditControllerBase with Store {
   void submit() {
     _updateProfileRequest = _userService
         .update(UpdateProfileDto(
-          birthdate_date: null,
+          birthdate_date: birthdate,
           function: _function,
           gender: _gender,
           music_genre_ids: _danceStyles,

@@ -19,6 +19,7 @@ abstract class _MusicGenresControllerBase with Store {
 
   @action
   bool addSelected(MusicGenre item) {
+    
     return _selectedMusicGenres.add(item);
   }
 

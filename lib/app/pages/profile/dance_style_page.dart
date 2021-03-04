@@ -23,7 +23,7 @@ class _MusicalPreferencesPageState extends State<MusicalPreferencesPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, List.of(_musicGenresController.musicGenres));
+        Navigator.pop(context, List.of(_musicGenresController.selectedMusicGenres));
         return true;
       },
       child: Scaffold(

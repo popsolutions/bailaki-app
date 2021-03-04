@@ -8,6 +8,8 @@ class GenrePage extends StatefulWidget {
 
 class _GenreePageState extends State<GenrePage> {
   List<String> _genrees = ["Homem", "Mulher", "Outro"];
+
+  final dict = {"Homem": "male", "Mulher": "female", "Outro": "other"};
   String _selected;
 
   void _select(String item) {
@@ -20,7 +22,7 @@ class _GenreePageState extends State<GenrePage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, _selected);
+        Navigator.pop(context, dict[_selected]);
         return true;
       },
       child: SafeArea(

@@ -9,6 +9,7 @@ class PreferencesController = _PreferencesControllerBase
 
 abstract class _PreferencesControllerBase with Store {
   final UserService _userService;
+  int partnerId;
 
   _PreferencesControllerBase(this._userService);
 
@@ -16,7 +17,7 @@ abstract class _PreferencesControllerBase with Store {
   int maxDistance = 0;
 
   @observable
-  RangeValues ageRange = RangeValues(18, 18);
+  RangeValues ageRange = RangeValues(18, 60);
 
   @observable
   bool interestingInMales = false;
@@ -41,11 +42,19 @@ abstract class _PreferencesControllerBase with Store {
   @action
   void submit() {
     _updateRequest = _userService
-        .update(UpdateProfileDto(
+        .update(
+          UpdateProfileDto(
+            partnerId: partnerId,
             interestFemaleGender: interestingInFemales,
             interestMaleGender: interestingInMales,
             interestOtherGenres: interestingInOthers,
-            refferedFriendMaxDistance: maxDistance))
+            refferedFriendMaxDistance: maxDistance,
+            enableMatchNotification: receiveNewMatchesNotifications,
+            enableMessageNotification: receiveChatNotifications,
+            referredFriendMaxAge: ageRange.end.toInt(),
+            referredFriendMinAge: ageRange.start.toInt(),
+          ),
+        )
         .asObservable();
   }
 }

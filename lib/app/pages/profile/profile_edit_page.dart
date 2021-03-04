@@ -100,9 +100,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       _buildTile(
                           title: "Estilos de dança",
                           onTap: () async {
-                            final result = await Navigator.of(context)
+                           final items = await Navigator.of(context)
                                 .pushNamed("/musical_preferences");
-                            _profileEditController.danceStyles = result;
+                            _profileEditController.danceStyles = items;
                           }),
                       const SizedBox(height: 10),
                       _buildTile(
@@ -138,10 +138,14 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             );
                             _profileEditController.birthdate = date;
                           },
-                          child: _buildContainer(
-                              title: "Data de nascimento",
-                              subtitle:
-                                  "${DateFormat.yMd().format(_profileEditController.birthdate)}"),
+                          child: Observer(builder: (_) {
+                            return _buildContainer(
+                                title: "Data de nascimento",
+                                subtitle: _profileEditController.birthdate !=
+                                        null
+                                    ? "${DateFormat.yMd().format(_profileEditController.birthdate)}"
+                                    : "");
+                          }),
                         ),
                         height: 70,
                       ),

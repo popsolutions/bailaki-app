@@ -14,8 +14,8 @@ class PartnerServiceImpl implements PartnerService {
   Future<List<Partner>> finAll() async {
     final response = await _odoo.searchRead('res.partner', [], [
       'name',
-      'birthdate_date'
-          'partner_current_latitude',
+      'birthdate_date',
+      'partner_current_latitude',
       'partner_current_longitude',
     ]);
     final items =

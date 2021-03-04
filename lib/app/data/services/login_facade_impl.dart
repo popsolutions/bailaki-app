@@ -41,7 +41,13 @@ class LoginFacadeImpl implements LoginFacade {
         sessionId: userData.sessionId,
         uid: userData.uid,
         userCompanies: userData.userCompanies,
-        webBaseUrl: userData.webBaseUrl);
+        webBaseUrl: userData.webBaseUrl,
+        enableMatchNotification: userProfile.enableMatchNotification,
+        enableMessageNotification: userProfile.enableMessageNotification,
+        referredFriendMaxAge: userProfile.referredFriendMaxAge,
+        referredFriendMinAge: userProfile.referredFriendMinAge
+        
+        );
     final musicSkills = await _musicSkillService.findAll();
     final musicGenres = await _musicGenreService.findAll();
 
@@ -70,28 +76,37 @@ class UserProfile {
   final bool interestFemales;
   final bool interestOtherGenres;
   final int refferedMaxFriendDistance;
+  final bool enableMessageNotification;
+  final bool enableMatchNotification;
+  final int referredFriendMinAge;
+  final int referredFriendMaxAge;
 
-  UserProfile(
-      {this.interestMales,
-      this.interestFemales,
-      this.interestOtherGenres,
-      this.refferedMaxFriendDistance,
-      this.name,
-      this.sessionId,
-      this.uid,
-      this.isAdmin,
-      this.partnerDisplayName,
-      this.companyId,
-      this.partnerId,
-      this.userCompanies,
-      this.webBaseUrl,
-      this.odoobotInitialized,
-      this.profile_description,
-      this.music_genre_ids,
-      this.music_skill_id,
-      this.function,
-      this.birthdate_date,
-      this.gender});
+  UserProfile({
+    this.interestMales,
+    this.interestFemales,
+    this.interestOtherGenres,
+    this.refferedMaxFriendDistance,
+    this.name,
+    this.sessionId,
+    this.uid,
+    this.isAdmin,
+    this.partnerDisplayName,
+    this.companyId,
+    this.partnerId,
+    this.userCompanies,
+    this.webBaseUrl,
+    this.odoobotInitialized,
+    this.profile_description,
+    this.music_genre_ids,
+    this.music_skill_id,
+    this.function,
+    this.birthdate_date,
+    this.gender,
+    this.enableMatchNotification,
+    this.enableMessageNotification,
+    this.referredFriendMinAge,
+    this.referredFriendMaxAge,
+  });
 
   UserProfile copyWith({
     String sessionId,
@@ -114,29 +129,40 @@ class UserProfile {
     bool interestFemales,
     bool interestOtherGenres,
     int refferedMaxFriendDistance,
+    bool enableMessageNotification,
+    bool enableMatchNotification,
+    int referredFriendMinAge,
+    int referredFriendMaxAge,
   }) {
     return UserProfile(
-      sessionId: sessionId ?? this.sessionId,
-      uid: uid ?? this.uid,
-      isAdmin: isAdmin ?? this.isAdmin,
-      partnerDisplayName: partnerDisplayName ?? this.partnerDisplayName,
-      companyId: companyId ?? this.companyId,
-      partnerId: partnerId ?? this.partnerId,
-      userCompanies: userCompanies ?? this.userCompanies,
-      webBaseUrl: webBaseUrl ?? this.webBaseUrl,
-      odoobotInitialized: odoobotInitialized ?? this.odoobotInitialized,
-      profile_description: profile_description ?? this.profile_description,
-      music_genre_ids: music_genre_ids ?? this.music_genre_ids,
-      music_skill_id: music_skill_id ?? this.music_skill_id,
-      function: function ?? this.function,
-      birthdate_date: birthdate_date ?? this.birthdate_date,
-      gender: gender ?? this.gender,
-      name: name ?? this.name,
-      interestMales: interestMales ?? this.interestMales,
-      interestFemales: interestFemales ?? this.interestFemales,
-      interestOtherGenres: interestOtherGenres ?? this.interestOtherGenres,
-      refferedMaxFriendDistance:
-          refferedMaxFriendDistance ?? this.refferedMaxFriendDistance,
-    );
+        sessionId: sessionId ?? this.sessionId,
+        uid: uid ?? this.uid,
+        isAdmin: isAdmin ?? this.isAdmin,
+        partnerDisplayName: partnerDisplayName ?? this.partnerDisplayName,
+        companyId: companyId ?? this.companyId,
+        partnerId: partnerId ?? this.partnerId,
+        userCompanies: userCompanies ?? this.userCompanies,
+        webBaseUrl: webBaseUrl ?? this.webBaseUrl,
+        odoobotInitialized: odoobotInitialized ?? this.odoobotInitialized,
+        profile_description: profile_description ?? this.profile_description,
+        music_genre_ids: music_genre_ids ?? this.music_genre_ids,
+        music_skill_id: music_skill_id ?? this.music_skill_id,
+        function: function ?? this.function,
+        birthdate_date: birthdate_date ?? this.birthdate_date,
+        gender: gender ?? this.gender,
+        name: name ?? this.name,
+        interestMales: interestMales ?? this.interestMales,
+        interestFemales: interestFemales ?? this.interestFemales,
+        interestOtherGenres: interestOtherGenres ?? this.interestOtherGenres,
+        refferedMaxFriendDistance:
+            refferedMaxFriendDistance ?? this.refferedMaxFriendDistance,
+        enableMatchNotification:
+            enableMatchNotification ?? this.enableMatchNotification,
+        enableMessageNotification:
+            enableMessageNotification ?? this.enableMessageNotification,
+        referredFriendMaxAge:
+            referredFriendMaxAge ?? this.referredFriendMaxAge,
+        referredFriendMinAge:
+            referredFriendMinAge ?? this.referredFriendMinAge);
   }
 }

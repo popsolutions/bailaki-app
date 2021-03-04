@@ -23,6 +23,8 @@ class _SettingsPageState extends State<SettingsPage> {
     super.initState();
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _preferencesController = GetIt.I.get<PreferencesController>();
+    _preferencesController.partnerId =
+        _authenticationController.currentUser.partnerId;
     _initPreferencesData();
     _updateSettingsReaction = reaction<FutureStatus>(
         (_) => _preferencesController.updateRequest.status, _onUpdateRequest);
@@ -35,6 +37,17 @@ class _SettingsPageState extends State<SettingsPage> {
     _preferencesController.interestingInOthers =
         userProfile.interestOtherGenres;
     _preferencesController.maxDistance = userProfile.refferedMaxFriendDistance;
+    _preferencesController.receiveChatNotifications =
+        userProfile?.enableMessageNotification;
+    _preferencesController.receiveNewMatchesNotifications =
+        userProfile?.enableMatchNotification;
+
+    if (userProfile?.referredFriendMinAge != null &&
+        userProfile?.referredFriendMaxAge != null) {
+      _preferencesController.ageRange = RangeValues(
+          userProfile?.referredFriendMinAge?.toDouble(),
+          userProfile?.referredFriendMaxAge?.toDouble());
+    }
   }
 
   void _onUpdateRequest(FutureStatus requestStatus) {

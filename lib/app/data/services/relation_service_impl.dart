@@ -25,6 +25,7 @@ class RelationServiceImpl implements RelationService {
       'id',
       'name'
     ]);
+
     final relationTypeId = relationTypeResponse.getRecords()[0]["id"];
     
     final createRelationResponse = await _odoo.create('res.partner.relation', {
@@ -32,6 +33,7 @@ class RelationServiceImpl implements RelationService {
       'right_partner_id': deslikeDto.friendPartnerId,
       'type_id': relationTypeId,
     });
+    print(createRelationResponse);
   }
 
   @override

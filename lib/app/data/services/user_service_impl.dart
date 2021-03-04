@@ -39,7 +39,11 @@ class UserServiceImpl implements UserService {
       'partner_current_longitude',
       'interest_male_gender',
       'interest_female_gender',
-      'interest_other_genres'
+      "interest_other_genres",
+      'referred_friend_min_age',
+      'referred_friend_max_age',
+      'enable_message_notification',
+      'enable_match_notification'
     ]);
     
     final photosResponse = await _odoo.searchRead('res.partner.image', [

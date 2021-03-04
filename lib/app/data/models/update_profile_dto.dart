@@ -10,24 +10,31 @@ class UpdateProfileDto {
   final bool interestMaleGender;
   final bool interestFemaleGender;
   final bool interestOtherGenres;
+  final bool enableMessageNotification;
+  final bool enableMatchNotification;
+  final int referredFriendMinAge;
+  final int referredFriendMaxAge;
 
-  UpdateProfileDto({
-    this.interestMaleGender,
-    this.interestFemaleGender,
-    this.interestOtherGenres,
-    this.refferedFriendMaxDistance,
-    this.profile_description,
-    this.music_genre_ids,
-    this.music_skill_id,
-    this.function,
-    this.birthdate_date,
-    this.gender,
-    this.partnerId,
-  });
+  UpdateProfileDto(
+      {this.interestMaleGender,
+      this.interestFemaleGender,
+      this.interestOtherGenres,
+      this.refferedFriendMaxDistance,
+      this.profile_description,
+      this.music_genre_ids,
+      this.music_skill_id,
+      this.function,
+      this.birthdate_date,
+      this.gender,
+      this.partnerId,
+      this.enableMessageNotification,
+      this.enableMatchNotification,
+      this.referredFriendMinAge,
+      this.referredFriendMaxAge});
 
   Map<String, dynamic> toJson() => {
         if (refferedFriendMaxDistance != null)
-          'reffered_friend_max_distance': refferedFriendMaxDistance,
+          'referred_friend_max_distance': refferedFriendMaxDistance,
         if (interestMaleGender != null)
           'interest_male_gender': interestMaleGender,
         if (interestFemaleGender != null)
@@ -36,10 +43,21 @@ class UpdateProfileDto {
           'interest_other_genres': interestOtherGenres,
         if (profile_description != null)
           'profile_description': profile_description,
-        if (music_genre_ids != null) 'music_genre_ids': music_genre_ids,
+        if (music_genre_ids != null)
+          'music_genre_ids': [
+            [6, 0, music_genre_ids]
+          ],
         if (music_skill_id != null) 'music_skill_id': music_skill_id,
         if (function != null) 'function': function,
-        if (birthdate_date != null) 'birthdate_date': birthdate_date,
-        if (gender != null) 'gender': gender
+        if (birthdate_date != null) 'birthdate_date': birthdate_date.toString(),
+        if (gender != null) 'gender': gender,
+        if (enableMessageNotification != null)
+          'enable_message_notification': enableMessageNotification,
+        if (enableMatchNotification != null)
+          'enable_match_notification': enableMatchNotification,
+        if (referredFriendMinAge != null)
+          'referred_friend_min_age': referredFriendMinAge,
+        if (referredFriendMaxAge != null)
+          'referred_friend_max_age': referredFriendMaxAge,
       };
 }

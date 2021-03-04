@@ -24,8 +24,9 @@ class Partner {
     name = json["name"];
     birthdate =
         json["birthdate_date"] is! bool && json["birthdate_date"] != null
-            ? DateTime.parse(json["birthdate"])
+            ? DateTime.parse(json["birthdate_date"])
             : null;
+
     imageUrl =
         'https://assets.b9.com.br/wp-content/uploads/2020/09/Batman-issue86-heder-1280x677.jpg';
 
