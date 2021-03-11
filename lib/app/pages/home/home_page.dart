@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:flutter_tindercard/flutter_tindercard.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:odoo_client/app/data/services/odoo_api.dart';
 import 'package:odoo_client/app/pages/home/home_controller.dart';
-import 'package:odoo_client/main.dart';
 import 'package:odoo_client/shared/components/circular_inkwell.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 /*
@@ -111,7 +108,7 @@ class _HomePageState extends State<HomePage> {
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _homeController = GetIt.I.get<HomeController>();
     _homeController.userPartnerId =
-        _authenticationController.currentUser.partnerId;
+        _authenticationController.currentUser?.partnerId;
     _homeController.loadPartners();
     super.initState();
   }
@@ -177,34 +174,43 @@ class _HomePageState extends State<HomePage> {
 
   final _navigationModels = [
     _NavigationBarItemModel(
-        route: "/switch_settings",
-        icon: Icon(
-          Icons.person,
-          color: Colors.white,
-        )),
+      route: "/switch_settings",
+      icon: Icon(
+        Icons.person,
+        color: Colors.grey[400],
+      ),
+    ),
     _NavigationBarItemModel(
-        route: null,
-        icon: Icon(
-          Icons.event,
-          color: Colors.white,
-        )),
+      route: null,
+      icon: Icon(
+        Icons.event,
+        color: Colors.grey[400],
+      ),
+    ),
     _NavigationBarItemModel(
-        route: "/settings",
-        icon: Icon(
-          Icons.settings,
-          color: Colors.white,
-        )),
+      route: "/matches",
+      icon: Icon(
+        Icons.favorite,
+        color: Colors.grey[400],
+      ),
+    ),
+    _NavigationBarItemModel(
+      route: "/settings",
+      icon: Icon(
+        Icons.settings,
+        color: Colors.grey[400],
+      ),
+    ),
   ];
 
   @override
   Widget build(BuildContext context) {
     final user = _authenticationController.currentUser;
-     
+
     return Scaffold(
       appBar: PreferredSize(
           child: SafeArea(
             child: BottomNavigationBar(
-              backgroundColor: Colors.black,
               showUnselectedLabels: true,
               onTap: (index) {
                 _homeController.currentIndex = index;
@@ -226,7 +232,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           preferredSize: Size.fromHeight(60)),
-      backgroundColor: Color.fromRGBO(239, 242, 239, 1),
+      backgroundColor: Colors.grey[100],
       body: Observer(
         builder: (_) {
           final response = _homeController.partners;
@@ -242,14 +248,13 @@ class _HomePageState extends State<HomePage> {
               );
             default:
               if (data.isEmpty) {
-                const Center(
+                return const Center(
                   child: Text(
                       "Não tem nenhum parceiro na sua área, tente alterar as configurações",
                       textAlign: TextAlign.center),
                 );
               } else {
                 final current = data.first;
-
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
