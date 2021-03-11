@@ -23,14 +23,24 @@ class _MusicalPreferencesPageState extends State<MusicalPreferencesPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.pop(context, List.of(_musicGenresController.selectedMusicGenres));
+        Navigator.pop(
+            context, List.of(_musicGenresController.selectedMusicGenres));
         return true;
       },
       child: Scaffold(
+        backgroundColor: Colors.grey[100],
         appBar: AppBar(
-          backgroundColor: Colors.black,
-          title: Text("Estilos musicais"),
+          leading: Navigator.canPop(context)
+              ? BackButton(
+                  color: Colors.black,
+                )
+              : null,
+          title: Text(
+            "Estilos musicais",
+            style: TextStyle(color: Colors.black),
+          ),
           centerTitle: true,
+          backgroundColor: Colors.grey[100],
         ),
         body: SingleChildScrollView(
           child: Column(
