@@ -27,11 +27,19 @@ class _DanceLevelPageState extends State<DanceLevelPage> {
       },
       child: SafeArea(
         child: Scaffold(
+          backgroundColor: Colors.grey[100],
           appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: Text("Nível de dança"),
-            centerTitle: true,
-          ),
+              leading: Navigator.canPop(context)
+                  ? BackButton(
+                      color: Colors.black,
+                    )
+                  : null,
+              title: Text(
+                "Nível de dança",
+                style: TextStyle(color: Colors.black),
+              ),
+              centerTitle: true,
+              backgroundColor: Colors.grey[100]),
           body: Column(
             children: [
               Container(
