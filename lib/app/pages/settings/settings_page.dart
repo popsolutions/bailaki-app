@@ -24,7 +24,7 @@ class _SettingsPageState extends State<SettingsPage> {
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _preferencesController = GetIt.I.get<PreferencesController>();
     _preferencesController.partnerId =
-        _authenticationController.currentUser.partnerId;
+        _authenticationController.currentUser?.partnerId;
     _initPreferencesData();
     _updateSettingsReaction = reaction<FutureStatus>(
         (_) => _preferencesController.updateRequest.status, _onUpdateRequest);
@@ -32,11 +32,11 @@ class _SettingsPageState extends State<SettingsPage> {
 
   void _initPreferencesData() {
     final userProfile = _authenticationController.currentUser;
-    _preferencesController.interestingInFemales = userProfile.interestFemales;
-    _preferencesController.interestingInMales = userProfile.interestMales;
+    _preferencesController.interestingInFemales = userProfile?.interestFemales;
+    _preferencesController.interestingInMales = userProfile?.interestMales;
     _preferencesController.interestingInOthers =
         userProfile.interestOtherGenres;
-    _preferencesController.maxDistance = userProfile.refferedMaxFriendDistance;
+    _preferencesController.maxDistance = userProfile?.refferedMaxFriendDistance;
     _preferencesController.receiveChatNotifications =
         userProfile?.enableMessageNotification;
     _preferencesController.receiveNewMatchesNotifications =
@@ -167,8 +167,19 @@ class _SettingsPageState extends State<SettingsPage> {
         return true;
       },
       child: Scaffold(
-        appBar: AppBar(backgroundColor: Colors.black),
-        backgroundColor: Color.fromRGBO(239, 242, 239, 1),
+        appBar: AppBar(
+            leading: Navigator.canPop(context)
+                ? BackButton(
+                    color: Colors.black,
+                  )
+                : null,
+            centerTitle: true,
+            title: Text(
+              "Configurações",
+              style: TextStyle(color: Colors.black),
+            ),
+            backgroundColor: Colors.grey[100]),
+        backgroundColor: Colors.grey[100],
         body: SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.only(top: 25),
@@ -185,7 +196,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     minText: "0",
                     child: CupertinoSlider(
                       divisions: 100,
-                      thumbColor: const Color.fromRGBO(254, 0, 236, 1),
+                      thumbColor: Colors.red,
                       value: _preferencesController.maxDistance.toDouble(),
                       min: 0,
                       max: 100,
@@ -205,7 +216,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     minText: "18",
                     child: SliderTheme(
                       data: Theme.of(context).sliderTheme.copyWith(
-                            thumbColor: const Color.fromRGBO(254, 0, 236, 1),
+                            thumbColor: Colors.red,
                             trackHeight: 0.1,
                             thumbShape:
                                 RoundSliderThumbShape(enabledThumbRadius: 40.0),
