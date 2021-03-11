@@ -35,10 +35,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   void _initProfileData() {
     _user = _authenticationController.currentUser;
-    _profileEditController.partnerId = _user.partnerId;
-    _profileEditController.aboutYou = _user.profile_description;
-    _profileEditController.function = _user.function;
-    _profileEditController.gender = _user.gender;
+    _profileEditController.partnerId = _user?.partnerId;
+    _profileEditController.aboutYou = _user?.profile_description;
+    _profileEditController.function = _user?.function;
+    _profileEditController.gender = _user?.gender;
     _profileEditController.birthdate = _user.birthdate_date;
   }
 
@@ -75,7 +75,17 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
           child: Scaffold(
             backgroundColor: Color.fromRGBO(239, 242, 239, 1),
             appBar: AppBar(
-              backgroundColor: Colors.black,
+              leading: Navigator.canPop(context)
+                  ? BackButton(
+                      color: Colors.black,
+                    )
+                  : null,
+              centerTitle: true,
+              title: Text(
+                "Editar perfil",
+                style: TextStyle(color: Colors.black),
+              ),
+              backgroundColor: Colors.grey[100],
             ),
             body: SingleChildScrollView(
               child: Column(
@@ -100,7 +110,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       _buildTile(
                           title: "Estilos de dança",
                           onTap: () async {
-                           final items = await Navigator.of(context)
+                            final items = await Navigator.of(context)
                                 .pushNamed("/musical_preferences");
                             _profileEditController.danceStyles = items;
                           }),
