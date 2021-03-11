@@ -23,12 +23,18 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
   Widget build(BuildContext context) {
     final user = _authenticationController.currentUser;
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.black),
+      appBar: AppBar(
+          leading: Navigator.canPop(context)
+              ? BackButton(
+                  color: Colors.black,
+                )
+              : null,
+          backgroundColor: Colors.grey[100]),
       body: Column(
         children: [
           Expanded(
             child: Container(
-              color: const Color.fromRGBO(253, 255, 253, 1),
+              color: Colors.grey[100],
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -45,12 +51,33 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                         height: 10,
                       ),
                       Text(
-                        "${user.name}",
+                        "Rully, 22",
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
                           color: Color.fromRGBO(61, 64, 61, 1),
                         ),
                       ),
+                      const SizedBox(height: 4),
+                      Text(
+                        "${user?.function}",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromRGBO(61, 64, 61, 1),
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      /*
+                      Text(
+                        "${user.}, sp, br",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w300,
+                          color: Color.fromRGBO(61, 64, 61, 1),
+                        ),
+                      )
+                      */
                     ],
                   )
                 ],
@@ -59,7 +86,7 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
           ),
           Expanded(
             child: Container(
-              color: const Color.fromRGBO(239, 242, 239, 1),
+              color: Colors.grey[100],
               padding: const EdgeInsets.only(top: 55),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,

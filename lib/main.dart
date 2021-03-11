@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:odoo_client/app/pages/home/home_page.dart';
 import 'package:odoo_client/app/pages/login/login_page.dart';
+import 'package:odoo_client/app/pages/match/chat_page.dart';
+import 'package:odoo_client/app/pages/match/match_page.dart';
 import 'package:odoo_client/app/pages/patner/partner_detail_page.dart';
 import 'package:odoo_client/app/pages/profile/dance_level_page.dart';
 import 'package:odoo_client/app/pages/profile/dance_style_page.dart';
@@ -42,13 +44,16 @@ class App extends StatelessWidget {
         primarySwatch: Colors.indigo,
         fontFamily: "Montserrat",
       ),
-       initialRoute: "/login",
+      initialRoute: "/login",
+      // initialRoute: "/login",
       // initialRoute: "/profile_edit",
       // initialRoute: "/musical_preferences",
       // initialRoute: "/genree",
       // initialRoute: "/dance_level",
       builder: EasyLoading.init(),
       routes: {
+        "/chat":(_) => const ChatPage(),
+        "/matches":(_) => const MatchPage(),
         "/settings": (_) => const SettingsPage(),
         "/switch_settings": (_) => const SwitchSettingsPage(),
         "/login": (_) => const LoginPage(),
