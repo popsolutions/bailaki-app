@@ -27,10 +27,19 @@ class _GenreePageState extends State<GenrePage> {
       },
       child: SafeArea(
         child: Scaffold(
+          backgroundColor: Colors.grey[100],
           appBar: AppBar(
-            backgroundColor: Colors.black,
-            title: Text("Gênero"),
+            leading: Navigator.canPop(context)
+                ? BackButton(
+                    color: Colors.black,
+                  )
+                : null,
+            title: Text(
+              "Gênero",
+              style: TextStyle(color: Colors.black),
+            ),
             centerTitle: true,
+            backgroundColor: Colors.grey[100],
           ),
           body: Column(
             children: [
