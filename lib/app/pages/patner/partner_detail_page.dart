@@ -51,8 +51,14 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.black),
-      backgroundColor: Color.fromRGBO(239, 242, 239, 1),
+      appBar: AppBar(
+          leading: Navigator.canPop(context)
+              ? BackButton(
+                  color: Colors.black,
+                )
+              : null,
+          backgroundColor: Colors.grey[100]),
+      backgroundColor: Colors.grey[100],
       body: Observer(builder: (_) {
         final response = _partnerDetailController.partner;
         final data = response.value;
