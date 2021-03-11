@@ -40,8 +40,19 @@ class _MyProfilePageState extends State<MyProfilePage> {
           );
         default:
           return Scaffold(
+            backgroundColor: Colors.grey[100],
             appBar: AppBar(
-              title: Text("Profile"),
+              leading: Navigator.canPop(context)
+                  ? BackButton(
+                      color: Colors.black,
+                    )
+                  : null,
+              title: Text(
+                "Profile",
+                style: TextStyle(color: Colors.black),
+              ),
+              centerTitle: true,
+              backgroundColor: Colors.grey[100],
               actions: <Widget>[
                 IconButton(
                     icon: Icon(Icons.exit_to_app),
