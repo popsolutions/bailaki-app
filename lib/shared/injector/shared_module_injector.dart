@@ -92,13 +92,6 @@ void setupSharedModule() {
     ),
   );
 
-  locator.registerFactory<ChannelFacade>(
-    () => ChannelFacade(
-      locator.get<ChannelService>(),
-      locator.get<MatchService>()
-    ),
-  );
-
   locator.registerLazySingleton(() => AuthenticationController());
 
   locator.registerLazySingleton(() => MusicGenresController());
@@ -152,7 +145,7 @@ void setupSharedModule() {
 
   locator.registerFactory(
     () => MatchController(
-      locator.get<ChannelFacade>(),
+      locator.get<ChannelService>(),
     ),
   );
 
