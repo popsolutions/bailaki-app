@@ -49,7 +49,7 @@ class MessageTile extends StatelessWidget {
               padding: const EdgeInsets.only(
                   left: 18, right: 14, top: 14, bottom: 14),
               child: SelectableText(
-                message,
+                message ?? '',
                 textAlign: TextAlign.start,
                 style: TextStyle(color: sender ? Colors.white : Colors.black),
               ),

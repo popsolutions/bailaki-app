@@ -9,7 +9,8 @@ class SendLikeFacace {
   final RelationService _relationService;
   final ChannelService _channelService;
 
-  SendLikeFacace(this._matchService, this._relationService, this._channelService);
+  SendLikeFacace(
+      this._matchService, this._relationService, this._channelService);
 
   Future<void> sendLike(LikeDto likeDto) async {
     await _relationService.sendLike(likeDto);
@@ -19,7 +20,8 @@ class SendLikeFacace {
 
     if (matches.isNotEmpty) {
       final match = matches.first;
-      await _channelService.save(CreateChannelDto(match.leftPartnerId, match.rightPartnerId));
+      await _channelService
+          .save(CreateChannelDto(match.leftPartnerId, match.rightPartnerId));
     }
   }
 }

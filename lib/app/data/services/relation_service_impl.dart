@@ -45,5 +45,6 @@ class RelationServiceImpl implements RelationService {
       'right_partner_id': likeDto.friendPartnerId,
       'type_id': relationTypeId,
     });
+    print(createRelationResponse);
   }
 }
