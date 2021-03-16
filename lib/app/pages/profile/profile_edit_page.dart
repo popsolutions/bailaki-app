@@ -141,7 +141,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             final date = await showDatePicker(
                               context: context,
                               initialDate:
-                                  DateTime(DateTime.now().year - 18, 1, 1),
+                                  DateTime(1930,1,1),
                               firstDate:
                                   DateTime(DateTime.now().year - 18, 1, 1),
                               lastDate: DateTime.now(),
