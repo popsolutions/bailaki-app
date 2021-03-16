@@ -95,6 +95,7 @@ void setupSharedModule() {
   locator.registerFactory<ChannelFacade>(
     () => ChannelFacade(
       locator.get<ChannelService>(),
+      locator.get<MatchService>()
     ),
   );
 
