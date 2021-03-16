@@ -46,6 +46,9 @@ abstract class _ChatControllerBase with Store {
   void addMessage(Message message) {
     final items = _messagesRequest.value;
     print(items);
+    if(items.isEmpty){
+      items.add(DayMessage(DateTime.now(), []));
+    }
     items.last.messages.add(message);
     _messagesRequest = ObservableFuture.value(items);
   }
