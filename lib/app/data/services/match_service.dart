@@ -23,18 +23,17 @@ class MatchServiceImpl implements MatchService {
 
     final matchsResponse = await _odoo.searchRead('res.partner.relation', [
       ['type_id', '=', relationTypeId],
-      '|',
-      ['left_partner_id', '=', matchRequestDto.currentPartnerId],
-      ['right_partner_id', '=', matchRequestDto.partnerId],
-      '|',
-      ['left_partner_id', '=', matchRequestDto.partnerId],
-      ['right_partner_id', '=', matchRequestDto.currentPartnerId],
     ], []);
 
-    final matches = matchsResponse
-        .getRecords()
+    final matches = (matchsResponse.getRecords() as List)
         ?.map<Match>((e) => Match.fromJson(e))
+        ?.where((element) =>
+            element.leftPartnerId == matchRequestDto.currentPartnerId &&
+                element.rightPartnerId == matchRequestDto.partnerId ||
+            element.leftPartnerId == matchRequestDto.partnerId &&
+                element.rightPartnerId == matchRequestDto.currentPartnerId)
         ?.toList();
+
     return matches;
   }
 }
