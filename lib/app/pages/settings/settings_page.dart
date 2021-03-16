@@ -229,7 +229,7 @@ class _SettingsPageState extends State<SettingsPage> {
                             "${rangeValues.end.toInt()}"),
                         values: rangeValues,
                         min: 18,
-                        max: 55,
+                        max: 100,
                         onChanged: (e) => _preferencesController.ageRange = e,
                       ),
                     ),
