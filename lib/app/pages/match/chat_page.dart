@@ -97,6 +97,7 @@ class _ChatPageState extends State<ChatPage> {
           backgroundColor: Colors.grey[100],
         ),
         body: Stack(
+          fit: StackFit.expand,
           clipBehavior: Clip.none,
           children: [
             Observer(builder: (_) {
