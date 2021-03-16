@@ -53,9 +53,7 @@ class App extends StatelessWidget {
       builder: EasyLoading.init(),
       routes: {
         "/chat":(_) => const ChatPage(),
-        "/matches":(_) => const MatchPage(),
         "/settings": (_) => const SettingsPage(),
-        "/switch_settings": (_) => const SwitchSettingsPage(),
         "/login": (_) => const LoginPage(),
         "/profile": (_) => const MyProfilePage(),
         "/profile_edit": (_) => const ProfileEditPage(),

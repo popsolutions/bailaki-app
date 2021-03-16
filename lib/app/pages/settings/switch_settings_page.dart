@@ -22,15 +22,7 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
   @override
   Widget build(BuildContext context) {
     final user = _authenticationController.currentUser;
-    return Scaffold(
-      appBar: AppBar(
-          leading: Navigator.canPop(context)
-              ? BackButton(
-                  color: Colors.black,
-                )
-              : null,
-          backgroundColor: Colors.grey[100]),
-      body: Column(
+    return Column(
         children: [
           Expanded(
             child: Container(
@@ -117,7 +109,6 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
             ),
           )
         ],
-      ),
     );
   }
 

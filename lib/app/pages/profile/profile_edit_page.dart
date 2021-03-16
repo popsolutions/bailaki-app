@@ -90,7 +90,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  _buildPhotoContainer(),
+                  _buildPhotosContainer(),
                   Column(
                     children: [
                       Container(
@@ -316,41 +316,42 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     );
   }
 
-  Widget _buildPhotoContainer() {
+  Widget _buildImageRow(List<MemoryImage> images) {
+    return Row(
+      children: [
+        Expanded(
+          child: _buildRoundedImage(
+              icon: Icon(Icons.close, color: Colors.white),
+              onTap: () {},
+              imageBytes: null),
+        ),
+        Expanded(
+          child: _buildRoundedImage(
+              icon: Icon(Icons.close, color: Colors.white),
+              onTap: () {},
+              imageBytes: null),
+        ),
+        Expanded(
+          child: _buildRoundedImage(
+              icon: Icon(Icons.close, color: Colors.white),
+              onTap: () {},
+              imageBytes: null),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildPhotosContainer() {
     return Container(
       padding: const EdgeInsets.only(bottom: 15, top: 10),
       color: Color.fromRGBO(239, 242, 239, 1),
       child: Container(
-        height: 230,
+        height: 250,
         padding: const EdgeInsets.all(12),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+        child: Column(
           children: [
-            Expanded(
-              flex: 2,
-              child: _buildRoundedImage(
-                  icon: Icon(Icons.close, color: Colors.white),
-                  onTap: () {},
-                  imageBytes: null),
-            ),
-            Flexible(
-              child: Column(
-                children: [
-                  Expanded(
-                    child: _buildRoundedImage(
-                        icon: Icon(Icons.close, color: Colors.white),
-                        onTap: () {},
-                        imageBytes: null),
-                  ),
-                  Expanded(
-                    child: _buildRoundedImage(
-                        icon: Icon(Icons.close, color: Colors.white),
-                        onTap: () {},
-                        imageBytes: null),
-                  )
-                ],
-              ),
-            )
+            Expanded(child: _buildImageRow([])),
+            Expanded(child: _buildImageRow([]))
           ],
         ),
       ),
@@ -389,7 +390,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             onTap: onTap,
             child: CircleAvatar(
               backgroundColor: const Color.fromRGBO(253, 0, 236, 1),
-              radius: 15,
+              radius: 13,
               child: icon,
             ),
           ),

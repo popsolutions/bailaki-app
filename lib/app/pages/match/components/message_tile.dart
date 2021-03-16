@@ -28,11 +28,11 @@ class MessageTile extends StatelessWidget {
           const SizedBox(width: 20),
           Flexible(
               child: GestureDetector(
-                onLongPress: (){
-                  Clipboard.setData(ClipboardData(text:message));
-                },
-                child: Container(
-            decoration: BoxDecoration(
+            onLongPress: () {
+              Clipboard.setData(ClipboardData(text: message));
+            },
+            child: Container(
+              decoration: BoxDecoration(
                 color: sender ? Colors.blue : Colors.grey[400],
                 borderRadius: sender
                     ? BorderRadius.only(
@@ -45,16 +45,16 @@ class MessageTile extends StatelessWidget {
                         bottomLeft: Radius.circular(8),
                         bottomRight: Radius.circular(30),
                         topRight: Radius.circular(30)),
-            ),
-            padding: const EdgeInsets.only(
+              ),
+              padding: const EdgeInsets.only(
                   left: 18, right: 14, top: 14, bottom: 14),
-            child: SelectableText(
+              child: SelectableText(
                 message,
                 textAlign: TextAlign.start,
                 style: TextStyle(color: sender ? Colors.white : Colors.black),
+              ),
             ),
-          ),
-              ))
+          ))
         ],
       ),
     );

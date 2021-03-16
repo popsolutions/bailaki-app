@@ -26,6 +26,21 @@ mixin _$ProfileEditController on _ProfileEditControllerBase, Store {
     });
   }
 
+  final _$photoWallAtom = Atom(name: '_ProfileEditControllerBase.photoWall');
+
+  @override
+  PhotoWall get photoWall {
+    _$photoWallAtom.reportRead();
+    return super.photoWall;
+  }
+
+  @override
+  set photoWall(PhotoWall value) {
+    _$photoWallAtom.reportWrite(value, super.photoWall, () {
+      super.photoWall = value;
+    });
+  }
+
   final _$_genderAtom = Atom(name: '_ProfileEditControllerBase._gender');
 
   @override
@@ -73,7 +88,7 @@ mixin _$ProfileEditController on _ProfileEditControllerBase, Store {
   @override
   String toString() {
     return '''
-
+photoWall: ${photoWall}
     ''';
   }
 }

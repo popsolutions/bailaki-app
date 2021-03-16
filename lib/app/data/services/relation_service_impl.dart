@@ -11,12 +11,6 @@ class RelationServiceImpl implements RelationService {
   RelationServiceImpl(this._odoo);
 
   @override
-  Future findMatches() {
-    // TODO: implement findMatches
-    throw UnimplementedError();
-  }
-
-  @override
   Future<void> sendDeslike(DeslikeDto deslikeDto) async {
     final relationTypeResponse =
         await _odoo.searchRead('res.partner.relation.type', [
@@ -27,7 +21,7 @@ class RelationServiceImpl implements RelationService {
     ]);
 
     final relationTypeId = relationTypeResponse.getRecords()[0]["id"];
-    
+
     final createRelationResponse = await _odoo.create('res.partner.relation', {
       'left_partner_id': deslikeDto.currentUserPartnerId,
       'right_partner_id': deslikeDto.friendPartnerId,
@@ -51,6 +45,5 @@ class RelationServiceImpl implements RelationService {
       'right_partner_id': likeDto.friendPartnerId,
       'type_id': relationTypeId,
     });
-    log("${createRelationResponse.getRecords()}");
   }
 }

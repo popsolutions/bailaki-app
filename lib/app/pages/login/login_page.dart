@@ -62,8 +62,8 @@ class _LoginPageState extends State<LoginPage> {
   void _onLoginSuccess(LoginResult result) {
     final user = result.userProfile;
     _authenticationController.authenticate(user);
-    _musicSkillsController.init(result.musicSkills,user.music_skill_id);
-    _musicGenresController.init(result.musicGenres,user.music_genre_ids);
+    _musicSkillsController.init(result.musicSkills, user.music_skill_id);
+    _musicGenresController.init(result.musicGenres, user.music_genre_ids);
     Navigator.of(context).pushReplacementNamed('/home');
   }
 
@@ -106,11 +106,21 @@ class _LoginPageState extends State<LoginPage> {
     final loginButton = PrimaryButton(
       title: 'Log In',
       onTap: _submit,
+      color: Colors.grey[100],
+      titleStyle: TextStyle(
+        color: Colors.red,
+        fontWeight: FontWeight.bold,
+      ),
     );
 
     final signupButton = PrimaryButton(
       title: 'Signup',
       onTap: _loginController.signUp,
+      color: Colors.grey[100],
+      titleStyle: TextStyle(
+        color: Colors.red,
+        fontWeight: FontWeight.bold,
+      ),
     );
 
     final loginWidget = Container(
@@ -119,10 +129,9 @@ class _LoginPageState extends State<LoginPage> {
         key: _formKey,
         child: Column(
           children: <Widget>[
-            // dbs,
-            const SizedBox(height: 18.0),
+            const SizedBox(height: 16.0),
             email,
-            const SizedBox(height: 8.0),
+            const SizedBox(height: 16.0),
             password,
             const SizedBox(height: 24.0),
             loginButton
@@ -141,21 +150,9 @@ class _LoginPageState extends State<LoginPage> {
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
-        body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Color.fromRGBO(2, 255, 235, 1),
-                Color.fromRGBO(128, 128, 236, 1),
-                Color.fromRGBO(254, 0, 236, 1),
-              ],
-              begin: Alignment.bottomLeft,
-              end: Alignment.topRight,
-            ),
-          ),
-          child: ListView(
-            // padding: EdgeInsets.all(75.0),
-            padding: EdgeInsets.fromLTRB(60, 70, 60, 0),
+        body: SingleChildScrollView(
+          padding: EdgeInsets.fromLTRB(60, 70, 60, 0),
+          child: Column(
             children: <Widget>[
               Container(
                 // margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
@@ -186,13 +183,13 @@ class _LoginPageState extends State<LoginPage> {
               loginWidget,
               signupWidget,
               Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: <Widget>[
                   Text(
                     "By tapping Log in, you agree with our",
                     style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
                     height: 4,
@@ -200,17 +197,22 @@ class _LoginPageState extends State<LoginPage> {
                   Text.rich(TextSpan(
                     text: "Terms of service",
                     style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.blue,
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                     ),
                     children: [
                       TextSpan(
                         text: " and ",
-                        style: TextStyle(decoration: TextDecoration.none),
+                        style: TextStyle(
+                            color: Colors.black,
+                            decoration: TextDecoration.none),
                       ),
                       TextSpan(
                         text: "Privacy Policy",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            decoration: TextDecoration.underline),
                       )
                     ],
                   )),
@@ -220,7 +222,7 @@ class _LoginPageState extends State<LoginPage> {
                   Text(
                     "Trouble logging in?",
                     style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontWeight: FontWeight.bold,
                         decoration: TextDecoration.underline),
                   ),
@@ -234,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           "We don't post anything on Facebook",
                           style: TextStyle(
-                            color: Colors.white,
+                            color: Colors.black,
                           ),
                         ),
                       ),
@@ -243,7 +245,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       Icon(
                         Icons.keyboard_arrow_down,
-                        color: Colors.white,
+                        color: Colors.black,
                       ),
                     ],
                   ),

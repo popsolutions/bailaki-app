@@ -1,3 +1,4 @@
+import 'package:latlng/latlng.dart';
 import 'package:odoo_client/app/data/models/login_dto.dart';
 import 'package:odoo_client/app/data/models/login_result.dart';
 import 'package:odoo_client/app/data/services/login_facade.dart';
@@ -22,6 +23,7 @@ class LoginFacadeImpl implements LoginFacade {
         await _userService.findProfile(loginResponse.result.partnerId);
 
     final fullUserProfile = UserProfile(
+      position: userProfile.position,
         interestFemales: userProfile.interestFemales,
         interestMales: userProfile.interestMales,
         interestOtherGenres: userProfile.interestOtherGenres,
@@ -45,9 +47,7 @@ class LoginFacadeImpl implements LoginFacade {
         enableMatchNotification: userProfile.enableMatchNotification,
         enableMessageNotification: userProfile.enableMessageNotification,
         referredFriendMaxAge: userProfile.referredFriendMaxAge,
-        referredFriendMinAge: userProfile.referredFriendMinAge
-        
-        );
+        referredFriendMinAge: userProfile.referredFriendMinAge);
     final musicSkills = await _musicSkillService.findAll();
     final musicGenres = await _musicGenreService.findAll();
 
@@ -80,6 +80,7 @@ class UserProfile {
   final bool enableMatchNotification;
   final int referredFriendMinAge;
   final int referredFriendMaxAge;
+  final LatLng position;
 
   UserProfile({
     this.interestMales,
@@ -106,35 +107,37 @@ class UserProfile {
     this.enableMessageNotification,
     this.referredFriendMinAge,
     this.referredFriendMaxAge,
+    this.position,
   });
 
-  UserProfile copyWith({
-    String sessionId,
-    int uid,
-    bool isAdmin,
-    String partnerDisplayName,
-    int companyId,
-    int partnerId,
-    bool userCompanies,
-    String webBaseUrl,
-    bool odoobotInitialized,
-    String profile_description,
-    List<int> music_genre_ids,
-    int music_skill_id,
-    String function,
-    DateTime birthdate_date,
-    String gender,
-    String name,
-    bool interestMales,
-    bool interestFemales,
-    bool interestOtherGenres,
-    int refferedMaxFriendDistance,
-    bool enableMessageNotification,
-    bool enableMatchNotification,
-    int referredFriendMinAge,
-    int referredFriendMaxAge,
-  }) {
+  UserProfile copyWith(
+      {String sessionId,
+      int uid,
+      bool isAdmin,
+      String partnerDisplayName,
+      int companyId,
+      int partnerId,
+      bool userCompanies,
+      String webBaseUrl,
+      bool odoobotInitialized,
+      String profile_description,
+      List<int> music_genre_ids,
+      int music_skill_id,
+      String function,
+      DateTime birthdate_date,
+      String gender,
+      String name,
+      bool interestMales,
+      bool interestFemales,
+      bool interestOtherGenres,
+      int refferedMaxFriendDistance,
+      bool enableMessageNotification,
+      bool enableMatchNotification,
+      int referredFriendMinAge,
+      int referredFriendMaxAge,
+      LatLng position}) {
     return UserProfile(
+        position: position ?? this.position,
         sessionId: sessionId ?? this.sessionId,
         uid: uid ?? this.uid,
         isAdmin: isAdmin ?? this.isAdmin,
@@ -160,8 +163,7 @@ class UserProfile {
             enableMatchNotification ?? this.enableMatchNotification,
         enableMessageNotification:
             enableMessageNotification ?? this.enableMessageNotification,
-        referredFriendMaxAge:
-            referredFriendMaxAge ?? this.referredFriendMaxAge,
+        referredFriendMaxAge: referredFriendMaxAge ?? this.referredFriendMaxAge,
         referredFriendMinAge:
             referredFriendMinAge ?? this.referredFriendMinAge);
   }

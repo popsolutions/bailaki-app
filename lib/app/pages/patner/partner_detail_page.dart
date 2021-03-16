@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/pages/patner/partner_detail_controller.dart';
+import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
 class PartnerDetailsPage extends StatefulWidget {
   const PartnerDetailsPage({Key key}) : super(key: key);
@@ -15,13 +17,13 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
   int id;
 
   PartnerDetailController _partnerDetailController;
-
-  TabController _tabController;
+  AuthenticationController _authenticationController;
 
   @override
   void initState() {
+    _authenticationController = GetIt.I.get<AuthenticationController>();
     _partnerDetailController = GetIt.I.get<PartnerDetailController>();
-    _tabController = TabController(vsync: this, length: 5);
+  
     super.initState();
   }
 
@@ -35,21 +37,8 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
   }
 
   @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
-
-  final imgs = [
-    "https://static.billboard.com/files/2021/01/rihanna-sept-2019-billboard-1548-1611156420-compressed.jpg",
-    "https://tracklist.com.br/wp-content/uploads/2021/02/riri.jpg",
-    "https://claudia.abril.com.br/wp-content/uploads/2020/01/rihanna-24.jpg",
-    "https://www.mixfmpoa.com.br/wp-content/uploads/2019/08/rihanna.jpg",
-    "https://stc.ofuxico.com.br/img/upload/noticias/2020/05/25/rihanna_378541_36.jpg"
-  ];
-
-  @override
   Widget build(BuildContext context) {
+    final user = _authenticationController.currentUser;
     return Scaffold(
       appBar: AppBar(
           leading: Navigator.canPop(context)
@@ -72,6 +61,12 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
               child: CircularProgressIndicator(),
             );
           default:
+            final distance = (Geolocator.distanceBetween(
+                    user.position.latitude,
+                    user.position.longitude,
+                    data.position.latitude,
+                    data.position.longitude) /
+                1000);
             return SafeArea(
               child: LayoutBuilder(builder: (context, constraints) {
                 return SingleChildScrollView(
@@ -79,33 +74,37 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Stack(
-                          alignment: Alignment.bottomCenter,
-                          children: [
-                            Container(
-                              height: 210,
-                              child: TabBarView(
-                                controller: _tabController,
-                                children: imgs
-                                    .map(
-                                      (e) => Image.network(
-                                        e,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    )
-                                    .toList(),
+                        DefaultTabController(
+                          initialIndex: 0,
+                          length: data.images.length,
+                          child: Stack(
+                            alignment: Alignment.bottomCenter,
+                            children: [
+                              Container(
+                                height: 210,
+                                child: TabBarView(
+                                 
+                                  children: data.images
+                                      .map(
+                                        (e) => Image.memory(
+                                          e.image,
+                                          fit: BoxFit.fill,
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 5),
-                              child: TabPageSelector(
-                                indicatorSize: 8,
-                                controller: _tabController,
-                                selectedColor: Colors.white,
-                                color: Colors.grey[400],
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 5),
+                                child: TabPageSelector(
+                                  indicatorSize: 8,
+                                 
+                                  selectedColor: Colors.white,
+                                  color: Colors.grey[400],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         const SizedBox(height: 20),
                         Expanded(
@@ -124,7 +123,7 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      "${data.city}/${data.activityState} - 139.96 Km",
+                                      "${data.city}/${data.activityState} - ${distance} Km",
                                       style: TextStyle(
                                         color: Color.fromRGBO(142, 144, 141, 1),
                                       ),
@@ -154,6 +153,7 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                         color: Color.fromRGBO(200, 203, 199, 1),
                                       ),
                                     ),
+                                    /*
                                     const SizedBox(height: 12),
                                     Text(
                                       "3 amigos em comum",
@@ -162,9 +162,11 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                       ),
                                     ),
                                     const SizedBox(height: 16),
+                                    */
                                   ],
                                 ),
                               ),
+                              /*
                               Container(
                                 height: 100,
                                 child: ListView.separated(
@@ -201,6 +203,7 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                   itemCount: 5,
                                 ),
                               )
+                              */
                             ],
                           ),
                         ),

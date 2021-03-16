@@ -55,7 +55,7 @@ class Odoo {
       String username, String password, String database) async {
     var url = createPath("/web/session/authenticate");
     var params = {
-      "db":"dev",
+      "db":"bailaki-prod",
       //"db": database,
       "login": username,
       "password": password,

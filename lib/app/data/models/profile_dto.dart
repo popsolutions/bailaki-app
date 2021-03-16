@@ -11,7 +11,7 @@ class ProfileDto {
   final int refferedFriendMaxDistance;
   final String city;
   final String activityState;
-  final LatLng latLng;
+  final LatLng position;
   final bool interestMales;
   final bool interestFemales;
   final bool interestOtherGenres;
@@ -20,6 +20,7 @@ class ProfileDto {
   final bool enableMatchNotification;
   final int referredFriendMinAge;
   final int referredFriendMaxAge;
+  
 
   ProfileDto({
     this.interestMales,
@@ -27,7 +28,7 @@ class ProfileDto {
     this.interestOtherGenres,
     this.city,
     this.activityState,
-    this.latLng,
+    this.position,
     this.refferedFriendMaxDistance,
     this.profile_description,
     this.music_genre_ids,
@@ -63,7 +64,7 @@ class ProfileDto {
       city: json["city"] is! bool ? json["city"] : "N/A",
       activityState:
           json["activity_state"] is! bool ? json["activity_state"] : "N/A",
-      latLng: json["partner_current_latitude"] is! bool &&
+      position: json["partner_current_latitude"] is! bool &&
               json["partner_current_longitude"] is! bool
           ? LatLng(
               json["partner_current_latitude"],
