@@ -2,10 +2,10 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/pages/home/home_page.dart';
 import 'package:odoo_client/app/pages/login/login_page.dart';
 import 'package:odoo_client/app/pages/match/chat_page.dart';
-import 'package:odoo_client/app/pages/match/match_page.dart';
 import 'package:odoo_client/app/pages/patner/partner_detail_page.dart';
 import 'package:odoo_client/app/pages/profile/dance_level_page.dart';
 import 'package:odoo_client/app/pages/profile/dance_style_page.dart';
@@ -13,7 +13,6 @@ import 'package:odoo_client/app/pages/profile/genre_page.dart';
 import 'package:odoo_client/app/pages/profile/my_profile_page.dart';
 import 'package:odoo_client/app/pages/profile/profile_edit_page.dart';
 import 'package:odoo_client/app/pages/settings/settings_page.dart';
-import 'package:odoo_client/app/pages/settings/switch_settings_page.dart';
 import 'package:odoo_client/shared/injector/all_modules.dart';
 import 'app/utility/strings.dart';
 
@@ -52,7 +51,7 @@ class App extends StatelessWidget {
       // initialRoute: "/dance_level",
       builder: EasyLoading.init(),
       routes: {
-        "/chat":(_) => const ChatPage(),
+        "/chat": (_) => const ChatPage(),
         "/settings": (_) => const SettingsPage(),
         "/login": (_) => const LoginPage(),
         "/profile": (_) => const MyProfilePage(),
@@ -66,12 +65,3 @@ class App extends StatelessWidget {
     );
   }
 }
-
-/*
-       
-        final musicSkills = await odoo
-            .searchRead('res.partner.music.skill', [], ["id", "name"]);
-        print(musicSkills);
-        print(musicGenree);
-*/
-

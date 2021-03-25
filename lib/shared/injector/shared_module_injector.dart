@@ -1,6 +1,5 @@
-import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
-import 'package:odoo_client/app/data/services/channel_facade.dart';
+//import 'package:location/location.dart';
 import 'package:odoo_client/app/data/services/channel_service.dart';
 import 'package:odoo_client/app/data/services/login_facade.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
@@ -116,7 +115,8 @@ void setupSharedModule() {
     () => SelectPartnerController(
       locator.get<PartnerService>(),
       locator.get<RelationService>(),
-      Geolocator(),
+      //Location(),
+      "x",
       locator.get<SendLikeFacace>()
     ),
   );

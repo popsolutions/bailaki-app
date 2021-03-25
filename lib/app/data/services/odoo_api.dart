@@ -194,7 +194,7 @@ class Odoo {
     print("------------------------------------------->>>");
     print("REQUEST: ${url}");
     print("------------------------------------------->>>");
-    final response = await _client.post(url, body: body, headers: _headers);
+    final response = await _client.post(Uri.parse(url), body: body, headers: _headers);
     _updateCookies(response);
     print("<<<<============================================");
     print("RESPONSE: ${response.body}");
@@ -210,7 +210,7 @@ class Odoo {
     print("------------------------------------------->>>>");
     print("REQUEST: $url");
     print("------------------------------------------->>>>");
-    final response = await _client.post(url, body: body, headers: _headers);
+    final response = await _client.post(Uri.parse(url), body: body, headers: _headers);
     _updateCookies(response);
     print("<<<<============================================");
     print("RESPONSE: ${response.body}");

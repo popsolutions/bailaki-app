@@ -11,20 +11,20 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^0.1.2
   uuid: ^2.0.1
-  http: ^0.12.0+2
+  http: ^0.13.0
   shared_preferences: ^0.5.6
   flutter_easyloading: ^2.2.2
   sprintf: ^4.0.2
-  url_launcher: ^5.7.10
+  url_launcher: ^6.0.2
   flutter_tindercard: ^0.2.0
   mobx:
   flutter_mobx:
   get_it:
-  image_picker: ^0.6.7+22
+  image_picker: ^0.7.2+1
   latlng: ^0.0.2
   analyzer: 
   intl:
-  geolocator: ^6.2.1
+  #location: ^4.1.1
   #flutter_location: ^0.0.6
 
 dev_dependencies:

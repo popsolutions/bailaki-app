@@ -1,4 +1,4 @@
-import 'package:geolocator/geolocator.dart';
+//import 'package:location/location.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/deslike_dto.dart';
 import 'package:odoo_client/app/data/models/like_dto.dart';
@@ -15,11 +15,12 @@ abstract class _SelectPartnerControllerBase with Store {
   final SendLikeFacace _sendLikeFacace;
   final PartnerService _partnerService;
   final RelationService _relationService;
-  final Geolocator geolocator;
+ // final Location _locator;
+ final dynamic _locator;
   int _userPartnerId;
 
   _SelectPartnerControllerBase(this._partnerService, this._relationService,
-      this.geolocator, this._sendLikeFacace);
+      this._locator, this._sendLikeFacace);
 
   @observable
   ObservableFuture<List<Partner>> _partners = ObservableFuture.value(null);
@@ -28,6 +29,41 @@ abstract class _SelectPartnerControllerBase with Store {
 
   set userPartnerId(int userPartnerId) => _userPartnerId = userPartnerId;
 
+/*
+  @observable
+  ObservableStream<LocationData> _currentLocation =
+      Stream<LocationData>.empty().asObservable();
+
+  ObservableStream<LocationData> get currentLocation => _currentLocation;
+*/
+  @action
+  void loadLocation() {
+ //   _determineLocation();
+  }
+
+/*
+  Future<void> _determineLocation() async {
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+
+    _serviceEnabled = await _locator.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await _locator.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await _locator.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await _locator.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+    _currentLocation = _locator.onLocationChanged.asObservable();
+  }
+*/
   @action
   void loadPartners() {
     _partners = _partnerService.finAll().asObservable();
@@ -53,35 +89,4 @@ abstract class _SelectPartnerControllerBase with Store {
   void update(List<Partner> items) {
     _partners = ObservableFuture.value(items);
   }
-
-  Future<Position> determinePosition() async {
-    LocationPermission permission;
-
-    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      throw LocationAccessException("Serviço de localização desabilitado");
-    }
-
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.deniedForever) {
-      throw LocationAccessException(
-          "A permissão para o serviço de localização foi negada");
-    }
-
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission != LocationPermission.whileInUse &&
-          permission != LocationPermission.always) {
-        throw LocationAccessException("Permissão negada");
-      }
-    }
-
-    return Geolocator.getCurrentPosition();
-  }
-}
-
-class LocationAccessException implements Exception {
-  final String message;
-
-  LocationAccessException(this.message);
 }

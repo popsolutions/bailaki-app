@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/pages/home/select_partner_controller.dart';
 import 'package:odoo_client/shared/components/circular_inkwell.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
+import 'package:odoo_client/shared/utils/distance_between.dart';
 
 class SelectPartnerPage extends StatefulWidget {
   const SelectPartnerPage({Key key}) : super(key: key);
@@ -115,7 +115,7 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
                 );
               } else {
                 final current = data.first;
-                final distance = (Geolocator.distanceBetween(user.position.latitude, user.position.longitude, current.position.latitude, current.position.longitude) / 1000);
+                final distance = distanceBetween(user.position.latitude, user.position.longitude, current.position.latitude, current.position.longitude);
    
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,

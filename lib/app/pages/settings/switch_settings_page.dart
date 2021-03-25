@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:odoo_client/shared/components/circular_inkwell.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
@@ -21,17 +22,18 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final user = _authenticationController.currentUser;
     return Column(
-        children: [
-          Expanded(
-            child: Container(
-              color: Colors.grey[100],
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Column(
+      children: [
+        Expanded(
+          child: Container(
+            color: Colors.grey[100],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Observer(builder: (_) {
+                  final user = _authenticationController.currentUser;
+                  return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       CircleAvatar(
@@ -43,7 +45,7 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                         height: 10,
                       ),
                       Text(
-                        "${user.partnerDisplayName}, 22",
+                        "${user.partnerDisplayName}, ",
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
@@ -71,44 +73,45 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                       )
                       */
                     ],
-                  )
-                ],
-              ),
+                  );
+                })
+              ],
             ),
           ),
-          Expanded(
-            child: Container(
-              color: Colors.grey[100],
-              padding: const EdgeInsets.only(top: 55),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildConfigTile(
-                      icon: const Icon(
-                        Icons.settings,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      title: "Configurações",
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/settings");
-                      }),
-                  _buildConfigTile(
-                      icon: const Icon(
-                        Icons.edit_outlined,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      title: "Editar Perfil",
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/profile_edit");
-                      }),
-                ],
-              ),
+        ),
+        Expanded(
+          child: Container(
+            color: Colors.grey[100],
+            padding: const EdgeInsets.only(top: 55),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildConfigTile(
+                    icon: const Icon(
+                      Icons.settings,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                    title: "Configurações",
+                    onTap: () {
+                      Navigator.of(context).pushNamed("/settings");
+                    }),
+                _buildConfigTile(
+                    icon: const Icon(
+                      Icons.edit_outlined,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                    title: "Editar Perfil",
+                    onTap: () {
+                      Navigator.of(context).pushNamed("/profile_edit");
+                    }),
+              ],
             ),
-          )
-        ],
+          ),
+        )
+      ],
     );
   }
 

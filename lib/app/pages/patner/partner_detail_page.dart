@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/pages/patner/partner_detail_controller.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
+import 'package:odoo_client/shared/utils/distance_between.dart';
 
 class PartnerDetailsPage extends StatefulWidget {
   const PartnerDetailsPage({Key key}) : super(key: key);
@@ -61,12 +61,11 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
               child: CircularProgressIndicator(),
             );
           default:
-            final distance = (Geolocator.distanceBetween(
+            final distance = distanceBetween(
                     user.position.latitude,
                     user.position.longitude,
                     data.position.latitude,
-                    data.position.longitude) /
-                1000);
+                    data.position.longitude);
             return SafeArea(
               child: LayoutBuilder(builder: (context, constraints) {
                 return SingleChildScrollView(
