@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/models/channel.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/pages/match/chat_controller.dart';
 import 'package:odoo_client/app/pages/match/components/message_group.dart';
@@ -16,7 +17,7 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  int _channelId;
+  Channel _channel;
   ChatController _chatController;
   AuthenticationController _authenticationController;
   TextEditingController _messageEditingController;
@@ -35,9 +36,9 @@ class _ChatPageState extends State<ChatPage> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (_channelId == null) {
-      _channelId = ModalRoute.of(context).settings.arguments;
-      _chatController.channelId = _channelId;
+    if (_channel == null) {
+      _channel = ModalRoute.of(context).settings.arguments;
+      _chatController.channelId = _channel.channelId;
       _user = _authenticationController.currentUser;
       _chatController.currentPartnerId = _user.partnerId;
       _chatController.load();
@@ -88,8 +89,8 @@ class _ChatPageState extends State<ChatPage> {
               ),
               const SizedBox(width: 10),
               Text(
-                "Nicole",
-                style: TextStyle(color: Colors.black),
+                '${_channel.chatterName(_user.partnerId)}',
+                style: const TextStyle(color: Colors.black),
               ),
             ],
           ),
@@ -139,7 +140,7 @@ class _ChatPageState extends State<ChatPage> {
                                 message: message.body,
                               );
                             },
-                            itemCount:messages.length),
+                            itemCount: messages.length),
                       );
                     },
                     itemCount: items.length,
