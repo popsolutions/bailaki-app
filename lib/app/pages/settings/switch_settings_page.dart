@@ -45,7 +45,7 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                         height: 10,
                       ),
                       Text(
-                        "${user.partnerDisplayName}, ",
+                        "${user.name}",
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.w600,
