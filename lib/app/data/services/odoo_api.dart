@@ -6,7 +6,9 @@ import 'package:uuid/uuid.dart';
 import 'odoo_response.dart';
 import 'odoo_version.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 const SERVER_URL = 'https://bailaki.com.br';
+
 class Odoo {
   Odoo({String url}) {
     _serverURL = 'https://bailaki.com.br';
@@ -55,7 +57,7 @@ class Odoo {
       String username, String password, String database) async {
     var url = createPath("/web/session/authenticate");
     var params = {
-      "db":"bailaki-prod",
+      "db": "rully",
       //"db": database,
       "login": username,
       "password": password,
@@ -194,7 +196,8 @@ class Odoo {
     print("------------------------------------------->>>");
     print("REQUEST: ${url}");
     print("------------------------------------------->>>");
-    final response = await _client.post(Uri.parse(url), body: body, headers: _headers);
+    final response =
+        await _client.post(Uri.parse(url), body: body, headers: _headers);
     _updateCookies(response);
     print("<<<<============================================");
     print("RESPONSE: ${response.body}");
@@ -210,7 +213,8 @@ class Odoo {
     print("------------------------------------------->>>>");
     print("REQUEST: $url");
     print("------------------------------------------->>>>");
-    final response = await _client.post(Uri.parse(url), body: body, headers: _headers);
+    final response =
+        await _client.post(Uri.parse(url), body: body, headers: _headers);
     _updateCookies(response);
     print("<<<<============================================");
     print("RESPONSE: ${response.body}");
@@ -246,9 +250,3 @@ class Odoo {
     return res;
   }
 }
-
-
-
-
-
-
