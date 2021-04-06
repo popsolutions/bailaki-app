@@ -24,11 +24,12 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
     _selectPartnerController.userPartnerId =
         _authenticationController.currentUser?.partnerId;
     _selectPartnerController.loadPartners();
+    _selectPartnerController.loadLocation();
     super.initState();
   }
 
-  Widget _buildCard({String url, String name, int age, VoidCallback onTap,double distance}) {
-
+  Widget _buildCard(
+      {String url, String name, int age, VoidCallback onTap, double distance}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -87,94 +88,94 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
     _selectPartnerController.deslike();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     final user = _authenticationController.currentUser;
 
     return Observer(
-        builder: (_) {
-          final response = _selectPartnerController.partners;
-          final data = response.value;
-          switch (response.status) {
-            case FutureStatus.rejected:
+      builder: (_) {
+        final response = _selectPartnerController.partners;
+        final data = response.value;
+        switch (response.status) {
+          case FutureStatus.rejected:
+            return const Center(
+              child: Text('Is empty'),
+            );
+          case FutureStatus.pending:
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          default:
+            if (data.isEmpty) {
               return const Center(
-                child: Text('Is empty'),
+                child: Text(
+                    "Não tem nenhum parceiro na sua área, tente alterar as configurações",
+                    textAlign: TextAlign.center),
               );
-            case FutureStatus.pending:
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            default:
-              if (data.isEmpty) {
-                return const Center(
-                  child: Text(
-                      "Não tem nenhum parceiro na sua área, tente alterar as configurações",
-                      textAlign: TextAlign.center),
-                );
-              } else {
-                final current = data.first;
-                final distance = distanceBetween(user.position.latitude, user.position.longitude, current.position.latitude, current.position.longitude);
-   
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: _buildCard(
-                        distance: distance,
-                        name: current.name,
-                        age: 19,
-                        url:
-                            "https://bailaki.com.br/web/image?model=res.partner&field=image&b519d846e1a07885edd07d97298c3d892fc7c8f0&id=${current.id}",
-                        onTap: () => Navigator.of(context).pushNamed(
-                            '/partner_detail',
-                            arguments: current.id),
-                      ),
+            } else {
+              final current = data.first;
+              final distance = distanceBetween(
+                  user.position.latitude,
+                  user.position.longitude,
+                  current.position.latitude,
+                  current.position.longitude);
+
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: _buildCard(
+                      distance: distance,
+                      name: current.name,
+                      age: 19,
+                      url:
+                          "https://bailaki.com.br/web/image?model=res.partner&field=image&b519d846e1a07885edd07d97298c3d892fc7c8f0&id=${current.id}",
+                      onTap: () => Navigator.of(context)
+                          .pushNamed('/partner_detail', arguments: current.id),
                     ),
-                    Expanded(
-                        child: Padding(
-                      padding: const EdgeInsets.only(bottom: 20),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              CircularInkWell(
-                                  color: Color.fromRGBO(0, 255, 253, 1),
-                                  child: const Icon(
-                                    Icons.close,
-                                    size: 45,
-                                    color: Colors.white,
-                                  ),
-                                  onTap: _deslike),
-                              CircularInkWell(
-                                  radius: 40,
-                                  color: Color.fromRGBO(202, 205, 202, 1),
-                                  child: Icon(Icons.hourglass_empty_sharp),
-                                  onTap: () {}),
-                              CircularInkWell(
-                                  color: Color.fromRGBO(254, 0, 236, 1),
-                                  child: const Icon(
-                                    Icons.search,
-                                    size: 45,
-                                    color: Colors.white,
-                                  ),
-                                  onTap: _like),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ))
-                  ],
-                );
-              }
-          }
-        },
-      
+                  ),
+                  Expanded(
+                      child: Padding(
+                    padding: const EdgeInsets.only(bottom: 20),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CircularInkWell(
+                                color: Color.fromRGBO(0, 255, 253, 1),
+                                child: const Icon(
+                                  Icons.close,
+                                  size: 45,
+                                  color: Colors.white,
+                                ),
+                                onTap: _deslike),
+                            CircularInkWell(
+                                radius: 40,
+                                color: Color.fromRGBO(202, 205, 202, 1),
+                                child: Icon(Icons.hourglass_empty_sharp),
+                                onTap: () {}),
+                            CircularInkWell(
+                                color: Color.fromRGBO(254, 0, 236, 1),
+                                child: const Icon(
+                                  Icons.search,
+                                  size: 45,
+                                  color: Colors.white,
+                                ),
+                                onTap: _like),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ))
+                ],
+              );
+            }
+        }
+      },
     );
   }
 }
