@@ -11,7 +11,7 @@ class Message {
     return Message(
         id: json['id'],
         authorId: json['author_id'][0],
-        body: json['description'],
+        body: json['body']?.replaceAll('<p>', '')?.replaceAll('</p>', ''),
         date: json['date'] is! bool ? DateTime.parse(json['date']) : null,
         channelId: json['res_id']);
   }
