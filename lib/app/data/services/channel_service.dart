@@ -17,11 +17,38 @@ class ChannelServiceImpl implements ChannelService {
   Future<List<Channel>> findByPartner(
       ChannelRequestDto channelRequestDto) async {
     final response = await _odoo.searchRead('mail.channel', [
-      // ['id', '=', 15]
+      ['channel_partner_ids', 'in', channelRequestDto.currentPartnerId]
     ], []);
-    final channels =
-        response.getRecords().map<Channel>((e) => Channel.fromJson(e)).toList();
-    return channels;
+
+    final List channels = response.getRecords();
+
+    final channelPartners = await _odoo.searchRead('res.partner', [
+      [
+        'id',
+        'in',
+        channels
+            .map((e) => e['channel_partner_ids'])
+            .expand((element) => element)
+            .toSet()
+            .toList(),
+      ]
+    ], [
+      'name',
+      'id'
+    ]);
+    print(channelPartners);
+
+    final items = channels
+        .map<Channel>((channel) => Channel.fromJson({
+              ...channel,
+              'partners': (channelPartners.getRecords() as List)
+                  .where((e) => channel['channel_partner_ids']
+                      .any((partnerId) => partnerId == e['id']))
+                  .toList()
+            }))
+        .toList();
+
+    return items;
   }
 
   @override
