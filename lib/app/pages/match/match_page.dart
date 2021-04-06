@@ -97,11 +97,12 @@ class _MatchPageState extends State<MatchPage> {
                         final item = items[index];
                         return ChatTile(
                           description: '',
-                          name: item.name,
+                          name: item.chatterName(
+                              _authenticationController.currentUser.partnerId),
                           padding: const EdgeInsets.all(18),
                           onTap: () {
                             Navigator.of(context)
-                                .pushNamed("/chat", arguments: item.channelId);
+                                .pushNamed("/chat", arguments: item);
                           },
                         );
                       },
