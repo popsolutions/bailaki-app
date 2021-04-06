@@ -1,4 +1,5 @@
 //import 'package:location/location.dart';
+import 'package:location/location.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/deslike_dto.dart';
 import 'package:odoo_client/app/data/models/like_dto.dart';
@@ -15,8 +16,7 @@ abstract class _SelectPartnerControllerBase with Store {
   final SendLikeFacace _sendLikeFacace;
   final PartnerService _partnerService;
   final RelationService _relationService;
- // final Location _locator;
- final dynamic _locator;
+  final Location _locator;
   int _userPartnerId;
 
   _SelectPartnerControllerBase(this._partnerService, this._relationService,
@@ -29,19 +29,17 @@ abstract class _SelectPartnerControllerBase with Store {
 
   set userPartnerId(int userPartnerId) => _userPartnerId = userPartnerId;
 
-/*
   @observable
   ObservableStream<LocationData> _currentLocation =
       Stream<LocationData>.empty().asObservable();
 
   ObservableStream<LocationData> get currentLocation => _currentLocation;
-*/
+
   @action
   void loadLocation() {
- //   _determineLocation();
+    _determineLocation();
   }
 
-/*
   Future<void> _determineLocation() async {
     bool _serviceEnabled;
     PermissionStatus _permissionGranted;
@@ -63,7 +61,7 @@ abstract class _SelectPartnerControllerBase with Store {
     }
     _currentLocation = _locator.onLocationChanged.asObservable();
   }
-*/
+
   @action
   void loadPartners() {
     _partners = _partnerService.finAll().asObservable();
