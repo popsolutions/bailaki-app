@@ -24,7 +24,7 @@ dependencies:
   latlng: ^0.0.2
   analyzer: 
   intl:
-  #location: ^4.1.1
+  location: ^4.1.1
   #flutter_location: ^0.0.6
 
 dev_dependencies:
