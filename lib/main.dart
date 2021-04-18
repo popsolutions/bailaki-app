@@ -1,8 +1,9 @@
+import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/pages/home/home_page.dart';
 import 'package:odoo_client/app/pages/login/login_page.dart';
 import 'package:odoo_client/app/pages/match/chat_page.dart';
@@ -14,6 +15,8 @@ import 'package:odoo_client/app/pages/profile/my_profile_page.dart';
 import 'package:odoo_client/app/pages/profile/profile_edit_page.dart';
 import 'package:odoo_client/app/pages/settings/settings_page.dart';
 import 'package:odoo_client/shared/injector/all_modules.dart';
+import 'package:odoo_client/websocket_client.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/utility/strings.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -25,10 +28,23 @@ class MyHttpOverrides extends HttpOverrides {
   }
 }
 
-void main() {
+void main() async {
   setupAllModules();
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+
+  OneSignal.shared.init("8b92f59d-a196-4d52-b9a5-173a82819ab7", iOSSettings: {
+    OSiOSSettings.autoPrompt: false,
+    OSiOSSettings.inAppLaunchUrl: false
+  });
+  OneSignal.shared
+      .setInFocusDisplayType(OSNotificationDisplayType.notification);
+
+  OneSignal.shared
+      .setNotificationReceivedHandler((OSNotification notification) {
+    print(notification);
+  });
+
   runApp(const App());
 }
 
@@ -44,11 +60,6 @@ class App extends StatelessWidget {
         fontFamily: "Montserrat",
       ),
       initialRoute: "/login",
-      // initialRoute: "/login",
-      // initialRoute: "/profile_edit",
-      // initialRoute: "/musical_preferences",
-      // initialRoute: "/genree",
-      // initialRoute: "/dance_level",
       builder: EasyLoading.init(),
       routes: {
         "/chat": (_) => const ChatPage(),
