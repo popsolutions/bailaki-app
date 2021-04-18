@@ -1,4 +1,3 @@
-import 'package:odoo_client/app/data/models/memory_image.dart';
 import 'package:odoo_client/app/data/models/update_profile_dto.dart';
 import 'package:odoo_client/app/data/models/profile_dto.dart';
 import 'package:odoo_client/app/data/pojo/basic_user_dto.dart';
@@ -43,9 +42,10 @@ class UserServiceImpl implements UserService {
       'referred_friend_min_age',
       'referred_friend_max_age',
       'enable_message_notification',
-      'enable_match_notification'
+      'enable_match_notification',
+      'referred_friend_ids'
     ]);
-    
+
     final photosResponse = await _odoo.searchRead('res.partner.image', [
       ['res_partner_id', '=', partnerId]
     ], [
@@ -54,7 +54,7 @@ class UserServiceImpl implements UserService {
     ]);
     final images = photosResponse.getRecords();
     final json = response.getResult()['records'][0];
-    return ProfileDto.fromJson({...json,'images':images});
+    return ProfileDto.fromJson({...json, 'images': images});
   }
 
   @override
