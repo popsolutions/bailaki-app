@@ -1,5 +1,3 @@
-//import 'package:location/location.dart';
-import 'package:location/location.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/deslike_dto.dart';
 import 'package:odoo_client/app/data/models/like_dto.dart';
@@ -16,11 +14,12 @@ abstract class _SelectPartnerControllerBase with Store {
   final SendLikeFacace _sendLikeFacace;
   final PartnerService _partnerService;
   final RelationService _relationService;
-  final Location _locator;
-  int _userPartnerId;
 
-  _SelectPartnerControllerBase(this._partnerService, this._relationService,
-      this._locator, this._sendLikeFacace);
+  int _userPartnerId;
+  List<int> _referredFriendIds;
+
+  _SelectPartnerControllerBase(
+      this._partnerService, this._relationService, this._sendLikeFacace);
 
   @observable
   ObservableFuture<List<Partner>> _partners = ObservableFuture.value(null);
@@ -28,43 +27,11 @@ abstract class _SelectPartnerControllerBase with Store {
   ObservableFuture<List<Partner>> get partners => _partners;
 
   set userPartnerId(int userPartnerId) => _userPartnerId = userPartnerId;
-
-  @observable
-  ObservableStream<LocationData> _currentLocation =
-      Stream<LocationData>.empty().asObservable();
-
-  ObservableStream<LocationData> get currentLocation => _currentLocation;
-
-  @action
-  void loadLocation() {
-    _determineLocation();
-  }
-
-  Future<void> _determineLocation() async {
-    bool _serviceEnabled;
-    PermissionStatus _permissionGranted;
-
-    _serviceEnabled = await _locator.serviceEnabled();
-    if (!_serviceEnabled) {
-      _serviceEnabled = await _locator.requestService();
-      if (!_serviceEnabled) {
-        return;
-      }
-    }
-
-    _permissionGranted = await _locator.hasPermission();
-    if (_permissionGranted == PermissionStatus.denied) {
-      _permissionGranted = await _locator.requestPermission();
-      if (_permissionGranted != PermissionStatus.granted) {
-        return;
-      }
-    }
-    _currentLocation = _locator.onLocationChanged.asObservable();
-  }
+  set referredFriendIds(List<int> friendIds) => _referredFriendIds = friendIds;
 
   @action
   void loadPartners() {
-    _partners = _partnerService.finAll().asObservable();
+    _partners = _partnerService.finAll(_referredFriendIds).asObservable();
   }
 
   @action
