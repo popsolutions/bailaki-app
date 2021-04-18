@@ -11,15 +11,30 @@ class PartnerServiceImpl implements PartnerService {
   PartnerServiceImpl(this._odoo);
 
   @override
-  Future<List<Partner>> finAll() async {
-    final response = await _odoo.searchRead('res.partner', [], [
+  Future<List<Partner>> finAll(List<int> friendIds) async {
+    final response = await _odoo.searchRead('res.partner', [
+      ['id', 'in', friendIds]
+    ], [
       'name',
       'birthdate_date',
       'partner_current_latitude',
       'partner_current_longitude',
+      'res.partner.image'
     ]);
-    final items =
+
+    final List<Partner> items =
         response.getRecords().map<Partner>((e) => Partner.fromJson(e)).toList();
+    for (var item in items) {
+      final response = (await _odoo.searchRead('res.partner.image', [
+        ['res_partner_id', '=', item.id]
+      ], [
+        'id',
+        'image'
+      ]));
+      item.photos =
+          response.getRecords().map<Photo>((e) => Photo.fromJson(e)).toList();
+    }
+    print(items);
 
     return items;
   }
