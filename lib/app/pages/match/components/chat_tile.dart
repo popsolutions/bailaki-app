@@ -5,9 +5,10 @@ class ChatTile extends StatelessWidget {
   final VoidCallback onTap;
   final String name;
   final String description;
- 
 
-  const ChatTile({Key key, this.padding,this.onTap, this.name, this.description}) : super(key: key);
+  const ChatTile(
+      {Key key, this.padding, this.onTap, this.name, this.description})
+      : super(key: key);
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -18,8 +19,9 @@ class ChatTile extends StatelessWidget {
           children: [
             CircleAvatar(
               radius: 50,
-            //backgroundColor: Colors.blue,
-              backgroundImage: NetworkImage("https://static.billboard.com/files/2021/01/rihanna-sept-2019-billboard-1548-1611156420-compressed.jpg"),
+              //backgroundColor: Colors.blue,
+              backgroundImage: NetworkImage(
+                  "https://static.billboard.com/files/2021/01/rihanna-sept-2019-billboard-1548-1611156420-compressed.jpg"),
             ),
             const SizedBox(width: 20),
             Flexible(
@@ -27,7 +29,7 @@ class ChatTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                   name,
+                    name ?? '',
                     style: TextStyle(
                       fontWeight: FontWeight.w500,
                       fontSize: 23,
