@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:location/location.dart';
+import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/pages/home/home_controller.dart';
 import 'package:odoo_client/app/pages/home/select_partner_page.dart';
 import 'package:odoo_client/app/pages/match/match_page.dart';
@@ -18,19 +20,45 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   HomeController _homeController;
   List<Widget> _widgets;
+  ReactionDisposer _locationReaction;
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     _homeController = GetIt.I.get<HomeController>();
     _widgets = const [
       SelectPartnerPage(),
       MatchPage(),
       SwitchSettingsPage(),
     ];
+    _homeController.loadLocation();
+    _locationReaction = reaction(
+        (_) => _homeController.currentLocation.value, _onLocationUpdate);
     super.initState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        break;
+
+      default:
+    }
+    super.didChangeAppLifecycleState(state);
+  }
+
+  void _onLocationUpdate(LocationData location) {
+    _homeController.updateLocation(location);
+  }
+
+  @override
+  void dispose() {
+    _locationReaction();
+    super.dispose();
   }
 
   @override

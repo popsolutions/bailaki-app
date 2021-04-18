@@ -9,6 +9,21 @@ part of 'profile_edit_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$ProfileEditController on _ProfileEditControllerBase, Store {
+  final _$_imagesAtom = Atom(name: '_ProfileEditControllerBase._images');
+
+  @override
+  ObservableList<Photo> get _images {
+    _$_imagesAtom.reportRead();
+    return super._images;
+  }
+
+  @override
+  set _images(ObservableList<Photo> value) {
+    _$_imagesAtom.reportWrite(value, super._images, () {
+      super._images = value;
+    });
+  }
+
   final _$_updateProfileRequestAtom =
       Atom(name: '_ProfileEditControllerBase._updateProfileRequest');
 
@@ -23,21 +38,6 @@ mixin _$ProfileEditController on _ProfileEditControllerBase, Store {
     _$_updateProfileRequestAtom.reportWrite(value, super._updateProfileRequest,
         () {
       super._updateProfileRequest = value;
-    });
-  }
-
-  final _$photoWallAtom = Atom(name: '_ProfileEditControllerBase.photoWall');
-
-  @override
-  PhotoWall get photoWall {
-    _$photoWallAtom.reportRead();
-    return super.photoWall;
-  }
-
-  @override
-  set photoWall(PhotoWall value) {
-    _$photoWallAtom.reportWrite(value, super.photoWall, () {
-      super.photoWall = value;
     });
   }
 
@@ -88,7 +88,7 @@ mixin _$ProfileEditController on _ProfileEditControllerBase, Store {
   @override
   String toString() {
     return '''
-photoWall: ${photoWall}
+
     ''';
   }
 }

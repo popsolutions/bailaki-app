@@ -14,23 +14,28 @@ class UpdateProfileDto {
   final bool enableMatchNotification;
   final int referredFriendMinAge;
   final int referredFriendMaxAge;
+  final double partnerCurrentLatitude;
+  final double partnerCurrentLongitude;
 
-  UpdateProfileDto(
-      {this.interestMaleGender,
-      this.interestFemaleGender,
-      this.interestOtherGenres,
-      this.refferedFriendMaxDistance,
-      this.profile_description,
-      this.music_genre_ids,
-      this.music_skill_id,
-      this.function,
-      this.birthdate_date,
-      this.gender,
-      this.partnerId,
-      this.enableMessageNotification,
-      this.enableMatchNotification,
-      this.referredFriendMinAge,
-      this.referredFriendMaxAge});
+  UpdateProfileDto({
+    this.interestMaleGender,
+    this.interestFemaleGender,
+    this.interestOtherGenres,
+    this.refferedFriendMaxDistance,
+    this.profile_description,
+    this.music_genre_ids,
+    this.music_skill_id,
+    this.function,
+    this.birthdate_date,
+    this.gender,
+    this.partnerId,
+    this.enableMessageNotification,
+    this.enableMatchNotification,
+    this.referredFriendMinAge,
+    this.referredFriendMaxAge,
+    this.partnerCurrentLatitude,
+    this.partnerCurrentLongitude,
+  });
 
   Map<String, dynamic> toJson() => {
         if (refferedFriendMaxDistance != null)
@@ -59,5 +64,9 @@ class UpdateProfileDto {
           'referred_friend_min_age': referredFriendMinAge,
         if (referredFriendMaxAge != null)
           'referred_friend_max_age': referredFriendMaxAge,
+        if (partnerCurrentLatitude != null)
+          'partner_current_latitude': partnerCurrentLatitude,
+        if (partnerCurrentLongitude != null)
+          'partner_current_longitude': partnerCurrentLongitude
       };
 }
