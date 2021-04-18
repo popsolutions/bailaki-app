@@ -23,7 +23,7 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
   void initState() {
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _partnerDetailController = GetIt.I.get<PartnerDetailController>();
-  
+
     super.initState();
   }
 
@@ -62,10 +62,10 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
             );
           default:
             final distance = distanceBetween(
-                    user.position.latitude,
-                    user.position.longitude,
-                    data.position.latitude,
-                    data.position.longitude);
+                user.position.latitude,
+                user.position.longitude,
+                data.position.latitude,
+                data.position.longitude);
             return SafeArea(
               child: LayoutBuilder(builder: (context, constraints) {
                 return SingleChildScrollView(
@@ -82,11 +82,10 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                               Container(
                                 height: 210,
                                 child: TabBarView(
-                                 
                                   children: data.images
                                       .map(
                                         (e) => Image.memory(
-                                          e.image,
+                                          e.bytes,
                                           fit: BoxFit.fill,
                                         ),
                                       )
@@ -97,7 +96,6 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                 padding: const EdgeInsets.only(bottom: 5),
                                 child: TabPageSelector(
                                   indicatorSize: 8,
-                                 
                                   selectedColor: Colors.white,
                                   color: Colors.grey[400],
                                 ),
