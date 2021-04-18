@@ -1,6 +1,11 @@
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
 import 'package:odoo_client/app/data/services/channel_service.dart';
+import 'package:odoo_client/app/data/services/image_service.dart';
+import 'package:odoo_client/app/data/services/image_service_impl.dart';
+import 'package:odoo_client/app/data/services/location_service.dart';
+import 'package:odoo_client/app/data/services/location_service_impl.dart';
 import 'package:odoo_client/app/data/services/login_facade.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/data/services/login_service.dart';
@@ -91,6 +96,15 @@ void setupSharedModule() {
     ),
   );
 
+  locator
+      .registerFactory<LocationService>(() => LocationServiceImpl(Location()));
+
+  locator.registerFactory<ImageService>(
+    () => ImageServiceImpl(
+      locator.get<Odoo>(),
+    ),
+  );
+
   locator.registerLazySingleton(() => AuthenticationController());
 
   locator.registerLazySingleton(() => MusicGenresController());
@@ -108,15 +122,18 @@ void setupSharedModule() {
   );
 
   locator.registerFactory(
-    () => HomeController(),
+    () => HomeController(
+      locator.get<LocationService>(),
+      locator.get<UserService>(),
+    ),
   );
 
   locator.registerFactory(
     () => SelectPartnerController(
-        locator.get<PartnerService>(),
-        locator.get<RelationService>(),
-        Location(),
-        locator.get<SendLikeFacace>()),
+      locator.get<PartnerService>(),
+      locator.get<RelationService>(),
+      locator.get<SendLikeFacace>(),
+    ),
   );
 
   locator.registerFactory(
@@ -128,6 +145,8 @@ void setupSharedModule() {
   locator.registerFactory(
     () => ProfileEditController(
       locator.get<UserService>(),
+      locator.get<ImageService>(),
+      ImagePicker(),
     ),
   );
 
@@ -157,10 +176,10 @@ void setupSharedModule() {
 
   locator.registerFactory<LoginFacade>(
     () => LoginFacadeImpl(
-      locator.get<LoginService>(),
-      locator.get<UserService>(),
-      locator.get<MusicGenreService>(),
-      locator.get<MusicSkillService>(),
-    ),
+        locator.get<LoginService>(),
+        locator.get<UserService>(),
+        locator.get<MusicGenreService>(),
+        locator.get<MusicSkillService>(),
+        locator.get<ImageService>()),
   );
 }

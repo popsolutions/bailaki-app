@@ -1,4 +1,5 @@
 import 'package:latlng/latlng.dart';
+import 'package:odoo_client/app/data/models/memory_image.dart';
 
 class Partner {
   int id;
@@ -6,8 +7,11 @@ class Partner {
   String imageUrl;
   DateTime birthdate;
   LatLng position;
+  List<Photo> photos;
 
   Partner({this.id, this.name, this.imageUrl, this.birthdate, this.position});
+
+  Photo get avatarPhoto => photos.isEmpty ? null : photos.first;
 
 /*
       'name',

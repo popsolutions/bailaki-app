@@ -1,6 +1,8 @@
 import 'package:latlng/latlng.dart';
 import 'package:odoo_client/app/data/models/login_dto.dart';
 import 'package:odoo_client/app/data/models/login_result.dart';
+import 'package:odoo_client/app/data/models/memory_image.dart';
+import 'package:odoo_client/app/data/services/image_service.dart';
 import 'package:odoo_client/app/data/services/login_facade.dart';
 import 'package:odoo_client/app/data/services/login_service.dart';
 import 'package:odoo_client/app/data/services/music_genre_service.dart';
@@ -10,20 +12,28 @@ import 'package:odoo_client/app/data/services/user_service.dart';
 class LoginFacadeImpl implements LoginFacade {
   final LoginService _loginService;
   final UserService _userService;
+  final ImageService _imageService;
   final MusicGenreService _musicGenreService;
   final MusicSkillService _musicSkillService;
-  LoginFacadeImpl(this._loginService, this._userService,
-      this._musicGenreService, this._musicSkillService);
+  LoginFacadeImpl(
+    this._loginService,
+    this._userService,
+    this._musicGenreService,
+    this._musicSkillService,
+    this._imageService,
+  );
 
   @override
   Future<LoginResult> login(LoginDto loginDto) async {
     final loginResponse = await _loginService.login(loginDto);
     final userData = loginResponse.result;
-    final userProfile =
-        await _userService.findProfile(loginResponse.result.partnerId);
+    final userProfile = await _userService.findProfile(userData.partnerId);
+    final images = await _imageService.findByPartner(userData.partnerId);
 
     final fullUserProfile = UserProfile(
-      position: userProfile.position,
+        referredFriendsIds: userProfile.referredFriendsIds,
+        images: images,
+        position: userProfile.position,
         interestFemales: userProfile.interestFemales,
         interestMales: userProfile.interestMales,
         interestOtherGenres: userProfile.interestOtherGenres,
@@ -81,34 +91,36 @@ class UserProfile {
   final int referredFriendMinAge;
   final int referredFriendMaxAge;
   final LatLng position;
-
-  UserProfile({
-    this.interestMales,
-    this.interestFemales,
-    this.interestOtherGenres,
-    this.refferedMaxFriendDistance,
-    this.name,
-    this.sessionId,
-    this.uid,
-    this.isAdmin,
-    this.partnerDisplayName,
-    this.companyId,
-    this.partnerId,
-    this.userCompanies,
-    this.webBaseUrl,
-    this.odoobotInitialized,
-    this.profile_description,
-    this.music_genre_ids,
-    this.music_skill_id,
-    this.function,
-    this.birthdate_date,
-    this.gender,
-    this.enableMatchNotification,
-    this.enableMessageNotification,
-    this.referredFriendMinAge,
-    this.referredFriendMaxAge,
-    this.position,
-  });
+  final List<Photo> images;
+  final List<int> referredFriendsIds;
+  UserProfile(
+      {this.interestMales,
+      this.interestFemales,
+      this.interestOtherGenres,
+      this.refferedMaxFriendDistance,
+      this.name,
+      this.sessionId,
+      this.uid,
+      this.isAdmin,
+      this.partnerDisplayName,
+      this.companyId,
+      this.partnerId,
+      this.userCompanies,
+      this.webBaseUrl,
+      this.odoobotInitialized,
+      this.profile_description,
+      this.music_genre_ids,
+      this.music_skill_id,
+      this.function,
+      this.birthdate_date,
+      this.gender,
+      this.enableMatchNotification,
+      this.enableMessageNotification,
+      this.referredFriendMinAge,
+      this.referredFriendMaxAge,
+      this.position,
+      this.images,
+      this.referredFriendsIds});
 
   UserProfile copyWith(
       {String sessionId,
@@ -135,7 +147,9 @@ class UserProfile {
       bool enableMatchNotification,
       int referredFriendMinAge,
       int referredFriendMaxAge,
-      LatLng position}) {
+      LatLng position,
+      List<Photo> images,
+      List<int> referredFriendsIds}) {
     return UserProfile(
         position: position ?? this.position,
         sessionId: sessionId ?? this.sessionId,
@@ -164,7 +178,8 @@ class UserProfile {
         enableMessageNotification:
             enableMessageNotification ?? this.enableMessageNotification,
         referredFriendMaxAge: referredFriendMaxAge ?? this.referredFriendMaxAge,
-        referredFriendMinAge:
-            referredFriendMinAge ?? this.referredFriendMinAge);
+        referredFriendMinAge: referredFriendMinAge ?? this.referredFriendMinAge,
+        images: images ?? this.images,
+        referredFriendsIds: referredFriendsIds);
   }
 }

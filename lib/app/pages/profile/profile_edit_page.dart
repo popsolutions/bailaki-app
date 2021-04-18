@@ -4,6 +4,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/models/memory_image.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/pages/profile/profile_edit_controller.dart';
 import 'package:odoo_client/shared/components/container_tile.dart';
@@ -35,6 +36,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   void _initProfileData() {
     _user = _authenticationController.currentUser;
+    _profileEditController.images.addAll(_user.images);
     _profileEditController.partnerId = _user?.partnerId;
     _profileEditController.aboutYou = _user?.profile_description;
     _profileEditController.function = _user?.function;
@@ -90,7 +92,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             body: SingleChildScrollView(
               child: Column(
                 children: [
-                  _buildPhotosContainer(),
+                  Observer(builder: (_) {
+                    return _buildPhotosContainer(_profileEditController.images);
+                  }),
                   Column(
                     children: [
                       Container(
@@ -140,8 +144,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           onTap: () async {
                             final date = await showDatePicker(
                               context: context,
-                              initialDate:
-                                  DateTime(1930,1,1),
+                              initialDate: DateTime(1930, 1, 1),
                               firstDate:
                                   DateTime(DateTime.now().year - 18, 1, 1),
                               lastDate: DateTime.now(),
@@ -316,46 +319,46 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     );
   }
 
-  Widget _buildImageRow(List<MemoryImage> images) {
-    return Row(
-      children: [
-        Expanded(
-          child: _buildRoundedImage(
-              icon: Icon(Icons.close, color: Colors.white),
-              onTap: () {},
-              imageBytes: null),
-        ),
-        Expanded(
-          child: _buildRoundedImage(
-              icon: Icon(Icons.close, color: Colors.white),
-              onTap: () {},
-              imageBytes: null),
-        ),
-        Expanded(
-          child: _buildRoundedImage(
-              icon: Icon(Icons.close, color: Colors.white),
-              onTap: () {},
-              imageBytes: null),
-        ),
-      ],
-    );
-  }
+  Widget _buildPhotosContainer(List<Photo> images) {
+    final newList = List<Photo>.from(images);
 
-  Widget _buildPhotosContainer() {
+    final imageAmount = (images.length - 6);
+    if (imageAmount < 0) {
+      for (int i = 0; i < (imageAmount * -1); i++) {
+        newList.add(Photo(id: null, bytes: null));
+      }
+    }
+
     return Container(
-      padding: const EdgeInsets.only(bottom: 15, top: 10),
-      color: Color.fromRGBO(239, 242, 239, 1),
-      child: Container(
-        height: 250,
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          children: [
-            Expanded(child: _buildImageRow([])),
-            Expanded(child: _buildImageRow([]))
-          ],
-        ),
-      ),
-    );
+        padding: const EdgeInsets.only(bottom: 15, top: 10),
+        color: Color.fromRGBO(239, 242, 239, 1),
+        child: Container(
+          padding: const EdgeInsets.all(12),
+          child: GridView.builder(
+              shrinkWrap: true,
+              physics: ClampingScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+                crossAxisCount: 3,
+              ),
+              itemCount: newList.length,
+              itemBuilder: (_, index) {
+                final item = newList[index];
+                final isValid = item.bytes != null;
+                return _buildRoundedImage(
+                    icon: isValid
+                        ? Icon(Icons.close, color: Colors.white)
+                        : Icon(Icons.add, color: Colors.white),
+                    onTap: () {
+                      if (isValid)
+                        _profileEditController.removeImage(item);
+                      else
+                        _profileEditController.addImage();
+                    },
+                    imageBytes: item.bytes);
+              }),
+        ));
   }
 
   Widget _buildRoundedImage({
@@ -374,13 +377,15 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               Radius.circular(10),
             ),
             child: Container(
+                width: double.maxFinite,
+                height: double.maxFinite,
                 color: const Color.fromRGBO(201, 204, 201, 1),
                 child: imageBytes != null
                     ? Image.memory(
                         imageBytes,
                         fit: BoxFit.fill,
                       )
-                    : null),
+                    : Container()),
           ),
         ),
         Positioned(

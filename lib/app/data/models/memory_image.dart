@@ -1,11 +1,18 @@
-class MemoryImage {
+import 'dart:convert';
+import 'dart:typed_data';
+
+class Photo {
   final int id;
-  final List<int> image;
+  final String name;
+  final Uint8List bytes;
 
-  MemoryImage({this.id, this.image});
+  Photo({this.id, this.name, this.bytes});
 
-  factory MemoryImage.fromJson(Map<String, dynamic> json) {
-    return MemoryImage(
-        id: json["id"], image: json["image"] is! bool ? json["image"] : null);
+  factory Photo.fromJson(Map<String, dynamic> json) {
+    return Photo(
+        id: json["id"],
+        bytes: json["image"] is! bool
+            ? base64.decode(base64.normalize(json['image']))
+            : null);
   }
 }

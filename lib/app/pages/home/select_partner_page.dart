@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -21,15 +22,19 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
   void initState() {
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _selectPartnerController = GetIt.I.get<SelectPartnerController>();
-    _selectPartnerController.userPartnerId =
-        _authenticationController.currentUser?.partnerId;
+    final user = _authenticationController.currentUser;
+    _selectPartnerController.userPartnerId = user.partnerId;
+    _selectPartnerController.referredFriendIds = user.referredFriendsIds;
     _selectPartnerController.loadPartners();
-    _selectPartnerController.loadLocation();
     super.initState();
   }
 
   Widget _buildCard(
-      {String url, String name, int age, VoidCallback onTap, double distance}) {
+      {Uint8List bytes,
+      String name,
+      int age,
+      VoidCallback onTap,
+      double distance}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -43,13 +48,11 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
         child: Stack(
           fit: StackFit.expand,
           children: [
-            /*
-            Image.network(
-              url,
-              fit: BoxFit.fill,
-              headers: {"Cookie": "b519d846e1a07885edd07d97298c3d892fc7c8f0 "},
-            ),
-            */
+            if (bytes != null)
+              Image.memory(
+                bytes,
+                fit: BoxFit.fill,
+              ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -129,8 +132,7 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
                       distance: distance,
                       name: current.name,
                       age: 19,
-                      url:
-                          "https://bailaki.com.br/web/image?model=res.partner&field=image&b519d846e1a07885edd07d97298c3d892fc7c8f0&id=${current.id}",
+                      bytes: current?.avatarPhoto?.bytes,
                       onTap: () => Navigator.of(context)
                           .pushNamed('/partner_detail', arguments: current.id),
                     ),

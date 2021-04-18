@@ -16,7 +16,7 @@ class PartnerDetail {
   final String gender;
   final String activityState;
   final LatLng position;
-  final List<MemoryImage> images;
+  final List<Photo> images;
 
   PartnerDetail(
       {this.position,
@@ -60,6 +60,6 @@ class PartnerDetail {
                 json["partner_current_longitude"],
               )
             : null,
-        images: json["images"].map<MemoryImage>((e) => MemoryImage.fromJson(e)).toList());
+        images: json["images"].map<Photo>((e) => Photo.fromJson(e)).toList());
   }
 }
