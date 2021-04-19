@@ -1,5 +1,3 @@
-import 'dart:async';
-import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +13,6 @@ import 'package:odoo_client/app/pages/profile/my_profile_page.dart';
 import 'package:odoo_client/app/pages/profile/profile_edit_page.dart';
 import 'package:odoo_client/app/pages/settings/settings_page.dart';
 import 'package:odoo_client/shared/injector/all_modules.dart';
-import 'package:odoo_client/websocket_client.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/utility/strings.dart';
 
