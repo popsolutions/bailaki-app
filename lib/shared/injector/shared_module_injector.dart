@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
+import 'package:odoo_client/app/data/services/channel_facade.dart';
 import 'package:odoo_client/app/data/services/channel_service.dart';
 import 'package:odoo_client/app/data/services/image_service.dart';
 import 'package:odoo_client/app/data/services/image_service_impl.dart';
@@ -162,7 +163,7 @@ void setupSharedModule() {
 
   locator.registerFactory(
     () => MatchController(
-      locator.get<ChannelService>(),
+      locator.get<ChannelFacade>(),
     ),
   );
 
@@ -181,5 +182,12 @@ void setupSharedModule() {
         locator.get<MusicGenreService>(),
         locator.get<MusicSkillService>(),
         locator.get<ImageService>()),
+  );
+
+  locator.registerFactory<ChannelFacade>(
+    () => ChannelFacade(
+      locator.get<ChannelService>(),
+      locator.get<MatchService>(),
+    ),
   );
 }

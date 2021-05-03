@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/services/event_service_impl.dart';
+import 'package:odoo_client/app/data/services/odoo_api.dart';
 import 'package:odoo_client/app/pages/home/select_partner_controller.dart';
 import 'package:odoo_client/shared/components/circular_inkwell.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
@@ -26,6 +28,10 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
     _selectPartnerController.userPartnerId = user.partnerId;
     _selectPartnerController.referredFriendIds = user.referredFriendsIds;
     _selectPartnerController.loadPartners();
+
+    EventServiceImpl(Odoo()).findEvents().then((value) {
+      print(value);
+    });
     super.initState();
   }
 

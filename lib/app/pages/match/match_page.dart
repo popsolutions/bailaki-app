@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/services/channel_facade.dart';
 import 'package:odoo_client/app/pages/match/components/chat_tile.dart';
 import 'package:odoo_client/app/pages/match/match_controller.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
@@ -48,17 +49,18 @@ class _MatchPageState extends State<MatchPage> {
                     Flexible(
                       child: TextField(
                         decoration: InputDecoration.collapsed(
-                            enabled: true,
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                width: 0.5,
-                                color: Colors.red,
-                              ),
+                          enabled: true,
+                          border: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 0.5,
+                              color: Colors.red,
                             ),
-                            hintText: "Buscar matches",
-                            hintStyle: TextStyle(
-                              fontSize: 22,
-                            )),
+                          ),
+                          hintText: "Buscar matches",
+                          hintStyle: TextStyle(
+                            fontSize: 22,
+                          ),
+                        ),
                       ),
                     ),
                   ],

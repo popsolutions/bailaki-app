@@ -4,6 +4,7 @@ import 'package:odoo_client/app/data/models/create_channel_dto.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 
 abstract class ChannelService {
+  Future<Channel> findByMatch(List<int> partnerIds);
   Future<List<Channel>> findByPartner(ChannelRequestDto channelRequestDto);
   Future<void> save(CreateChannelDto createChannelDto);
 }
@@ -34,7 +35,7 @@ class ChannelServiceImpl implements ChannelService {
       ]
     ], [
       'name',
-      'id'
+      'id',
     ]);
     print(channelPartners);
 
@@ -66,5 +67,38 @@ class ChannelServiceImpl implements ChannelService {
       ]
     });
     print(channelres);
+  }
+
+  @override
+  Future<Channel> findByMatch(List<int> partnerIds) async {
+    final response = await _odoo.searchRead('mail.channel', [
+      [
+        'channel_partner_ids',
+        'in',
+        [partnerIds.first]
+      ],
+      [
+        'channel_partner_ids',
+        'in',
+        [partnerIds.last]
+      ]
+    ], []);
+
+    final List channels = response.getRecords();
+
+    final channelPartners = await _odoo.searchRead('res.partner', [
+      ['id', 'in', partnerIds],
+    ], [
+      'name',
+      'id',
+    ]);
+    print(channelPartners);
+
+    final items = channels
+        .map<Channel>((channel) => Channel.fromJson(
+            {...channel, 'partners': channelPartners.getRecords()}))
+        .toList();
+
+    return items.last;
   }
 }
