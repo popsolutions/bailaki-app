@@ -17,19 +17,10 @@ class ImageServiceImpl implements ImageService {
       {
         'name': imageDto.name,
         'image': base64.encode(imageDto.bytes),
+        'res_partner_id': imageDto.partnerId
       },
     );
     final imageId = response.getResult();
-    final linkResponse = await _odoo.write(
-      'res.partner',
-      [imageDto.partnerId],
-      {
-        'res_partner_image_ids': [
-          [4, imageId]
-        ]
-      },
-    );
-    print(linkResponse);
     return imageId;
   }
 
