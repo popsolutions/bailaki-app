@@ -68,7 +68,7 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "${user?.function}",
+                        user?.function ?? '',
                         style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.w300,
