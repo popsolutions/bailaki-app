@@ -144,9 +144,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           onTap: () async {
                             final date = await showDatePicker(
                               context: context,
-                              initialDate: DateTime(1930, 1, 1),
-                              firstDate:
+                              initialDate:
                                   DateTime(DateTime.now().year - 18, 1, 1),
+                              firstDate: DateTime(1930, 1, 1),
                               lastDate: DateTime.now(),
                             );
                             _profileEditController.birthdate = date;
@@ -172,7 +172,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                           },
                           child: Observer(builder: (_) {
                             return _buildContainer(
-                              subtitle: "${_profileEditController.gender}",
+                              subtitle: _profileEditController.gender ?? '',
                               title: "Gênero",
                             );
                           }),
