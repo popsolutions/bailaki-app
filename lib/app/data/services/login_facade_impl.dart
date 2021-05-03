@@ -182,4 +182,6 @@ class UserProfile {
         images: images ?? this.images,
         referredFriendsIds: referredFriendsIds);
   }
+
+  Photo get avatar => images.isNotEmpty ? images.first : null;
 }
