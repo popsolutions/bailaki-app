@@ -4,7 +4,7 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.9.2 <3.0.0"
+  sdk: ">=2.9.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -20,7 +20,7 @@ dependencies:
   mobx:
   flutter_mobx:
   get_it:
-  image_picker: ^0.7.2+1
+  image_picker: ^0.7.4
   latlng: ^0.0.2
   analyzer: 
   intl:
@@ -28,8 +28,8 @@ dependencies:
   open_settings: ^2.0.1
   data_connection_checker: ^0.3.4
   onesignal_flutter: ^2.0.0
+  google_maps_flutter: ^2.0.3
 
-  #flutter_location: ^0.0.6
 
 dev_dependencies:
   flutter_test:
