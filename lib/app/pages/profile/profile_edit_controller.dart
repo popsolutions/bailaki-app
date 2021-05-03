@@ -38,7 +38,11 @@ abstract class _ProfileEditControllerBase with Store {
 
   List<int> _danceStyles;
 
+  List<int> get danceStyleIds => _danceStyles;
+
   int _danceLevel;
+
+  int get danceLevelId => _danceLevel;
 
   String _function;
 
