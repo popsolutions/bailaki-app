@@ -56,6 +56,13 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
   void _onSuccess(FutureStatus requestStatus) {
     _authenticationController.authenticate(_user.copyWith(
+      interestFemales: _profileEditController.gender == 'female',
+      interestMales: _profileEditController.gender == 'male',
+      interestOtherGenres: _profileEditController.gender == 'other',
+      music_skill_id: _profileEditController.danceLevelId,
+      music_genre_ids: _profileEditController.danceStyleIds,
+      birthdate_date: _profileEditController.birthdate,
+      images: List.of(_profileEditController.images),
       profile_description: _profileEditController.aboutYou,
       function: _profileEditController.function,
       gender: _profileEditController.gender,
