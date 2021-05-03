@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/shared/components/circular_inkwell.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
@@ -13,10 +14,12 @@ class SwitchSettingsPage extends StatefulWidget {
 
 class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
   AuthenticationController _authenticationController;
+  UserProfile _user;
 
   @override
   void initState() {
     _authenticationController = GetIt.I.get<AuthenticationController>();
+    _user = _authenticationController.currentUser;
     super.initState();
   }
 
@@ -36,11 +39,22 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius: 70,
-                        backgroundImage: NetworkImage(
-                            "https://static.billboard.com/files/2021/01/rihanna-sept-2019-billboard-1548-1611156420-compressed.jpg"),
-                      ),
+                      if (_user.avatar != null)
+                        CircleAvatar(
+                          radius: 70,
+                          backgroundImage: MemoryImage(_authenticationController
+                              .currentUser.avatar.bytes),
+                        )
+                      else
+                        CircleAvatar(
+                          backgroundColor: Color.fromRGBO(186, 189, 185, 1),
+                          radius: 70,
+                          child: Icon(
+                            Icons.person,
+                            color: Colors.white,
+                            size: 70,
+                          ),
+                        ),
                       const SizedBox(
                         height: 10,
                       ),
