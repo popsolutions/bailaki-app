@@ -15,6 +15,8 @@ class SendLikeFacace {
   Future<void> sendLike(LikeDto likeDto) async {
     await _relationService.sendLike(likeDto);
 
+    await Future.delayed(Duration(minutes: 1));
+
     final matches = await _matchService.findByPartnerId(MatchRequestDto(
         currentPartnerId: likeDto.currentUserPartnerId,
         partnerId: likeDto.friendPartnerId));
