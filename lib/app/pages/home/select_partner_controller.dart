@@ -16,7 +16,6 @@ abstract class _SelectPartnerControllerBase with Store {
   final RelationService _relationService;
 
   int _userPartnerId;
-  List<int> _referredFriendIds;
 
   _SelectPartnerControllerBase(
       this._partnerService, this._relationService, this._sendLikeFacace);
@@ -27,11 +26,10 @@ abstract class _SelectPartnerControllerBase with Store {
   ObservableFuture<List<Partner>> get partners => _partners;
 
   set userPartnerId(int userPartnerId) => _userPartnerId = userPartnerId;
-  set referredFriendIds(List<int> friendIds) => _referredFriendIds = friendIds;
 
   @action
   void loadPartners() {
-    _partners = _partnerService.finAll(_referredFriendIds).asObservable();
+    _partners = _partnerService.finAll(_userPartnerId).asObservable();
   }
 
   @action

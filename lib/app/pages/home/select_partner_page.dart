@@ -26,7 +26,6 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
     _selectPartnerController = GetIt.I.get<SelectPartnerController>();
     final user = _authenticationController.currentUser;
     _selectPartnerController.userPartnerId = user.partnerId;
-    _selectPartnerController.referredFriendIds = user.referredFriendsIds;
     _selectPartnerController.loadPartners();
 
     EventServiceImpl(Odoo()).findEvents().then((value) {
