@@ -48,7 +48,7 @@ class PartnerDetail {
         jobPosition: json['function'] is! bool ? json['function'] : "N/A",
         birthdate:
             json['birthdate_date'] is! bool && json['birthdate_date'] != null
-                ? json['birthdate_date']
+                ? DateTime.parse(json['birthdate_date'])
                 : null,
         gender: json['gender'] is! bool ? json['gender'] : "N/A",
         activityState:

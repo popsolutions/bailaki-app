@@ -11,9 +11,18 @@ class PartnerServiceImpl implements PartnerService {
   PartnerServiceImpl(this._odoo);
 
   @override
-  Future<List<Partner>> finAll(List<int> friendIds) async {
+  Future<List<Partner>> finAll(int currentPartnerId) async {
+    final refferedFriendsResponse = await _odoo.searchRead('res.partner', [
+      ['id', '=', currentPartnerId]
+    ], [
+      'referred_friend_ids'
+    ]);
+
+    final referredFriendsIds =
+        refferedFriendsResponse.getRecords().first['referred_friend_ids'];
+
     final response = await _odoo.searchRead('res.partner', [
-      ['id', 'in', friendIds]
+      ['id', 'in', referredFriendsIds]
     ], [
       'name',
       'birthdate_date',
