@@ -1,11 +1,9 @@
 import 'package:odoo_client/app/data/models/channel.dart';
-import 'package:odoo_client/app/data/models/channel_request_dto.dart';
 import 'package:odoo_client/app/data/models/create_channel_dto.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 
 abstract class ChannelService {
-  Future<Channel> findByMatch(List<int> partnerIds);
-  Future<List<Channel>> findByPartner(ChannelRequestDto channelRequestDto);
+  Future<List<Channel>> findByMatch(List<int> partnerIds);
   Future<void> save(CreateChannelDto createChannelDto);
 }
 
@@ -13,44 +11,6 @@ class ChannelServiceImpl implements ChannelService {
   final Odoo _odoo;
 
   ChannelServiceImpl(this._odoo);
-
-  @override
-  Future<List<Channel>> findByPartner(
-      ChannelRequestDto channelRequestDto) async {
-    final response = await _odoo.searchRead('mail.channel', [
-      ['channel_partner_ids', 'in', channelRequestDto.currentPartnerId]
-    ], []);
-
-    final List channels = response.getRecords();
-
-    final channelPartners = await _odoo.searchRead('res.partner', [
-      [
-        'id',
-        'in',
-        channels
-            .map((e) => e['channel_partner_ids'])
-            .expand((element) => element)
-            .toSet()
-            .toList(),
-      ]
-    ], [
-      'name',
-      'id',
-    ]);
-    print(channelPartners);
-
-    final items = channels
-        .map<Channel>((channel) => Channel.fromJson({
-              ...channel,
-              'partners': (channelPartners.getRecords() as List)
-                  .where((e) => channel['channel_partner_ids']
-                      .any((partnerId) => partnerId == e['id']))
-                  .toList()
-            }))
-        .toList();
-
-    return items;
-  }
 
   @override
   Future<void> save(CreateChannelDto createChannelDto) async {
@@ -70,7 +30,7 @@ class ChannelServiceImpl implements ChannelService {
   }
 
   @override
-  Future<Channel> findByMatch(List<int> partnerIds) async {
+  Future<List<Channel>> findByMatch(List<int> partnerIds) async {
     final response = await _odoo.searchRead('mail.channel', [
       [
         'channel_partner_ids',
@@ -92,6 +52,16 @@ class ChannelServiceImpl implements ChannelService {
       'name',
       'id',
     ]);
+
+    for (var channelPartner in channelPartners.getRecords()) {
+      final imageResponse = await _odoo.searchRead('res.partner.image', [
+        ['res_partner_id', '=', channelPartner['id']]
+      ], []);
+
+      final firstImage = imageResponse.getRecords().first;
+      channelPartner['image'] = firstImage;
+    }
+
     print(channelPartners);
 
     final items = channels
@@ -99,6 +69,6 @@ class ChannelServiceImpl implements ChannelService {
             {...channel, 'partners': channelPartners.getRecords()}))
         .toList();
 
-    return items.last;
+    return items;
   }
 }
