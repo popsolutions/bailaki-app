@@ -13,13 +13,13 @@ mixin _$AuthenticationController on _AuthenticationControllerBase, Store {
       Atom(name: '_AuthenticationControllerBase._currentUser');
 
   @override
-  UserProfile get _currentUser {
+  ObservableFuture<UserProfile> get _currentUser {
     _$_currentUserAtom.reportRead();
     return super._currentUser;
   }
 
   @override
-  set _currentUser(UserProfile value) {
+  set _currentUser(ObservableFuture<UserProfile> value) {
     _$_currentUserAtom.reportWrite(value, super._currentUser, () {
       super._currentUser = value;
     });
@@ -27,6 +27,18 @@ mixin _$AuthenticationController on _AuthenticationControllerBase, Store {
 
   final _$_AuthenticationControllerBaseActionController =
       ActionController(name: '_AuthenticationControllerBase');
+
+  @override
+  void initialAuthentication() {
+    final _$actionInfo =
+        _$_AuthenticationControllerBaseActionController.startAction(
+            name: '_AuthenticationControllerBase.initialAuthentication');
+    try {
+      return super.initialAuthentication();
+    } finally {
+      _$_AuthenticationControllerBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void authenticate(UserProfile user) {

@@ -3,6 +3,13 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/models/like_dto.dart';
+import 'package:odoo_client/app/data/services/channel_service.dart';
+import 'package:odoo_client/app/data/services/event_service_impl.dart';
+import 'package:odoo_client/app/data/services/match_service.dart';
+import 'package:odoo_client/app/data/services/odoo_api.dart';
+import 'package:odoo_client/app/data/services/relation_service_impl.dart';
+import 'package:odoo_client/app/data/services/send_like_facade.dart';
 import 'package:odoo_client/app/pages/home/home_controller.dart';
 import 'package:odoo_client/app/pages/home/select_partner_page.dart';
 import 'package:odoo_client/app/pages/match/match_page.dart';
@@ -64,6 +71,34 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final odoo = Odoo();
+
+/*
+          EventServiceImpl(odoo).findEvents().then((value) {
+            print(value);
+          });
+          */
+
+          /*
+          final odoo = Odoo();
+          final channelService = ChannelServiceImpl(odoo);
+          final service = SendLikeFacace(MatchServiceImpl(odoo),
+              RelationServiceImpl(odoo), channelService);
+              */
+
+          // 8,7
+          // service.sendLike(LikeDto(8,7));
+
+/*
+  channelService.findByMatch([8,7])
+  .then((value) {
+    print(value);
+  });
+  */
+        },
+      ),
       appBar: PreferredSize(
           child: SafeArea(
             child: Observer(builder: (_) {

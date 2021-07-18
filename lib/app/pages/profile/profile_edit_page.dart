@@ -42,6 +42,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     _profileEditController.function = _user?.function;
     _profileEditController.gender = _user?.gender;
     _profileEditController.birthdate = _user.birthdate_date;
+    _profileEditController.gender = _user.gender;
   }
 
   void _onUpdateUser(FutureStatus requestStatus) {
@@ -156,7 +157,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                               firstDate: DateTime(1930, 1, 1),
                               lastDate: DateTime.now(),
                             );
-                            _profileEditController.birthdate = date;
+                            if(date != null){
+                              _profileEditController.birthdate = date;
+                            }
                           },
                           child: Observer(builder: (_) {
                             return _buildContainer(
@@ -174,8 +177,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                         child: GestureDetector(
                           onTap: () async {
                             final result = await Navigator.of(context)
-                                .pushNamed("/genree");
-                            _profileEditController.gender = result;
+                                .pushNamed("/genree",arguments: _profileEditController.gender);
+
+                            if (result != null) {
+                              _profileEditController.gender = result;
+                            }
                           },
                           child: Observer(builder: (_) {
                             return _buildContainer(

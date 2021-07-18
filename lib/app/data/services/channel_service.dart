@@ -32,16 +32,9 @@ class ChannelServiceImpl implements ChannelService {
   @override
   Future<List<Channel>> findByMatch(List<int> partnerIds) async {
     final response = await _odoo.searchRead('mail.channel', [
-      [
-        'channel_partner_ids',
-        'in',
-        [partnerIds.first]
-      ],
-      [
-        'channel_partner_ids',
-        'in',
-        [partnerIds.last]
-      ]
+      '|',
+      ['name', '=', '${partnerIds.first},${partnerIds.last}'],
+      ['name', '=', '${partnerIds.last},${partnerIds.first}'],
     ], []);
 
     final List channels = response.getRecords();
@@ -63,6 +56,22 @@ class ChannelServiceImpl implements ChannelService {
     }
 
     print(channelPartners);
+
+    for (var channel in channels) {
+      final messagesResponse = await _odoo.searchRead(
+          'mail.message',
+          [
+            ['res_id', '=', channel['id']],
+          ],
+          [],
+          limit: 1,
+          order: 'id desc');
+
+      final List items = messagesResponse.getRecords();
+      if (items.isNotEmpty) {
+        channel['lastMessage'] = items.first['body'];
+      }
+    }
 
     final items = channels
         .map<Channel>((channel) => Channel.fromJson(

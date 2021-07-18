@@ -34,8 +34,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final userProfile = _authenticationController.currentUser;
     _preferencesController.interestingInFemales = userProfile?.interestFemales;
     _preferencesController.interestingInMales = userProfile?.interestMales;
-    _preferencesController.interestingInOthers =
-        userProfile.interestOtherGenres;
+    _preferencesController.interestingInOthers = userProfile.interestOtherGenres;
     _preferencesController.maxDistance = userProfile?.refferedMaxFriendDistance;
     _preferencesController.receiveChatNotifications =
         userProfile?.enableMessageNotification;

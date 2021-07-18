@@ -84,23 +84,28 @@ class _MatchPageState extends State<MatchPage> {
               switch (response.status) {
                 case FutureStatus.rejected:
                   return Center(child: Text("erro"));
-                  break;
                 case FutureStatus.pending:
-                  return Center(child: CircularProgressIndicator());
-                  break;
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
                 default:
-                  if (items.isEmpty)
-                    return Center(child: CircularProgressIndicator());
+                  if (items.isEmpty) {
+                    return Center(
+                        child: Text('Você ainda não possui mensagens'));
+                  }
+
                   return ListView.builder(
                       physics: ScrollPhysics(),
                       padding: const EdgeInsets.only(top: 12),
                       shrinkWrap: true,
                       itemBuilder: (_, index) {
                         final item = items[index];
+                        final inverseChatter = item.inverseChatter(
+                            _authenticationController.currentUser.partnerId);
                         return ChatTile(
-                          description: '',
-                          name: item.chatterName(
-                              _authenticationController.currentUser.partnerId),
+                          imageBytes: inverseChatter.photo.bytes,
+                          description: item.lastMessage,
+                          name: inverseChatter.name,
                           padding: const EdgeInsets.all(18),
                           onTap: () {
                             Navigator.of(context)

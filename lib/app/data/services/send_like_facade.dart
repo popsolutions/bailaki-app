@@ -13,9 +13,10 @@ class SendLikeFacace {
       this._matchService, this._relationService, this._channelService);
 
   Future<void> sendLike(LikeDto likeDto) async {
-    await _relationService.sendLike(likeDto);
+    //TODO: RESOLVER PROBLEMA DO SERVIDOR DEMORANDO PARA CRIAR O MATCH
+  //  await _relationService.sendLike(likeDto);
 
-    await Future.delayed(Duration(minutes: 1));
+ //   await Future.delayed(Duration(minutes: 1));
 
     final matches = await _matchService.findByPartnerId(MatchRequestDto(
         currentPartnerId: likeDto.currentUserPartnerId,

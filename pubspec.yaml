@@ -29,7 +29,8 @@ dependencies:
   data_connection_checker: ^0.3.4
   onesignal_flutter: ^2.0.0
   google_maps_flutter: ^2.0.3
-
+  hive: ^1.4.4+1
+  hive_flutter: ^0.3.1
 
 dev_dependencies:
   flutter_test:

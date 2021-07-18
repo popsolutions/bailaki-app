@@ -15,4 +15,6 @@ class Photo {
             ? base64.decode(base64.normalize(json['image']))
             : null);
   }
+
+  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'image': base64Encode(bytes)};
 }

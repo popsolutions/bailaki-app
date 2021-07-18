@@ -15,7 +15,7 @@ class LoginServiceImpl implements LoginService {
   Future<User> login(LoginDto loginDto) async {
     final path = _odoo.createPath("/web/session/authenticate");
     final params = {
-      "db": "dev",
+      "db": "bailaki-staging",
       "login": loginDto.username,
       "password": loginDto.password,
       "context": {}

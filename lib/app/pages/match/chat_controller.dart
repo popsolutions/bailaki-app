@@ -2,6 +2,7 @@ import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/message.dart';
 import 'package:odoo_client/app/data/models/search_message_request_dto.dart';
 import 'package:odoo_client/app/data/models/send_message_request_dto.dart';
+import 'package:odoo_client/app/data/services/message_dao.dart';
 import 'package:odoo_client/app/data/services/message_service.dart';
 
 part 'chat_controller.g.dart';
@@ -10,18 +11,21 @@ class ChatController = _ChatControllerBase with _$ChatController;
 
 abstract class _ChatControllerBase with Store {
   final MessageService _messageService;
+  final MessageDao _messageDao;
   int _channelId;
   int _currentPartnerId;
 
-  _ChatControllerBase(this._messageService);
+  _ChatControllerBase(this._messageService, this._messageDao);
 
   set channelId(int channelId) => _channelId = channelId;
-  set currentPartnerId(int currentPartnerId) =>
-      _currentPartnerId = currentPartnerId;
+  set currentPartnerId(int currentPartnerId) => _currentPartnerId = currentPartnerId;
 
   @observable
   String _message = '';
-  set message(String message) => _message = message.trim();
+  set message(String message) {
+    _message = message.trim();
+    _messageDao.saveOrReplace(_channelId.toString(), message);
+  }
 
   @computed
   bool get isEmptyMessage => _message.isEmpty;
@@ -31,8 +35,7 @@ abstract class _ChatControllerBase with Store {
   ObservableFuture get sendMessageRequest => _sendMessageRequest;
 
   @observable
-  ObservableFuture<List<DayMessage>> _messagesRequest =
-      ObservableFuture.value(null);
+  ObservableFuture<List<DayMessage>> _messagesRequest = ObservableFuture.value(null);
   ObservableFuture<List<DayMessage>> get messagesRequest => _messagesRequest;
 
   @action

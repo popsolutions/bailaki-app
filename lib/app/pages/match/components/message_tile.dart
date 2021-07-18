@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,9 +8,15 @@ class MessageTile extends StatelessWidget {
   final VoidCallback onTap;
   final String message;
   final bool sender;
+  final Uint8List imageBytes;
 
   const MessageTile(
-      {Key key, this.padding, this.onTap, this.sender, this.message})
+      {Key key,
+      this.padding,
+      this.onTap,
+      this.sender,
+      this.message,
+      this.imageBytes})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -22,8 +30,7 @@ class MessageTile extends StatelessWidget {
             CircleAvatar(
               radius: 30,
               //backgroundColor: Colors.blue,
-              backgroundImage: NetworkImage(
-                  "https://static.billboard.com/files/2021/01/rihanna-sept-2019-billboard-1548-1611156420-compressed.jpg"),
+              backgroundImage: MemoryImage(imageBytes),
             ),
           const SizedBox(width: 20),
           Flexible(

@@ -18,6 +18,7 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   Channel _channel;
+  PartnerChannel _inversePartner;
   ChatController _chatController;
   AuthenticationController _authenticationController;
   TextEditingController _messageEditingController;
@@ -38,8 +39,10 @@ class _ChatPageState extends State<ChatPage> {
     super.didChangeDependencies();
     if (_channel == null) {
       _channel = ModalRoute.of(context).settings.arguments;
+
       _chatController.channelId = _channel.channelId;
       _user = _authenticationController.currentUser;
+      _inversePartner = _channel.inverseChatter(_user.partnerId);
       _chatController.currentPartnerId = _user.partnerId;
       _chatController.load();
     }
@@ -82,14 +85,19 @@ class _ChatPageState extends State<ChatPage> {
               : null,
           title: Row(
             children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundImage: NetworkImage(
-                    "https://static.billboard.com/files/2021/01/rihanna-sept-2019-billboard-1548-1611156420-compressed.jpg"),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/partner_detail',
+                      arguments: _inversePartner.id);
+                },
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundImage: MemoryImage(_inversePartner.photo.bytes),
+                ),
               ),
               const SizedBox(width: 10),
               Text(
-                '${_channel.chatterName(_user.partnerId)}',
+                '${_channel.inverseChatter(_user.partnerId).name}',
                 style: const TextStyle(color: Colors.black),
               ),
             ],
@@ -133,6 +141,7 @@ class _ChatPageState extends State<ChatPage> {
                             itemBuilder: (_, index) {
                               final message = messages[index];
                               return MessageTile(
+                                imageBytes: _inversePartner.photo.bytes,
                                 padding: const EdgeInsets.only(
                                     left: 10, right: 10, top: 5),
                                 sender: message.authorId == _user.partnerId,

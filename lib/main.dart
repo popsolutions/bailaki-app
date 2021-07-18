@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:odoo_client/app/pages/home/home_page.dart';
 import 'package:odoo_client/app/pages/login/login_page.dart';
 import 'package:odoo_client/app/pages/match/chat_page.dart';
@@ -11,6 +13,7 @@ import 'package:odoo_client/app/pages/profile/dance_style_page.dart';
 import 'package:odoo_client/app/pages/profile/genre_page.dart';
 import 'package:odoo_client/app/pages/profile/my_profile_page.dart';
 import 'package:odoo_client/app/pages/profile/profile_edit_page.dart';
+import 'package:odoo_client/app/pages/root_page.dart';
 import 'package:odoo_client/app/pages/settings/settings_page.dart';
 import 'package:odoo_client/shared/injector/all_modules.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -29,6 +32,7 @@ void main() async {
   setupAllModules();
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
 
   OneSignal.shared.init("8b92f59d-a196-4d52-b9a5-173a82819ab7", iOSSettings: {
     OSiOSSettings.autoPrompt: false,
@@ -56,9 +60,10 @@ class App extends StatelessWidget {
         primarySwatch: Colors.indigo,
         fontFamily: "Montserrat",
       ),
-      initialRoute: "/login",
+      initialRoute: "/",
       builder: EasyLoading.init(),
       routes: {
+        "/":(_) => RootPage(),
         "/chat": (_) => const ChatPage(),
         "/settings": (_) => const SettingsPage(),
         "/login": (_) => const LoginPage(),

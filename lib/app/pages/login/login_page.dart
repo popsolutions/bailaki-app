@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
       obscureText: true,
       labelText: "Password",
       onChanged: (e) => _loginController.password = e,
-      validator: (e) => e.length >= 8 ? null : 'Insira uma entre válida',
+      validator: (e) => e.length >= 1 ? null : 'Insira uma entre válida',
     );
 
     final loginButton = PrimaryButton(
@@ -159,12 +159,14 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
+                    /*
                     Image.asset(
                       "./lib/app/assets/bailakil_logo.png",
                       width: 40,
                       height: 40,
                       fit: BoxFit.fill,
                     ),
+                    */
                     SizedBox(
                       width: 3,
                     ),
