@@ -104,7 +104,7 @@ class _MatchPageState extends State<MatchPage> {
                             _authenticationController.currentUser.partnerId);
                         return ChatTile(
                           imageBytes: inverseChatter.photo.bytes,
-                          description: item.lastMessage,
+                          description: item.lastMessage ?? '',
                           name: inverseChatter.name,
                           padding: const EdgeInsets.all(18),
                           onTap: () {
