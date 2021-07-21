@@ -13,13 +13,14 @@ class RootPage extends StatefulWidget {
 
 class _RootPageState extends State<RootPage> {
   final _authenticationController = GetIt.I.get<AuthenticationController>();
-  ReactionDisposer _initialAuthenticationReaction;
 
   @override
   void initState() {
-    _initialAuthenticationReaction = reaction(
-        (_) => _authenticationController.currentUser, _onInitialAuthentication);
-    _authenticationController.initialAuthentication();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _authenticationController
+          .initialAuthentication()
+          .then(_onInitialAuthentication);
+    });
     super.initState();
   }
 
@@ -34,7 +35,6 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void dispose() {
-    _initialAuthenticationReaction();
     super.dispose();
   }
 

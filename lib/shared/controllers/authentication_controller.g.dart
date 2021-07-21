@@ -9,6 +9,14 @@ part of 'authentication_controller.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AuthenticationController on _AuthenticationControllerBase, Store {
+  Computed<UserProfile> _$currentUserComputed;
+
+  @override
+  UserProfile get currentUser =>
+      (_$currentUserComputed ??= Computed<UserProfile>(() => super.currentUser,
+              name: '_AuthenticationControllerBase.currentUser'))
+          .value;
+
   final _$_currentUserAtom =
       Atom(name: '_AuthenticationControllerBase._currentUser');
 
@@ -25,20 +33,17 @@ mixin _$AuthenticationController on _AuthenticationControllerBase, Store {
     });
   }
 
-  final _$_AuthenticationControllerBaseActionController =
-      ActionController(name: '_AuthenticationControllerBase');
+  final _$initialAuthenticationAsyncAction =
+      AsyncAction('_AuthenticationControllerBase.initialAuthentication');
 
   @override
-  void initialAuthentication() {
-    final _$actionInfo =
-        _$_AuthenticationControllerBaseActionController.startAction(
-            name: '_AuthenticationControllerBase.initialAuthentication');
-    try {
-      return super.initialAuthentication();
-    } finally {
-      _$_AuthenticationControllerBaseActionController.endAction(_$actionInfo);
-    }
+  Future<UserProfile> initialAuthentication() {
+    return _$initialAuthenticationAsyncAction
+        .run(() => super.initialAuthentication());
   }
+
+  final _$_AuthenticationControllerBaseActionController =
+      ActionController(name: '_AuthenticationControllerBase');
 
   @override
   void authenticate(UserProfile user) {
@@ -65,7 +70,7 @@ mixin _$AuthenticationController on _AuthenticationControllerBase, Store {
   @override
   String toString() {
     return '''
-
+currentUser: ${currentUser}
     ''';
   }
 }

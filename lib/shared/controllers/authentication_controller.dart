@@ -1,4 +1,5 @@
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/pojo/user.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/data/services/user_dao.dart';
 part 'authentication_controller.g.dart';
@@ -14,13 +15,14 @@ abstract class _AuthenticationControllerBase with Store {
   @observable
   ObservableFuture<UserProfile> _currentUser = ObservableFuture.value(null);
 
+  @computed
   UserProfile get currentUser => _currentUser.value;
 
-  bool get isLoadingUser => _currentUser.status == FutureStatus.pending;
-
+  
   @action
-  void initialAuthentication() {
+  Future<UserProfile> initialAuthentication() async {
     _currentUser = _userDao.find().asObservable();
+    return _currentUser;
   }
 
   @action
