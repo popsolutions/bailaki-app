@@ -92,7 +92,7 @@ class _ChatPageState extends State<ChatPage> {
                 },
                 child: CircleAvatar(
                   radius: 22,
-                  backgroundImage: MemoryImage(_inversePartner.photo.bytes),
+                  backgroundImage:_inversePartner?.photo?.bytes != null ? MemoryImage(_inversePartner?.photo?.bytes) : null,
                 ),
               ),
               const SizedBox(width: 10),
@@ -141,7 +141,7 @@ class _ChatPageState extends State<ChatPage> {
                             itemBuilder: (_, index) {
                               final message = messages[index];
                               return MessageTile(
-                                imageBytes: _inversePartner.photo.bytes,
+                                imageBytes: _inversePartner?.photo?.bytes,
                                 padding: const EdgeInsets.only(
                                     left: 10, right: 10, top: 5),
                                 sender: message.authorId == _user.partnerId,
