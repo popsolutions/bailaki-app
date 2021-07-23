@@ -159,18 +159,30 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
                                 ),
                                 onTap: _deslike),
                             CircularInkWell(
-                                radius: 40,
-                                color: Color.fromRGBO(202, 205, 202, 1),
-                                child: Icon(Icons.hourglass_empty_sharp),
-                                onTap: () {}),
-                            CircularInkWell(
+                              radius: 40,
+                              color: Color.fromRGBO(202, 205, 202, 1),
+                              child: Icon(Icons.hourglass_empty_sharp),
+                              onTap: () {},
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(40),
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
                                 color: Color.fromRGBO(254, 0, 236, 1),
-                                child: const Icon(
-                                  Icons.search,
-                                  size: 45,
-                                  color: Colors.white,
-                                ),
-                                onTap: _like),
+                                height: 70,
+                                width: 70,
+                                child: Image.asset('assets/bailakil_logo.png'),
+                              ),
+                            )
+                            // CircularInkWell(
+                            //   color: Color.fromRGBO(254, 0, 236, 1),
+                            //   child: const Icon(
+                            //     Icons.auto_awesome_sharp,
+                            //     size: 45,
+                            //     color: Colors.white,
+                            //   ),
+                            //   onTap: _like,
+                            // ),
                           ],
                         ),
                       ],

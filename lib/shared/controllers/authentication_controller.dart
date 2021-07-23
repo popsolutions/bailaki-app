@@ -1,5 +1,4 @@
 import 'package:mobx/mobx.dart';
-import 'package:odoo_client/app/data/pojo/user.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/data/services/user_dao.dart';
 part 'authentication_controller.g.dart';
@@ -18,7 +17,6 @@ abstract class _AuthenticationControllerBase with Store {
   @computed
   UserProfile get currentUser => _currentUser.value;
 
-  
   @action
   Future<UserProfile> initialAuthentication() async {
     _currentUser = _userDao.find().asObservable();

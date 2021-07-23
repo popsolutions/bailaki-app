@@ -21,7 +21,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   ProfileEditController _profileEditController;
   ReactionDisposer _updateProfileReaction;
   UserProfile _user;
-  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -157,7 +156,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                               firstDate: DateTime(1930, 1, 1),
                               lastDate: DateTime.now(),
                             );
-                            if(date != null){
+                            if (date != null) {
                               _profileEditController.birthdate = date;
                             }
                           },
@@ -176,8 +175,11 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       Container(
                         child: GestureDetector(
                           onTap: () async {
-                            final result = await Navigator.of(context)
-                                .pushNamed("/genree",arguments: _profileEditController.gender);
+                            final result =
+                                await Navigator.of(context).pushNamed(
+                              "/genree",
+                              arguments: _profileEditController.gender,
+                            );
 
                             if (result != null) {
                               _profileEditController.gender = result;
@@ -193,6 +195,24 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                         height: 70,
                       ),
                       const SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            primary: const Color.fromRGBO(253, 0, 236, 1),
+                          ),
+                          onPressed: () async {
+                            _authenticationController.logout();
+
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/',
+                              (route) => false,
+                            );
+                          },
+                          child: Text('LogOut'),
+                        ),
+                      ),
                     ],
                   ),
                 ],
