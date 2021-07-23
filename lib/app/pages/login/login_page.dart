@@ -87,6 +87,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final email = CustomTextFormField(
+      initialValue: 'rihanna@gmail.com',
       keyboardType: TextInputType.emailAddress,
       labelText: "E-mail",
       onChanged: (e) => _loginController.email = e,
@@ -95,6 +96,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final password = CustomTextFormField(
+      initialValue: '123456789',
       obscureText: true,
       labelText: "Password",
       onChanged: (e) => _loginController.password = e,

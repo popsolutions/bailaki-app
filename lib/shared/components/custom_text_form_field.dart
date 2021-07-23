@@ -4,6 +4,7 @@ class CustomTextFormField extends StatelessWidget {
   final TextEditingController controller;
   final bool obscureText;
   final String labelText;
+  final String initialValue;
   final EdgeInsets contentPadding;
   final InputBorder inputBorder;
   final TextInputType keyboardType;
@@ -15,18 +16,22 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.obscureText = false,
     this.labelText,
+    this.initialValue,
     this.contentPadding = const EdgeInsets.fromLTRB(20.0, 10.0, 20.0, 10.0),
     this.inputBorder = const OutlineInputBorder(
       borderRadius: BorderRadius.all(
         Radius.circular(10.0),
       ),
     ),
-    this.keyboardType, this.validator, this.onChanged,
+    this.keyboardType,
+    this.validator,
+    this.onChanged,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
