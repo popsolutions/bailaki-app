@@ -3,8 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/login_result.dart';
-import 'package:odoo_client/app/data/pojo/user.dart';
-import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/pages/login/login_controller.dart';
 import 'package:odoo_client/shared/components/custom_text_form_field.dart';
 import 'package:odoo_client/shared/components/primary_button.dart';
@@ -159,25 +157,13 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    /*
                     Image.asset(
-                      "./lib/app/assets/bailakil_logo.png",
-                      width: 40,
-                      height: 40,
+                      "assets/logo.png",
+                      width: 250,
+                      height: 80,
                       fit: BoxFit.fill,
                     ),
-                    */
-                    SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      "Bailaki",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                          letterSpacing: -2.0),
-                    )
+                    SizedBox(width: 3),
                   ],
                 ),
               ),

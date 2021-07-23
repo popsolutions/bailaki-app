@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
-import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
