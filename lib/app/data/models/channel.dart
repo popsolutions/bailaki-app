@@ -50,6 +50,6 @@ class PartnerChannel {
   PartnerChannel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    photo = Photo.fromJson(json['image']);
+    photo = json['image'] != null ? Photo.fromJson(json['image']) : null;
   }
 }

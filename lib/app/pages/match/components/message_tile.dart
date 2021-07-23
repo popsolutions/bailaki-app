@@ -30,7 +30,7 @@ class MessageTile extends StatelessWidget {
             CircleAvatar(
               radius: 30,
               //backgroundColor: Colors.blue,
-              backgroundImage: MemoryImage(imageBytes),
+              backgroundImage:imageBytes != null ? MemoryImage(imageBytes) : null,
             ),
           const SizedBox(width: 20),
           Flexible(

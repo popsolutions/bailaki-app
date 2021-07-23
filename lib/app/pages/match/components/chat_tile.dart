@@ -28,7 +28,7 @@ class ChatTile extends StatelessWidget {
             CircleAvatar(
               radius: 50,
               //backgroundColor: Colors.blue,
-              backgroundImage: MemoryImage(imageBytes),
+              backgroundImage:imageBytes != null ? MemoryImage(imageBytes) : null,
             ),
             
             const SizedBox(width: 20),

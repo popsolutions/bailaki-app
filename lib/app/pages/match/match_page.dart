@@ -103,7 +103,7 @@ class _MatchPageState extends State<MatchPage> {
                         final inverseChatter = item.inverseChatter(
                             _authenticationController.currentUser.partnerId);
                         return ChatTile(
-                          imageBytes: inverseChatter.photo.bytes,
+                          imageBytes: inverseChatter?.photo?.bytes,
                           description: item.lastMessage ?? '',
                           name: inverseChatter.name,
                           padding: const EdgeInsets.all(18),

@@ -51,8 +51,12 @@ class ChannelServiceImpl implements ChannelService {
         ['res_partner_id', '=', channelPartner['id']]
       ], []);
 
-      final firstImage = imageResponse.getRecords().first;
-      channelPartner['image'] = firstImage;
+      final List images = imageResponse.getRecords();
+
+      if (images.isNotEmpty) {
+        final firstImage = images.first;
+        channelPartner['image'] = firstImage;
+      }
     }
 
     print(channelPartners);
