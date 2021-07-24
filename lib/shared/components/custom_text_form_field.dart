@@ -31,6 +31,8 @@ class CustomTextFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      style: TextStyle(color: Colors.white),
+      cursorColor: Colors.white,
       initialValue: initialValue,
       controller: controller,
       obscureText: obscureText,
@@ -38,6 +40,17 @@ class CustomTextFormField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       decoration: InputDecoration(
+        filled: true,
+        fillColor: Colors.grey,
+        labelStyle: TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: Colors.white),
+        helperStyle: TextStyle(color: Colors.white),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.white,
+            width: 3,
+          ),
+        ),
         labelText: labelText,
         contentPadding: contentPadding,
         border: inputBorder,

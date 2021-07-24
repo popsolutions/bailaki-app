@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
-import 'package:odoo_client/app/data/services/channel_facade.dart';
 import 'package:odoo_client/app/pages/match/components/chat_tile.dart';
 import 'package:odoo_client/app/pages/match/match_controller.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';

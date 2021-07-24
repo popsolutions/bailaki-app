@@ -128,12 +128,12 @@ class _LoginPageState extends State<LoginPage> {
       child: Form(
         key: _formKey,
         child: Column(
-          children: <Widget>[
+          children: [
             const SizedBox(height: 16.0),
             email,
             const SizedBox(height: 16.0),
             password,
-            const SizedBox(height: 24.0),
+            const SizedBox(height: 16.0),
             loginButton
           ],
         ),
@@ -142,109 +142,123 @@ class _LoginPageState extends State<LoginPage> {
 
     final signupWidget = Container(
       alignment: Alignment.bottomCenter,
-      child: Column(
-        children: <Widget>[signupButton],
-      ),
+      child: signupButton,
     );
 
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
       child: Scaffold(
         body: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(60, 70, 60, 0),
-          child: Column(
-            children: <Widget>[
-              Container(
-                // margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset(
-                      "assets/logo.png",
-                      width: 250,
-                      height: 80,
-                      fit: BoxFit.fill,
-                    ),
-                    SizedBox(width: 3),
-                  ],
-                ),
+          child: Container(
+            padding: EdgeInsets.fromLTRB(60, 70, 60, 0),
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  // Color.fromRGBO(0, 255, 253, 1),
+                  // Color.fromRGBO(254, 0, 236, 1),
+                  Colors.cyan,
+                  Colors.pink,
+                ],
               ),
-              //  getURL() == null ? checkURLWidget : SizedBox(height: 0.0),
-              loginWidget,
-              signupWidget,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text(
-                    "By tapping Log in, you agree with our",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Text.rich(TextSpan(
-                    text: "Terms of service",
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                    ),
-                    children: [
-                      TextSpan(
-                        text: " and ",
-                        style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration.none),
-                      ),
-                      TextSpan(
-                        text: "Privacy Policy",
-                        style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline),
-                      )
-                    ],
-                  )),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    "Trouble logging in?",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Row(
+            ),
+            child: Column(
+              children: <Widget>[
+                Container(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Flexible(
-                        child: Text(
-                          "We don't post anything on Facebook",
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 3,
-                      ),
-                      Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Colors.black,
+                      Image.asset(
+                        "assets/logo_branca.png",
+                        width: 250,
+                        height: 80,
+                        fit: BoxFit.fill,
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                ],
-              )
-            ],
+                ),
+                //  getURL() == null ? checkURLWidget : SizedBox(height: 0.0),
+                loginWidget,
+                signupWidget,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "By tapping Log in, you agree with our",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 4),
+                    Text.rich(TextSpan(
+                      text: "Terms of service",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        decoration: TextDecoration.underline,
+                      ),
+                      children: [
+                        TextSpan(
+                          text: " and ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                        TextSpan(
+                          text: "Privacy Policy",
+                          style: TextStyle(
+                            color: Colors.white,
+                            decoration: TextDecoration.underline,
+                          ),
+                        )
+                      ],
+                    )),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Text(
+                      "Trouble logging in?",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline),
+                    ),
+                    SizedBox(
+                      height: 16,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Flexible(
+                          child: Text(
+                            "We don't post anything on Facebook",
+                            style: TextStyle(
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 3,
+                        ),
+                        Icon(
+                          Icons.keyboard_arrow_down,
+                          color: Colors.black,
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 8,
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
