@@ -95,104 +95,122 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
   Widget build(BuildContext context) {
     final user = _authenticationController.currentUser;
 
-    return Observer(
-      builder: (_) {
-        final response = _selectPartnerController.partners;
-        final data = response.value;
-        switch (response.status) {
-          case FutureStatus.rejected:
-            return const Center(
-              child: Text('Is empty'),
-            );
-          case FutureStatus.pending:
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          default:
-            if (data.isEmpty) {
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            // Color.fromRGBO(0, 255, 253, 1),
+            // Color.fromRGBO(254, 0, 236, 1),
+            Colors.cyan,
+            Colors.pink,
+          ],
+        ),
+      ),
+      child: Observer(
+        builder: (_) {
+          final response = _selectPartnerController.partners;
+          final data = response.value;
+          switch (response.status) {
+            case FutureStatus.rejected:
               return const Center(
-                child: Padding(
-                  padding: EdgeInsets.all(20.0),
-                  child: Text(
-                      "Não há nenhum parceiro na sua área, tente alterar as configurações",
-                      textAlign: TextAlign.center),
-                ),
+                child: Text('Is empty'),
               );
-            } else {
-              final current = data.first;
-              final distance = distanceBetween(
-                  user.position.latitude,
-                  user.position.longitude,
-                  current.position.latitude,
-                  current.position.longitude);
-
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    flex: 2,
-                    child: _buildCard(
-                      distance: distance,
-                      name: current.name,
-                      age: 19,
-                      bytes: current?.avatarPhoto?.bytes,
-                      onTap: () => Navigator.of(context)
-                          .pushNamed('/partner_detail', arguments: current.id),
+            case FutureStatus.pending:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            default:
+              if (data.isEmpty) {
+                return const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: Text(
+                      "Não há nenhum parceiro na sua área, tente alterar as configurações",
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  Expanded(
-                      child: Padding(
-                    padding: const EdgeInsets.only(bottom: 20),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            CircularInkWell(
-                                color: Color.fromRGBO(0, 255, 253, 1),
-                                child: const Icon(
-                                  Icons.close,
-                                  size: 45,
-                                  color: Colors.white,
-                                ),
-                                onTap: _deslike),
-                            CircularInkWell(
-                              radius: 40,
-                              color: Color.fromRGBO(202, 205, 202, 1),
-                              child: Icon(Icons.hourglass_empty_sharp),
-                              onTap: () {},
-                            ),
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(40),
-                              child: Container(
-                                padding: const EdgeInsets.all(10),
-                                color: Color.fromRGBO(254, 0, 236, 1),
-                                height: 70,
-                                width: 70,
-                                child: Image.asset('assets/bailakil_logo.png'),
-                              ),
-                            )
-                            // CircularInkWell(
-                            //   color: Color.fromRGBO(254, 0, 236, 1),
-                            //   child: const Icon(
-                            //     Icons.auto_awesome_sharp,
-                            //     size: 45,
-                            //     color: Colors.white,
-                            //   ),
-                            //   onTap: _like,
-                            // ),
-                          ],
-                        ),
-                      ],
+                );
+              } else {
+                final current = data.first;
+                final distance = distanceBetween(
+                    user.position.latitude,
+                    user.position.longitude,
+                    current.position.latitude,
+                    current.position.longitude);
+
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: _buildCard(
+                        distance: distance,
+                        name: current.name,
+                        age: 19,
+                        bytes: current?.avatarPhoto?.bytes,
+                        onTap: () => Navigator.of(context).pushNamed(
+                            '/partner_detail',
+                            arguments: current.id),
+                      ),
                     ),
-                  ))
-                ],
-              );
-            }
-        }
-      },
+                    Expanded(
+                        child: Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              CircularInkWell(
+                                  color: Color.fromRGBO(0, 255, 253, 1),
+                                  child: const Icon(
+                                    Icons.close,
+                                    size: 45,
+                                    color: Colors.white,
+                                  ),
+                                  onTap: _deslike),
+                              CircularInkWell(
+                                radius: 40,
+                                color: Color.fromRGBO(202, 205, 202, 1),
+                                child: Icon(Icons.hourglass_empty_sharp),
+                                onTap: () {},
+                              ),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(40),
+                                child: Container(
+                                  padding: const EdgeInsets.all(10),
+                                  color: Color.fromRGBO(254, 0, 236, 1),
+                                  height: 70,
+                                  width: 70,
+                                  child:
+                                      Image.asset('assets/bailakil_logo.png'),
+                                ),
+                              )
+                              // CircularInkWell(
+                              //   color: Color.fromRGBO(254, 0, 236, 1),
+                              //   child: const Icon(
+                              //     Icons.auto_awesome_sharp,
+                              //     size: 45,
+                              //     color: Colors.white,
+                              //   ),
+                              //   onTap: _like,
+                              // ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ))
+                  ],
+                );
+              }
+          }
+        },
+      ),
     );
   }
 }
