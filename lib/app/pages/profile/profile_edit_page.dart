@@ -181,7 +181,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                   title: "Data de nascimento",
                                   subtitle: _profileEditController.birthdate !=
                                           null
-                                      ? "${DateFormat.yMd().format(_profileEditController.birthdate)}"
+                                      ? "${DateFormat('dd/MM/yyy').format(_profileEditController.birthdate)}"
                                       : "");
                             }),
                           ),
