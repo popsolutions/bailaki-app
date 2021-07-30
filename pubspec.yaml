@@ -4,7 +4,7 @@ description: A new Flutter application.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.9.0 <3.0.0"
+  sdk: '>=2.9.0 <3.0.0'
 
 dependencies:
   flutter:
@@ -22,7 +22,7 @@ dependencies:
   get_it:
   image_picker: ^0.7.4
   latlng: ^0.0.2
-  analyzer: 
+  analyzer:
   intl:
   location: ^4.1.1
   open_settings: ^2.0.1
@@ -31,14 +31,17 @@ dependencies:
   google_maps_flutter: ^2.0.3
   hive: ^1.4.4+1
   hive_flutter: ^0.3.1
+  flutter_native_splash: ^0.3.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   build_runner:
   mobx_codegen:
-  
-  
+
+flutter_native_splash:
+  color: '#F7F7F7'
+  image: assets/splash.jpeg
 
 flutter:
   uses-material-design: true

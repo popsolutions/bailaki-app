@@ -53,6 +53,7 @@ class _MatchPageState extends State<MatchPage> {
                   Row(
                     children: [
                       Icon(
+                        
                         Icons.search,
                         color: Colors.pink,
                         size: 27,

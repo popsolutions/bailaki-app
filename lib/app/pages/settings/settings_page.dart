@@ -34,7 +34,8 @@ class _SettingsPageState extends State<SettingsPage> {
     final userProfile = _authenticationController.currentUser;
     _preferencesController.interestingInFemales = userProfile?.interestFemales;
     _preferencesController.interestingInMales = userProfile?.interestMales;
-    _preferencesController.interestingInOthers = userProfile.interestOtherGenres;
+    _preferencesController.interestingInOthers =
+        userProfile.interestOtherGenres;
     _preferencesController.maxDistance = userProfile?.refferedMaxFriendDistance;
     _preferencesController.receiveChatNotifications =
         userProfile?.enableMessageNotification;
@@ -86,7 +87,7 @@ class _SettingsPageState extends State<SettingsPage> {
         Text(
           title,
           style: const TextStyle(
-            color: Color.fromRGBO(156, 158, 155, 1),
+            color: Colors.white,
           ),
         ),
         Spacer(),
@@ -106,7 +107,7 @@ class _SettingsPageState extends State<SettingsPage> {
         title,
         style: TextStyle(
           fontSize: 18,
-          color: Color.fromRGBO(254, 0, 236, 1),
+          color: Colors.white,
         ),
       ),
     );
@@ -127,13 +128,13 @@ class _SettingsPageState extends State<SettingsPage> {
               Text(
                 leading,
                 style: const TextStyle(
-                  color: Color.fromRGBO(156, 158, 155, 1),
+                  color: Colors.white,
                 ),
               ),
               Text(
                 trailing,
                 style: const TextStyle(
-                  color: Color.fromRGBO(156, 158, 155, 1),
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -145,14 +146,14 @@ class _SettingsPageState extends State<SettingsPage> {
                 Text(
                   minText,
                   style: const TextStyle(
-                    color: Color.fromRGBO(37, 40, 36, 1),
+                    color: Colors.white,
                   ),
                 ),
                 Expanded(child: child),
                 Text(
                   maxText,
                   style: const TextStyle(
-                    color: Color.fromRGBO(37, 40, 36, 1),
+                    color: Colors.white,
                   ),
                 ),
               ],
@@ -173,21 +174,32 @@ class _SettingsPageState extends State<SettingsPage> {
       },
       child: Scaffold(
         appBar: AppBar(
-            leading: Navigator.canPop(context)
-                ? BackButton(
-                    color: Colors.black,
-                  )
-                : null,
-            centerTitle: true,
-            title: Text(
-              "Configurações",
-              style: TextStyle(color: Colors.black),
-            ),
-            backgroundColor: Colors.grey[100]),
-        backgroundColor: Colors.grey[100],
-        body: SafeArea(
-          child: SingleChildScrollView(
+          leading: Navigator.canPop(context)
+              ? BackButton(color: Colors.black)
+              : null,
+          centerTitle: true,
+          title: Text(
+            "Configurações",
+            style: TextStyle(color: Colors.black),
+          ),
+          backgroundColor: Colors.grey[100],
+        ),
+        // backgroundColor: Colors.grey[100],
+        body: SingleChildScrollView(
+          child: Container(
             padding: const EdgeInsets.only(top: 25),
+            width: double.infinity,
+            height: MediaQuery.of(context).size.height,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  Colors.cyan,
+                  Colors.pink,
+                ],
+              ),
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

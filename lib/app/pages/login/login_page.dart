@@ -35,6 +35,9 @@ class _LoginPageState extends State<LoginPage> {
 
     _loginReaction =
         reaction((_) => _loginController.loginRequest.status, _onLoginRequest);
+
+    _loginController.email = 'rihanna@gmail.com';
+    _loginController.password = '123456789';
     super.initState();
   }
 

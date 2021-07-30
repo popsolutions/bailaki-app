@@ -254,13 +254,16 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 Text(
                   title,
                   style: const TextStyle(
-                    color: const Color.fromRGBO(124, 127, 124, 1),
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 10),
                 Text(
                   subtitle,
-                  style: const TextStyle(color: Colors.blue, fontSize: 15),
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                  ),
                 ),
               ],
             ),
@@ -295,9 +298,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: const Color.fromRGBO(124, 127, 124, 1),
-                  ),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(height: 10),
                 Expanded(
@@ -340,7 +341,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
           if (hasArrowIndicator)
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: const Color.fromRGBO(227, 227, 224, 1),
+              color: Colors.white,
             )
         ],
       ),
@@ -358,7 +359,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             Text(
               title,
               style: const TextStyle(
-                color: const Color.fromRGBO(124, 127, 124, 1),
+                color: Colors.white,
               ),
             ),
             const Spacer(),
@@ -384,8 +385,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
     return Container(
         padding: const EdgeInsets.only(bottom: 15, top: 10),
-        // color: Color.fromRGBO(239, 242, 239, 1),
         decoration: BoxDecoration(
+          color: Colors.white,
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
