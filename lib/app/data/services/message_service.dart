@@ -17,10 +17,15 @@ class MessageServiceImpl implements MessageService {
 
   @override
   Future<List<DayMessage>> findByChannel(
-      SearchMessageRequestDto searchMessageRequestDto) async {
-    final response = await _odoo.searchRead('mail.message', [
-      ['res_id', '=', searchMessageRequestDto.channelId],
-    ], []);
+      SearchMessageRequestDto searchMessageRequestDto, [lastIdReceived = 0]) async {
+    List domain = [];
+    domain.add(['res_id', '=', searchMessageRequestDto.channelId]);
+    domain.add(["message_type", "=", "comment"]);
+
+    if (lastIdReceived != 0)
+      domain.add(["id", ">", lastIdReceived]);
+
+    final response = await _odoo.searchRead('mail.message', domain, []);
     final items = (response.getRecords() as List)
         ?.map<Message>((e) => Message.fromJson(e))
         ?.toList();
@@ -28,13 +33,13 @@ class MessageServiceImpl implements MessageService {
 
     return dates
         .map((e) {
-          final date = DateTime.parse(e);
-          return DayMessage(
-              date,
-              items
-                  .where((element) => _toStringDate(element.date) == e)
-                  .toList().reversed.toList());
-        })
+      final date = DateTime.parse(e);
+      return DayMessage(
+          date,
+          items
+              .where((element) => _toStringDate(element.date) == e)
+              .toList().reversed.toList());
+    })
         .toList()
         .reversed
         .toList();
@@ -50,7 +55,7 @@ class MessageServiceImpl implements MessageService {
       'author_id': sendMessageRequestDto.currentPartnerId,
       'model': 'mail.channel',
       'res_id': sendMessageRequestDto.channelId,
-      'type': 'comment',
+      'message_type': 'comment',
       'body': sendMessageRequestDto.message,
       'channel_ids': [
         [4, sendMessageRequestDto.channelId, 0]
