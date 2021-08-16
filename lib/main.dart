@@ -19,6 +19,7 @@ import 'package:odoo_client/app/pages/root_page.dart';
 import 'package:odoo_client/app/pages/settings/settings_page.dart';
 import 'package:odoo_client/shared/injector/all_modules.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'app/data/services/login_service_impl.dart';
 import 'app/utility/strings.dart';
 
 class MyHttpOverrides extends HttpOverrides {
@@ -69,7 +70,7 @@ class _AppState extends State<App> {
     super.initState();
     messaging = FirebaseMessaging.instance;
     messaging.getToken().then((value) {
-      print(value);
+      firebaseToken = value;//t.todo - Verificar com Rully onde é melhor colocar a parte de informar o token para o odoo
     });
   }
 

@@ -33,6 +33,7 @@ dependencies:
   hive_flutter: ^0.3.1
   firebase_core:
   firebase_messaging: ^10.0.4
+  get_version: ^0.2.2
 
 dev_dependencies:
   flutter_test:

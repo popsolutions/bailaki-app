@@ -5,6 +5,9 @@ import 'package:odoo_client/app/data/models/login_dto.dart';
 import 'package:odoo_client/app/data/services/login_service.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 import 'package:odoo_client/shared/authentication_exception.dart';
+import 'package:get_version/get_version.dart';
+
+String firebaseToken = '';
 
 class LoginServiceImpl implements LoginService {
   final Odoo _odoo;
@@ -27,6 +30,28 @@ class LoginServiceImpl implements LoginService {
     if (data["error"] != null) {
       throw AuthenticationException("invalid username or password");
     }
+
+    //t.todo - Verificar com Rully onde é melhor colocar a parte de informar o token para o odoo
+
+
+    String projectAppID = await GetVersion.appID;
+
+    String appName = await GetVersion.appName;
+    String platformVersion = await GetVersion.platformVersion;
+    String projectCode = await GetVersion.projectCode;
+    String projectVersion = await GetVersion.projectVersion;
+
+    String name = await GetVersion.platformVersion;
+    name = name + ' - ' + data['result']['uid'].toString() + ' - ' + data['result']['username'];
+
+    final res = await _odoo.create('hermes.token', {
+      'name':name,
+      'partner_id': data['result']['partner_id'],
+      'app_id': projectAppID,
+      'token': firebaseToken
+    });
+
+
     return User.fromJson(data);
   }
 
