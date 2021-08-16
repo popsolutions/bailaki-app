@@ -105,8 +105,8 @@ class Odoo {
   }
 
   // Create new record for model
-  Future<OdooResponse> create(String model, Map values) async {
-    return await callKW(model, "create", [values]);
+  Future<OdooResponse> create(String model, Map values, [String method = 'create']) async {
+    return await callKW(model, method, [values]);
   }
 
   // Write record with ids and values

@@ -17,13 +17,16 @@ class MessageServiceImpl implements MessageService {
 
   @override
   Future<List<DayMessage>> findByChannel(
-      SearchMessageRequestDto searchMessageRequestDto, [lastIdReceived = 0]) async {
+      SearchMessageRequestDto searchMessageRequestDto) async {
     List domain = [];
     domain.add(['res_id', '=', searchMessageRequestDto.channelId]);
     domain.add(["message_type", "=", "comment"]);
 
-    if (lastIdReceived != 0)
-      domain.add(["id", ">", lastIdReceived]);
+    if (searchMessageRequestDto.lastIdReceived != 0)
+      domain.add(["id", ">", searchMessageRequestDto.lastIdReceived]);
+
+    if (searchMessageRequestDto.author_idNot != 0)
+      domain.add(["author_id", "<>", searchMessageRequestDto.author_idNot]);
 
     final response = await _odoo.searchRead('mail.message', domain, []);
     final items = (response.getRecords() as List)
@@ -60,7 +63,7 @@ class MessageServiceImpl implements MessageService {
       'channel_ids': [
         [4, sendMessageRequestDto.channelId, 0]
       ]
-    });
+    }, 'bailaki_message_post');
 
     print(response);
   }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -24,14 +26,19 @@ class _ChatPageState extends State<ChatPage> {
   TextEditingController _messageEditingController;
   ReactionDisposer _sendMessageReaction;
   UserProfile _user;
+  Timer timer;
+
   @override
   void initState() {
     super.initState();
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _chatController = GetIt.I.get<ChatController>();
     _messageEditingController = TextEditingController();
-    _sendMessageReaction =
-        reaction((_) => _chatController.sendMessageRequest.status, _onMessage);
+    _sendMessageReaction = reaction((_) => _chatController.sendMessageRequest.status, _onMessage);
+
+    timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      searchNewMessages();
+    });
   }
 
   @override
@@ -52,6 +59,7 @@ class _ChatPageState extends State<ChatPage> {
   void dispose() {
     _sendMessageReaction();
     _messageEditingController.dispose();
+    timer.cancel();
     super.dispose();
   }
 
@@ -69,6 +77,10 @@ class _ChatPageState extends State<ChatPage> {
   void _clearMessage() {
     _chatController.message = '';
     _messageEditingController.clear();
+  }
+
+  searchNewMessages() async {
+    _chatController.searchNewMessages();
   }
 
   @override

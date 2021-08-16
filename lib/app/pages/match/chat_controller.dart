@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/message.dart';
 import 'package:odoo_client/app/data/models/search_message_request_dto.dart';
@@ -14,11 +15,33 @@ abstract class _ChatControllerBase with Store {
   final MessageDao _messageDao;
   int _channelId;
   int _currentPartnerId;
+  int _lastReadMessageId = 0;
+  bool searchingNewMessages = false;
 
   _ChatControllerBase(this._messageService, this._messageDao);
 
   set channelId(int channelId) => _channelId = channelId;
   set currentPartnerId(int currentPartnerId) => _currentPartnerId = currentPartnerId;
+
+
+  setlastReadMessageId() async {
+    final items = await _messagesRequest.value;
+
+    if (items.length > 0){
+      if (items.last.messages.length > 0){
+        for (int i = items.length - 1; i >= 0; i--) {
+          for (int j = items[i].messages.length - 1; j >= 0; j--) {
+            Message message = items[i].messages[j];
+
+            if (message.fromServer) {
+              _lastReadMessageId = message.id;
+              return;
+            }
+          }
+        }
+      }
+    }
+  }
 
   @observable
   String _message = '';
@@ -54,6 +77,41 @@ abstract class _ChatControllerBase with Store {
     }
     items.last.messages.add(message);
     _messagesRequest = ObservableFuture.value(items);
+  }
+
+  @action
+  void searchNewMessages() async {
+    if (searchingNewMessages)
+      return;
+
+    try {
+      searchingNewMessages = true;
+
+      if (_lastReadMessageId == 0)
+        await setlastReadMessageId(); //t.todo verificar se é possível colocar este procedimenhto após o load().
+
+      List<DayMessage> listDayMessage = await _messageService.findByChannel(
+          SearchMessageRequestDto(channelId: _channelId, lastIdReceived: _lastReadMessageId, author_idNot: _currentPartnerId));
+
+      await listDayMessage.forEach((elementDayMessage) async {
+        await elementDayMessage.messages.forEach((elementMessage) async {
+          addMessage(
+            Message(
+              id: elementMessage.id,
+              authorId: elementMessage.authorId,
+              body: elementMessage.body,
+              channelId: _channelId,
+              date: elementMessage.date,
+            ),
+          );
+
+          _lastReadMessageId = elementMessage.id;
+        });
+      });
+
+    }finally{
+      searchingNewMessages = false;
+    }
   }
 
   @action
