@@ -10,6 +10,7 @@ import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/pages/match/chat_controller.dart';
 import 'package:odoo_client/app/pages/match/components/message_group.dart';
 import 'package:odoo_client/app/pages/match/components/message_tile.dart';
+import 'package:odoo_client/main.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
 class ChatPage extends StatefulWidget {
@@ -80,7 +81,8 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   searchNewMessages() async {
-    _chatController.searchNewMessages();
+    if (appLifecycleState == AppLifecycleState.resumed)
+      _chatController.searchNewMessages();
   }
 
   @override

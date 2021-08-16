@@ -22,6 +22,8 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/data/services/login_service_impl.dart';
 import 'app/utility/strings.dart';
 
+AppLifecycleState appLifecycleState;  //t.todo - Verificar com Rully onde colocar esta variável de sinalização do status da aplicação
+
 class MyHttpOverrides extends HttpOverrides {
   @override
   HttpClient createHttpClient(SecurityContext context) {
@@ -62,16 +64,28 @@ class App extends StatefulWidget {
   _AppState createState() => _AppState();
 }
 
-class _AppState extends State<App> {
+class _AppState extends State<App> with WidgetsBindingObserver {
   FirebaseMessaging messaging;
 
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
     messaging = FirebaseMessaging.instance;
     messaging.getToken().then((value) {
       firebaseToken = value;//t.todo - Verificar com Rully onde é melhor colocar a parte de informar o token para o odoo
     });
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    appLifecycleState = state;
   }
 
   @override
