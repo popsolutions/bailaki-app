@@ -1,4 +1,6 @@
 import 'dart:io';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -29,6 +31,9 @@ class MyHttpOverrides extends HttpOverrides {
 }
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
   setupAllModules();
   HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
@@ -49,8 +54,25 @@ void main() async {
   runApp(const App());
 }
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({Key key}) : super(key: key);
+
+  @override
+  _AppState createState() => _AppState();
+}
+
+class _AppState extends State<App> {
+  FirebaseMessaging messaging;
+
+  @override
+  void initState() {
+    super.initState();
+    messaging = FirebaseMessaging.instance;
+    messaging.getToken().then((value) {
+      print(value);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
