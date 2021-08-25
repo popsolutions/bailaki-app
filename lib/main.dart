@@ -72,6 +72,16 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     messaging = FirebaseMessaging.instance;
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      //t.todo Rully - Evento disparado quando o usuário clica na notificação e notificação abre o App.  Abaixo segue as informações da notificação.
+      print('Mensagem recebida:');
+      print('Título: ' + message.notification.title);
+      print('Mensagem: ' + message.notification.body);
+      print('channel_id: ' + message.data['channel_id']);
+      print('Id: ' + message.data['mail_message_id']);
+    });
+
     messaging.getToken().then((value) {
       firebaseToken = value;//t.todo - Verificar com Rully onde é melhor colocar a parte de informar o token para o odoo
     });

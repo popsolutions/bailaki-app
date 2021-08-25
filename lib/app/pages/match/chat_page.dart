@@ -36,6 +36,7 @@ class _ChatPageState extends State<ChatPage> {
     _chatController = GetIt.I.get<ChatController>();
     _messageEditingController = TextEditingController();
     _sendMessageReaction = reaction((_) => _chatController.sendMessageRequest.status, _onMessage);
+    appLifecycleState = AppLifecycleState.resumed;
 
     timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
       searchNewMessages();
