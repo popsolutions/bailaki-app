@@ -150,117 +150,113 @@ class _LoginPageState extends State<LoginPage> {
 
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: Container(
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              // Color.fromRGBO(0, 255, 253, 1),
+              // Color.fromRGBO(254, 0, 236, 1),
+              Colors.cyan,
+              Colors.pink,
+            ],
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
             padding: EdgeInsets.fromLTRB(60, 70, 60, 0),
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  // Color.fromRGBO(0, 255, 253, 1),
-                  // Color.fromRGBO(254, 0, 236, 1),
-                  Colors.cyan,
-                  Colors.pink,
-                ],
-              ),
-            ),
-            child: Column(
-              children: <Widget>[
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Image.asset(
-                        "assets/logo_branca.png",
-                        width: 250,
-                        height: 80,
-                        fit: BoxFit.fill,
-                      ),
-                    ],
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 250,
+                    height: 80,
+                    child: Image.asset(
+                      "assets/logo_branca.png",
+                      fit: BoxFit.fill,
+                    ),
                   ),
-                ),
-                //  getURL() == null ? checkURLWidget : SizedBox(height: 0.0),
-                loginWidget,
-                signupWidget,
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Text(
-                      "By tapping Log in, you agree with our",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    SizedBox(height: 4),
-                    Text.rich(TextSpan(
-                      text: "Terms of service",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: " and ",
-                          style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                        TextSpan(
-                          text: "Privacy Policy",
-                          style: TextStyle(
-                            color: Colors.white,
-                            decoration: TextDecoration.underline,
-                          ),
-                        )
-                      ],
-                    )),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Text(
-                      "Trouble logging in?",
-                      style: TextStyle(
+                  //  getURL() == null ? checkURLWidget : SizedBox(height: 0.0),
+                  loginWidget,
+                  signupWidget,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        "By tapping Log in, you agree with our",
+                        style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline),
-                    ),
-                    SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Flexible(
-                          child: Text(
-                            "We don't post anything on Facebook",
+                        ),
+                      ),
+                      SizedBox(height: 4),
+                      Text.rich(TextSpan(
+                        text: "Terms of service",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: " and ",
                             style: TextStyle(
                               color: Colors.black,
+                              decoration: TextDecoration.none,
                             ),
                           ),
-                        ),
-                        SizedBox(
-                          width: 3,
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_down,
-                          color: Colors.black,
-                        ),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 8,
-                    ),
-                  ],
-                )
-              ],
+                          TextSpan(
+                            text: "Privacy Policy",
+                            style: TextStyle(
+                              color: Colors.white,
+                              decoration: TextDecoration.underline,
+                            ),
+                          )
+                        ],
+                      )),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        "Trouble logging in?",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Flexible(
+                            child: Text(
+                              "We don't post anything on Facebook",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8,
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ),
