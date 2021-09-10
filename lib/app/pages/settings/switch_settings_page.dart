@@ -25,107 +25,124 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: Container(
-            color: Colors.grey[100],
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Observer(builder: (_) {
-                  final user = _authenticationController.currentUser;
-                  return Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (_user.avatar != null)
-                        CircleAvatar(
-                          radius: 70,
-                          backgroundImage: MemoryImage(_authenticationController
-                              .currentUser.avatar.bytes),
-                        )
-                      else
-                        CircleAvatar(
-                          backgroundColor: Color.fromRGBO(186, 189, 185, 1),
-                          radius: 70,
-                          child: Icon(
-                            Icons.person,
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            // Color.fromRGBO(0, 255, 253, 1),
+            // Color.fromRGBO(254, 0, 236, 1),
+            Colors.cyan,
+            Colors.pink,
+          ],
+        ),
+      ),
+      child: Column(
+        children: [
+          Expanded(
+            child: Container(
+              // color: Colors.grey[100],
+
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Observer(builder: (_) {
+                    final user = _authenticationController.currentUser;
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (_user.avatar != null)
+                          CircleAvatar(
+                            radius: 70,
+                            backgroundImage: MemoryImage(
+                                _authenticationController
+                                    .currentUser.avatar.bytes),
+                          )
+                        else
+                          CircleAvatar(
+                            backgroundColor: Color.fromRGBO(186, 189, 185, 1),
+                            radius: 70,
+                            child: Icon(
+                              Icons.person,
+                              color: Colors.white,
+                              size: 70,
+                            ),
+                          ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "${user.name}",
+                          style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w600,
+                              // color: Color.fromRGBO(61, 64, 61, 1),
+                              color: Colors.white),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          user?.function ?? '',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w300,
+                            // color: Color.fromRGBO(61, 64, 61, 1),
                             color: Colors.white,
-                            size: 70,
                           ),
                         ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "${user.name}",
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromRGBO(61, 64, 61, 1),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        user?.function ?? '',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromRGBO(61, 64, 61, 1),
-                        ),
-                      ),
-                      const SizedBox(height: 4),
-                      /*
-                      Text(
-                        "${user.}, sp, br",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w300,
-                          color: Color.fromRGBO(61, 64, 61, 1),
-                        ),
-                      )
-                      */
-                    ],
-                  );
-                })
-              ],
+                        const SizedBox(height: 4),
+                        /*
+                        Text(
+                          "${user.}, sp, br",
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.w300,
+                            color: Color.fromRGBO(61, 64, 61, 1),
+                          ),
+                        )
+                        */
+                      ],
+                    );
+                  })
+                ],
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: Container(
-            color: Colors.grey[100],
-            padding: const EdgeInsets.only(top: 55),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildConfigTile(
-                    icon: const Icon(
-                      Icons.settings,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    title: "Configurações",
-                    onTap: () {
-                      Navigator.of(context).pushNamed("/settings");
-                    }),
-                _buildConfigTile(
-                    icon: const Icon(
-                      Icons.edit_outlined,
-                      size: 30,
-                      color: Colors.white,
-                    ),
-                    title: "Editar Perfil",
-                    onTap: () {
-                      Navigator.of(context).pushNamed("/profile_edit");
-                    }),
-              ],
+          Expanded(
+            child: Container(
+              // color: Colors.grey[100],
+              padding: const EdgeInsets.only(top: 55),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildConfigTile(
+                      icon: const Icon(
+                        Icons.settings,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      title: "Configurações",
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/settings");
+                      }),
+                  _buildConfigTile(
+                      icon: const Icon(
+                        Icons.edit_outlined,
+                        size: 30,
+                        color: Colors.white,
+                      ),
+                      title: "Editar Perfil",
+                      onTap: () {
+                        Navigator.of(context).pushNamed("/profile_edit");
+                      }),
+                ],
+              ),
             ),
-          ),
-        )
-      ],
+          )
+        ],
+      ),
     );
   }
 
@@ -134,17 +151,20 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         CircularInkWell(
-            child: icon,
-            radius: 55,
-            color: const Color.fromRGBO(186, 189, 185, 1),
-            onTap: onTap),
+          child: icon,
+          radius: 55,
+          color: const Color.fromRGBO(186, 189, 185, 1),
+          onTap: onTap,
+        ),
         const SizedBox(
           height: 8,
         ),
         Text(
           title,
           style: TextStyle(
-            color: Color.fromRGBO(195, 198, 195, 1),
+            // color: Color.fromRGBO(195, 198, 195, 1),
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         )
       ],

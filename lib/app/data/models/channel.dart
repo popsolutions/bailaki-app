@@ -1,28 +1,25 @@
-import 'package:odoo_client/app/data/models/message.dart';
+import 'package:odoo_client/app/data/models/memory_image.dart';
 
 class Channel {
   final int channelId;
   final String name;
-  final List<Message> messages;
   final int leftPartnerId;
   final int rightPartnerId;
+  final String lastMessage;
   final List<PartnerChannel> partners;
 
   Channel({
     this.channelId,
     this.name,
-    this.messages,
     this.leftPartnerId,
     this.rightPartnerId,
+    this.lastMessage,
     this.partners,
   });
 
-  String get lastMessage => messages.isNotEmpty ? messages.last.body : '';
-
-  String chatterName(int partnerId) {
-    return partners
-        .firstWhere((element) => element.id != partnerId, orElse: () => null)
-        ?.name;
+  PartnerChannel inverseChatter(int partnerId) {
+    return partners.firstWhere((element) => element.id != partnerId,
+        orElse: () => null);
   }
 
   factory Channel.fromJson(Map<String, dynamic> json) {
@@ -32,9 +29,7 @@ class Channel {
           .toList(),
       name: json['name'],
       channelId: json['id'],
-      messages: json['messages']
-          ?.map((e) => Message.fromJson(json['messages']))
-          ?.toList(),
+      lastMessage: json['lastMessage']?.replaceAll('<p>', '')?.replaceAll('</p>', ''),
       leftPartnerId: json['channel_partner_ids'].isNotEmpty
           ? json['channel_partner_ids'].first
           : null,
@@ -48,11 +43,13 @@ class Channel {
 class PartnerChannel {
   int id;
   String name;
+  Photo photo;
 
   PartnerChannel({this.id, this.name});
 
   PartnerChannel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
+    photo = json['image'] != null ? Photo.fromJson(json['image']) : null;
   }
 }

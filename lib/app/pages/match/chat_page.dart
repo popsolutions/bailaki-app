@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -8,6 +10,7 @@ import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/pages/match/chat_controller.dart';
 import 'package:odoo_client/app/pages/match/components/message_group.dart';
 import 'package:odoo_client/app/pages/match/components/message_tile.dart';
+import 'package:odoo_client/main.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
 class ChatPage extends StatefulWidget {
@@ -18,19 +21,26 @@ class ChatPage extends StatefulWidget {
 
 class _ChatPageState extends State<ChatPage> {
   Channel _channel;
+  PartnerChannel _inversePartner;
   ChatController _chatController;
   AuthenticationController _authenticationController;
   TextEditingController _messageEditingController;
   ReactionDisposer _sendMessageReaction;
   UserProfile _user;
+  Timer timer;
+
   @override
   void initState() {
     super.initState();
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _chatController = GetIt.I.get<ChatController>();
     _messageEditingController = TextEditingController();
-    _sendMessageReaction =
-        reaction((_) => _chatController.sendMessageRequest.status, _onMessage);
+    _sendMessageReaction = reaction((_) => _chatController.sendMessageRequest.status, _onMessage);
+    appLifecycleState = AppLifecycleState.resumed;
+
+    timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      searchNewMessages();
+    });
   }
 
   @override
@@ -38,8 +48,10 @@ class _ChatPageState extends State<ChatPage> {
     super.didChangeDependencies();
     if (_channel == null) {
       _channel = ModalRoute.of(context).settings.arguments;
+
       _chatController.channelId = _channel.channelId;
       _user = _authenticationController.currentUser;
+      _inversePartner = _channel.inverseChatter(_user.partnerId);
       _chatController.currentPartnerId = _user.partnerId;
       _chatController.load();
     }
@@ -49,6 +61,7 @@ class _ChatPageState extends State<ChatPage> {
   void dispose() {
     _sendMessageReaction();
     _messageEditingController.dispose();
+    timer.cancel();
     super.dispose();
   }
 
@@ -68,6 +81,11 @@ class _ChatPageState extends State<ChatPage> {
     _messageEditingController.clear();
   }
 
+  searchNewMessages() async {
+    if (appLifecycleState == AppLifecycleState.resumed)
+      _chatController.searchNewMessages();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -82,14 +100,19 @@ class _ChatPageState extends State<ChatPage> {
               : null,
           title: Row(
             children: [
-              CircleAvatar(
-                radius: 22,
-                backgroundImage: NetworkImage(
-                    "https://static.billboard.com/files/2021/01/rihanna-sept-2019-billboard-1548-1611156420-compressed.jpg"),
+              GestureDetector(
+                onTap: () {
+                  Navigator.of(context).pushNamed('/partner_detail',
+                      arguments: _inversePartner.id);
+                },
+                child: CircleAvatar(
+                  radius: 22,
+                  backgroundImage:_inversePartner?.photo?.bytes != null ? MemoryImage(_inversePartner?.photo?.bytes) : null,
+                ),
               ),
               const SizedBox(width: 10),
               Text(
-                '${_channel.chatterName(_user.partnerId)}',
+                '${_channel.inverseChatter(_user.partnerId).name}',
                 style: const TextStyle(color: Colors.black),
               ),
             ],
@@ -133,6 +156,7 @@ class _ChatPageState extends State<ChatPage> {
                             itemBuilder: (_, index) {
                               final message = messages[index];
                               return MessageTile(
+                                imageBytes: _inversePartner?.photo?.bytes,
                                 padding: const EdgeInsets.only(
                                     left: 10, right: 10, top: 5),
                                 sender: message.authorId == _user.partnerId,

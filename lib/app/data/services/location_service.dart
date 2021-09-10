@@ -1,4 +1,3 @@
-import 'package:latlng/latlng.dart';
 import 'package:location/location.dart';
 
 abstract class LocationService {

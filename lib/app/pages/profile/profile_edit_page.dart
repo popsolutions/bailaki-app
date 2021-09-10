@@ -21,7 +21,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   ProfileEditController _profileEditController;
   ReactionDisposer _updateProfileReaction;
   UserProfile _user;
-  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -42,6 +41,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     _profileEditController.function = _user?.function;
     _profileEditController.gender = _user?.gender;
     _profileEditController.birthdate = _user.birthdate_date;
+    _profileEditController.gender = _user.gender;
   }
 
   void _onUpdateUser(FutureStatus requestStatus) {
@@ -97,99 +97,142 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               backgroundColor: Colors.grey[100],
             ),
             body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Observer(builder: (_) {
-                    return _buildPhotosContainer(_profileEditController.images);
-                  }),
-                  Column(
-                    children: [
-                      Container(
-                        child: _buildTextFieldTile(
-                          initialValue: _user.profile_description,
-                          hintText: "Fale sobre você...",
-                          onChanged: (e) {
-                            _profileEditController.aboutYou = e;
-                          },
-                          title: "Sobre",
-                          counter: 120,
-                          hasArrowIndicator: false,
-                        ),
-                        height: 120,
-                      ),
-                      const SizedBox(height: 10),
-                      _buildTile(
-                          title: "Estilos de dança",
-                          onTap: () async {
-                            final items = await Navigator.of(context)
-                                .pushNamed("/musical_preferences");
-                            _profileEditController.danceStyles = items;
-                          }),
-                      const SizedBox(height: 10),
-                      _buildTile(
-                          title: "Nível de dança",
-                          onTap: () async {
-                            final result = await Navigator.of(context)
-                                .pushNamed("/dance_level");
-                            _profileEditController.danceLevel = result;
-                          }),
-                      const SizedBox(height: 10),
-                      Container(
-                        child: _buildTextFieldTile(
-                          initialValue: _user.function,
-                          hintText: "Diga a sua profissão...",
-                          onChanged: (e) {
-                            _profileEditController.function = e;
-                          },
-                          title: "Profissão",
-                        ),
-                        height: 70,
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        child: GestureDetector(
-                          onTap: () async {
-                            final date = await showDatePicker(
-                              context: context,
-                              initialDate:
-                                  DateTime(DateTime.now().year - 18, 1, 1),
-                              firstDate: DateTime(1930, 1, 1),
-                              lastDate: DateTime.now(),
-                            );
-                            _profileEditController.birthdate = date;
-                          },
-                          child: Observer(builder: (_) {
-                            return _buildContainer(
-                                title: "Data de nascimento",
-                                subtitle: _profileEditController.birthdate !=
-                                        null
-                                    ? "${DateFormat.yMd().format(_profileEditController.birthdate)}"
-                                    : "");
-                          }),
-                        ),
-                        height: 70,
-                      ),
-                      const SizedBox(height: 10),
-                      Container(
-                        child: GestureDetector(
-                          onTap: () async {
-                            final result = await Navigator.of(context)
-                                .pushNamed("/genree");
-                            _profileEditController.gender = result;
-                          },
-                          child: Observer(builder: (_) {
-                            return _buildContainer(
-                              subtitle: _profileEditController.gender ?? '',
-                              title: "Gênero",
-                            );
-                          }),
-                        ),
-                        height: 70,
-                      ),
-                      const SizedBox(height: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      // Color.fromRGBO(0, 255, 253, 1),
+                      // Color.fromRGBO(254, 0, 236, 1),
+                      Colors.cyan,
+                      Colors.pink,
                     ],
                   ),
-                ],
+                ),
+                child: Column(
+                  children: [
+                    Observer(builder: (_) {
+                      return _buildPhotosContainer(
+                        _profileEditController.images,
+                      );
+                    }),
+                    Column(
+                      children: [
+                        Container(
+                          color: Colors.transparent,
+                          child: _buildTextFieldTile(
+                            initialValue: _user.profile_description,
+                            hintText: "Fale sobre você...",
+                            onChanged: (e) {
+                              _profileEditController.aboutYou = e;
+                            },
+                            title: "Sobre",
+                            counter: 120,
+                            hasArrowIndicator: false,
+                          ),
+                          height: 120,
+                        ),
+                        const SizedBox(height: 10),
+                        _buildTile(
+                            title: "Estilos de dança",
+                            onTap: () async {
+                              final items = await Navigator.of(context)
+                                  .pushNamed("/musical_preferences");
+                              _profileEditController.danceStyles = items;
+                            }),
+                        const SizedBox(height: 10),
+                        _buildTile(
+                            title: "Nível de dança",
+                            onTap: () async {
+                              final result = await Navigator.of(context)
+                                  .pushNamed("/dance_level");
+                              _profileEditController.danceLevel = result;
+                            }),
+                        const SizedBox(height: 10),
+                        Container(
+                          child: _buildTextFieldTile(
+                            initialValue: _user.function,
+                            hintText: "Diga a sua profissão...",
+                            onChanged: (e) {
+                              _profileEditController.function = e;
+                            },
+                            title: "Profissão",
+                          ),
+                          height: 70,
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          child: GestureDetector(
+                            onTap: () async {
+                              final date = await showDatePicker(
+                                context: context,
+                                initialDate:
+                                    DateTime(DateTime.now().year - 18, 1, 1),
+                                firstDate: DateTime(1930, 1, 1),
+                                lastDate: DateTime.now(),
+                              );
+                              if (date != null) {
+                                _profileEditController.birthdate = date;
+                              }
+                            },
+                            child: Observer(builder: (_) {
+                              return _buildContainer(
+                                  title: "Data de nascimento",
+                                  subtitle: _profileEditController.birthdate !=
+                                          null
+                                      ? "${DateFormat('dd/MM/yyy').format(_profileEditController.birthdate)}"
+                                      : "");
+                            }),
+                          ),
+                          height: 70,
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          child: GestureDetector(
+                            onTap: () async {
+                              final result =
+                                  await Navigator.of(context).pushNamed(
+                                "/genree",
+                                arguments: _profileEditController.gender,
+                              );
+
+                              if (result != null) {
+                                _profileEditController.gender = result;
+                              }
+                            },
+                            child: Observer(builder: (_) {
+                              return _buildContainer(
+                                subtitle: _profileEditController.gender ?? '',
+                                title: "Gênero",
+                              );
+                            }),
+                          ),
+                          height: 70,
+                        ),
+                        const SizedBox(height: 10),
+                        Container(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color.fromRGBO(253, 0, 236, 1),
+                            ),
+                            onPressed: () async {
+                              _authenticationController.logout();
+
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                '/',
+                                (route) => false,
+                              );
+                            },
+                            child: Text('LogOut'),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -211,12 +254,17 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 Text(
                   title,
                   style: const TextStyle(
-                    color: const Color.fromRGBO(124, 127, 124, 1),
+                    color: Colors.white,
                   ),
                 ),
                 const SizedBox(height: 10),
-                Text(subtitle,
-                    style: const TextStyle(color: Colors.blue, fontSize: 15)),
+                Text(
+                  subtitle,
+                  style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 15,
+                  ),
+                ),
               ],
             ),
           ),
@@ -250,9 +298,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    color: const Color.fromRGBO(124, 127, 124, 1),
-                  ),
+                  style: const TextStyle(color: Colors.white),
                 ),
                 const SizedBox(height: 10),
                 Expanded(
@@ -273,9 +319,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                       height: 0,
                     ),
                     decoration: InputDecoration.collapsed(
-                        hintText: hintText,
-                        hintStyle: hintTextStyle,
-                        floatingLabelBehavior: FloatingLabelBehavior.never),
+                      hintText: hintText,
+                      hintStyle: hintTextStyle,
+                      floatingLabelBehavior: FloatingLabelBehavior.never,
+                    ),
                   ),
                 ),
                 if (counter != null)
@@ -294,7 +341,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
           if (hasArrowIndicator)
             Icon(
               Icons.arrow_forward_ios_rounded,
-              color: const Color.fromRGBO(227, 227, 224, 1),
+              color: Colors.white,
             )
         ],
       ),
@@ -312,7 +359,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
             Text(
               title,
               style: const TextStyle(
-                color: const Color.fromRGBO(124, 127, 124, 1),
+                color: Colors.white,
               ),
             ),
             const Spacer(),
@@ -338,7 +385,19 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
 
     return Container(
         padding: const EdgeInsets.only(bottom: 15, top: 10),
-        color: Color.fromRGBO(239, 242, 239, 1),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              // Color.fromRGBO(0, 255, 253, 1),
+              // Color.fromRGBO(254, 0, 236, 1),
+              Colors.cyan,
+              Colors.pink,
+            ],
+          ),
+        ),
         child: Container(
           padding: const EdgeInsets.all(12),
           child: GridView.builder(
@@ -384,15 +443,16 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               Radius.circular(10),
             ),
             child: Container(
-                width: double.maxFinite,
-                height: double.maxFinite,
-                color: const Color.fromRGBO(201, 204, 201, 1),
-                child: imageBytes != null
-                    ? Image.memory(
-                        imageBytes,
-                        fit: BoxFit.fill,
-                      )
-                    : Container()),
+              width: double.maxFinite,
+              height: double.maxFinite,
+              color: const Color.fromRGBO(201, 204, 201, 1),
+              child: imageBytes != null
+                  ? Image.memory(
+                      imageBytes,
+                      fit: BoxFit.fill,
+                    )
+                  : Container(),
+            ),
           ),
         ),
         Positioned(

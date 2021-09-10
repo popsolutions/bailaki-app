@@ -1,4 +1,4 @@
-package com.mtfa.odoo_client
+package co.popsolutions.bailaki
 
 import io.flutter.embedding.android.FlutterActivity
 

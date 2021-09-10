@@ -71,6 +71,38 @@ mixin _$ProfileEditController on _ProfileEditControllerBase, Store {
     });
   }
 
+  final _$_addImageRequestAtom =
+      Atom(name: '_ProfileEditControllerBase._addImageRequest');
+
+  @override
+  ObservableFuture<dynamic> get _addImageRequest {
+    _$_addImageRequestAtom.reportRead();
+    return super._addImageRequest;
+  }
+
+  @override
+  set _addImageRequest(ObservableFuture<dynamic> value) {
+    _$_addImageRequestAtom.reportWrite(value, super._addImageRequest, () {
+      super._addImageRequest = value;
+    });
+  }
+
+  final _$_removeImageRequestAtom =
+      Atom(name: '_ProfileEditControllerBase._removeImageRequest');
+
+  @override
+  ObservableFuture<dynamic> get _removeImageRequest {
+    _$_removeImageRequestAtom.reportRead();
+    return super._removeImageRequest;
+  }
+
+  @override
+  set _removeImageRequest(ObservableFuture<dynamic> value) {
+    _$_removeImageRequestAtom.reportWrite(value, super._removeImageRequest, () {
+      super._removeImageRequest = value;
+    });
+  }
+
   final _$_ProfileEditControllerBaseActionController =
       ActionController(name: '_ProfileEditControllerBase');
 

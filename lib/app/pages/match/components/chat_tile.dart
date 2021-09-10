@@ -24,13 +24,13 @@ class ChatTile extends StatelessWidget {
         padding: padding,
         child: Row(
           children: [
-            /*
+            
             CircleAvatar(
               radius: 50,
               //backgroundColor: Colors.blue,
-              backgroundImage: MemoryImage(imageBytes),
+              backgroundImage:imageBytes != null ? MemoryImage(imageBytes) : null,
             ),
-            */
+            
             const SizedBox(width: 20),
             Flexible(
               child: Column(

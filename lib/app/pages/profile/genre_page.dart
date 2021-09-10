@@ -10,12 +10,20 @@ class _GenreePageState extends State<GenrePage> {
   List<String> _genrees = ["Homem", "Mulher", "Outro"];
 
   final dict = {"Homem": "male", "Mulher": "female", "Outro": "other"};
+  final inverseDict = {"male": "Homem", "female": "Mulher", "other": "Outro"};
   String _selected;
 
   void _select(String item) {
     setState(() {
       _selected = item;
     });
+  }
+
+  @override
+  void didChangeDependencies() {
+    final genreeName = ModalRoute.of(context).settings.arguments as String;
+    _selected ??= inverseDict[genreeName];
+    super.didChangeDependencies();
   }
 
   @override

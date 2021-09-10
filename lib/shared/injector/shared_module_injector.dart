@@ -12,6 +12,7 @@ import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/data/services/login_service.dart';
 import 'package:odoo_client/app/data/services/login_service_impl.dart';
 import 'package:odoo_client/app/data/services/match_service.dart';
+import 'package:odoo_client/app/data/services/message_dao.dart';
 import 'package:odoo_client/app/data/services/message_service.dart';
 import 'package:odoo_client/app/data/services/music_genre_service.dart';
 import 'package:odoo_client/app/data/services/music_genre_service_impl.dart';
@@ -23,6 +24,7 @@ import 'package:odoo_client/app/data/services/partner_service_impl.dart';
 import 'package:odoo_client/app/data/services/relation_service.dart';
 import 'package:odoo_client/app/data/services/relation_service_impl.dart';
 import 'package:odoo_client/app/data/services/send_like_facade.dart';
+import 'package:odoo_client/app/data/services/user_dao.dart';
 import 'package:odoo_client/app/data/services/user_service.dart';
 import 'package:odoo_client/app/data/services/user_service_impl.dart';
 import 'package:odoo_client/app/pages/home/home_controller.dart';
@@ -97,6 +99,10 @@ void setupSharedModule() {
     ),
   );
 
+  locator.registerFactory(() => MessageDao());
+
+  locator.registerFactory<UserDao>(() => UserDaoImpl());
+
   locator
       .registerFactory<LocationService>(() => LocationServiceImpl(Location()));
 
@@ -106,7 +112,7 @@ void setupSharedModule() {
     ),
   );
 
-  locator.registerLazySingleton(() => AuthenticationController());
+  locator.registerLazySingleton(() => AuthenticationController(locator.get<UserDao>()));
 
   locator.registerLazySingleton(() => MusicGenresController());
 
@@ -157,8 +163,7 @@ void setupSharedModule() {
 
   locator.registerFactory(
     () => ChatController(
-      locator.get<MessageService>(),
-    ),
+        locator.get<MessageService>(), locator.get<MessageDao>()),
   );
 
   locator.registerFactory(

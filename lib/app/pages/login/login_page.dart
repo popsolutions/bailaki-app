@@ -3,8 +3,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/login_result.dart';
-import 'package:odoo_client/app/data/pojo/user.dart';
-import 'package:odoo_client/app/data/services/login_facade_impl.dart';
 import 'package:odoo_client/app/pages/login/login_controller.dart';
 import 'package:odoo_client/shared/components/custom_text_form_field.dart';
 import 'package:odoo_client/shared/components/primary_button.dart';
@@ -37,6 +35,9 @@ class _LoginPageState extends State<LoginPage> {
 
     _loginReaction =
         reaction((_) => _loginController.loginRequest.status, _onLoginRequest);
+
+    _loginController.email = 'rihanna@gmail.com';
+    _loginController.password = '123456789';
     super.initState();
   }
 
@@ -89,6 +90,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final email = CustomTextFormField(
+      initialValue: 'rihanna@gmail.com',
       keyboardType: TextInputType.emailAddress,
       labelText: "E-mail",
       onChanged: (e) => _loginController.email = e,
@@ -97,10 +99,11 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final password = CustomTextFormField(
+      initialValue: '123456789',
       obscureText: true,
       labelText: "Password",
       onChanged: (e) => _loginController.password = e,
-      validator: (e) => e.length >= 8 ? null : 'Insira uma entre válida',
+      validator: (e) => e.length >= 1 ? null : 'Insira uma entre válida',
     );
 
     final loginButton = PrimaryButton(
@@ -128,12 +131,12 @@ class _LoginPageState extends State<LoginPage> {
       child: Form(
         key: _formKey,
         child: Column(
-          children: <Widget>[
+          children: [
             const SizedBox(height: 16.0),
             email,
             const SizedBox(height: 16.0),
             password,
-            const SizedBox(height: 24.0),
+            const SizedBox(height: 16.0),
             loginButton
           ],
         ),
@@ -142,119 +145,119 @@ class _LoginPageState extends State<LoginPage> {
 
     final signupWidget = Container(
       alignment: Alignment.bottomCenter,
-      child: Column(
-        children: <Widget>[signupButton],
-      ),
+      child: signupButton,
     );
 
     return GestureDetector(
       onTap: FocusScope.of(context).unfocus,
-      child: Scaffold(
-        body: SingleChildScrollView(
-          padding: EdgeInsets.fromLTRB(60, 70, 60, 0),
-          child: Column(
-            children: <Widget>[
-              Container(
-                // margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Image.asset(
-                      "./lib/app/assets/bailakil_logo.png",
-                      width: 40,
-                      height: 40,
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              // Color.fromRGBO(0, 255, 253, 1),
+              // Color.fromRGBO(254, 0, 236, 1),
+              Colors.cyan,
+              Colors.pink,
+            ],
+          ),
+        ),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          body: SingleChildScrollView(
+            padding: EdgeInsets.fromLTRB(60, 70, 60, 0),
+            child: Container(
+              child: Column(
+                children: <Widget>[
+                  Container(
+                    width: 250,
+                    height: 80,
+                    child: Image.asset(
+                      "assets/logo_branca.png",
                       fit: BoxFit.fill,
                     ),
-                    SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      "Bailaki",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 40,
-                          letterSpacing: -2.0),
-                    )
-                  ],
-                ),
-              ),
-              //  getURL() == null ? checkURLWidget : SizedBox(height: 0.0),
-              loginWidget,
-              signupWidget,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  Text(
-                    "By tapping Log in, you agree with our",
-                    style: TextStyle(
-                        color: Colors.black, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(
-                    height: 4,
-                  ),
-                  Text.rich(TextSpan(
-                    text: "Terms of service",
-                    style: TextStyle(
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                    ),
+                  //  getURL() == null ? checkURLWidget : SizedBox(height: 0.0),
+                  loginWidget,
+                  signupWidget,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      TextSpan(
-                        text: " and ",
+                      Text(
+                        "By tapping Log in, you agree with our",
                         style: TextStyle(
-                            color: Colors.black,
-                            decoration: TextDecoration.none),
-                      ),
-                      TextSpan(
-                        text: "Privacy Policy",
-                        style: TextStyle(
-                            color: Colors.blue,
-                            decoration: TextDecoration.underline),
-                      )
-                    ],
-                  )),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Text(
-                    "Trouble logging in?",
-                    style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        decoration: TextDecoration.underline),
-                  ),
-                  SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Flexible(
-                        child: Text(
-                          "We don't post anything on Facebook",
-                          style: TextStyle(
-                            color: Colors.black,
-                          ),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
+                      SizedBox(height: 4),
+                      Text.rich(TextSpan(
+                        text: "Terms of service",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
+                        children: [
+                          TextSpan(
+                            text: " and ",
+                            style: TextStyle(
+                              color: Colors.black,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "Privacy Policy",
+                            style: TextStyle(
+                              color: Colors.white,
+                              decoration: TextDecoration.underline,
+                            ),
+                          )
+                        ],
+                      )),
                       SizedBox(
-                        width: 3,
+                        height: 16,
                       ),
-                      Icon(
-                        Icons.keyboard_arrow_down,
-                        color: Colors.black,
+                      Text(
+                        "Trouble logging in?",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline),
+                      ),
+                      SizedBox(
+                        height: 16,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Flexible(
+                            child: Text(
+                              "We don't post anything on Facebook",
+                              style: TextStyle(
+                                color: Colors.black,
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 3,
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down,
+                            color: Colors.black,
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 8,
                       ),
                     ],
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
+                  )
                 ],
-              )
-            ],
+              ),
+            ),
           ),
         ),
       ),

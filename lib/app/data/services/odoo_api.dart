@@ -7,7 +7,6 @@ import 'odoo_response.dart';
 import 'odoo_version.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-const SERVER_URL = 'https://bailaki.com.br';
 
 class Odoo {
   Odoo({String url}) {
@@ -57,7 +56,7 @@ class Odoo {
       String username, String password, String database) async {
     var url = createPath("/web/session/authenticate");
     var params = {
-      "db": "rully",
+      "db": "bailaki-staging",
       //"db": database,
       "login": username,
       "password": password,
@@ -106,8 +105,8 @@ class Odoo {
   }
 
   // Create new record for model
-  Future<OdooResponse> create(String model, Map values) async {
-    return await callKW(model, "create", [values]);
+  Future<OdooResponse> create(String model, Map values, [String method = 'create']) async {
+    return await callKW(model, method, [values]);
   }
 
   // Write record with ids and values

@@ -7,12 +7,11 @@ class ContainerTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Color.fromRGBO(
-        253,
-        255,
-        253,
-        1,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Colors.white.withOpacity(.5),
       ),
+      margin: const EdgeInsets.symmetric(horizontal: 10),
       padding: const EdgeInsets.only(
         left: 15,
         right: 15,

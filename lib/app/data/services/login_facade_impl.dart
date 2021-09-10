@@ -31,7 +31,7 @@ class LoginFacadeImpl implements LoginFacade {
     final images = await _imageService.findByPartner(userData.partnerId);
 
     final fullUserProfile = UserProfile(
-        referredFriendsIds: userProfile.referredFriendsIds,
+       
         images: images,
         position: userProfile.position,
         interestFemales: userProfile.interestFemales,
@@ -92,7 +92,7 @@ class UserProfile {
   final int referredFriendMaxAge;
   final LatLng position;
   final List<Photo> images;
-  final List<int> referredFriendsIds;
+
   UserProfile(
       {this.interestMales,
       this.interestFemales,
@@ -120,7 +120,7 @@ class UserProfile {
       this.referredFriendMaxAge,
       this.position,
       this.images,
-      this.referredFriendsIds});
+      });
 
   UserProfile copyWith(
       {String sessionId,
@@ -179,9 +179,69 @@ class UserProfile {
             enableMessageNotification ?? this.enableMessageNotification,
         referredFriendMaxAge: referredFriendMaxAge ?? this.referredFriendMaxAge,
         referredFriendMinAge: referredFriendMinAge ?? this.referredFriendMinAge,
-        images: images ?? this.images,
-        referredFriendsIds: referredFriendsIds);
+        images: images ?? this.images);
   }
 
   Photo get avatar => images.isNotEmpty ? images.first : null;
+
+  factory UserProfile.fromJson(Map<String, dynamic> json) {
+    final positionArray = json['position'];
+    return UserProfile(
+      sessionId: json['sessionId'],
+      uid: json['uid'],
+      isAdmin: json['isAdmin'],
+      partnerDisplayName: json['partnerDisplayName'],
+      companyId: json['companyId'],
+      partnerId: json['partnerId'],
+      userCompanies: json['userCompanies'],
+      webBaseUrl: json['webBaseUrl'],
+      odoobotInitialized: json['odoobotInitialized'],
+      profile_description: json['profile_description'],
+      music_genre_ids:List<int>.from(json['music_genre_ids']),
+      music_skill_id: json['music_skill_id'],
+      function: json['function'],
+      birthdate_date:json['birthdate_date'] != null ? DateTime.parse(json['birthdate_date']) : null,
+      gender: json['gender'],
+      name: json['name'],
+      interestMales: json['interestFemales'],
+      interestFemales: json['interestFemales'],
+      interestOtherGenres: json['interestOtherGenres'],
+      refferedMaxFriendDistance: json['refferedMaxFriendDistance'],
+      enableMessageNotification: json['enableMessageNotification'],
+      enableMatchNotification: json['enableMatchNotification'],
+      referredFriendMinAge: json['referredFriendMinAge'],
+      referredFriendMaxAge: json['referredFriendMaxAge'],
+      position: LatLng(positionArray.first, positionArray.last),
+      images: json['images'].map<Photo>((e) => Photo.fromJson(e)).toList(),
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'sessionId': sessionId,
+        'uid': uid,
+        'isAdmin': isAdmin,
+        'partnerDisplayName': partnerDisplayName,
+        'companyId': companyId,
+        'partnerId': partnerId,
+        'userCompanies': userCompanies,
+        'webBaseUrl': webBaseUrl,
+        'odoobotInitialized': odoobotInitialized,
+        'profile_description': profile_description,
+        'music_genre_ids': music_genre_ids,
+        'music_skill_id': music_skill_id,
+        'function': function,
+        'birthdate_date': birthdate_date.toString(),
+        'gender': gender,
+        'name': name,
+        'interestMales': interestFemales,
+        'interestFemales': interestFemales,
+        'interestOtherGenres': interestOtherGenres,
+        'refferedMaxFriendDistance': refferedMaxFriendDistance,
+        'enableMessageNotification': enableMessageNotification,
+        'enableMatchNotification': enableMatchNotification,
+        'referredFriendMinAge': referredFriendMinAge,
+        'referredFriendMaxAge': referredFriendMaxAge,
+        'position': [position.latitude, position.longitude],
+        'images': images,
+      };
 }
