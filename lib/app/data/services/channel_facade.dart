@@ -13,6 +13,6 @@ class ChannelFacade {
 
     final channels = await Future.wait(matches.map((e) =>
         _channelService.findByMatch([e.leftPartnerId, e.rightPartnerId])));
-    return channels;
+    return channels.reduce((value, element) => value..addAll(element));
   }
 }

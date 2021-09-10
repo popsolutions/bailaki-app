@@ -66,7 +66,13 @@ class _SettingsPageState extends State<SettingsPage> {
         interestFemales: _preferencesController.interestingInFemales,
         interestMales: _preferencesController.interestingInMales,
         interestOtherGenres: _preferencesController.interestingInOthers,
-        refferedMaxFriendDistance: _preferencesController.maxDistance));
+        refferedMaxFriendDistance: _preferencesController.maxDistance,
+        referredFriendMaxAge: _preferencesController.ageRange.end.toInt(),
+        referredFriendMinAge: _preferencesController.ageRange.start.toInt(),
+        enableMatchNotification:
+            _preferencesController.receiveChatNotifications,
+        enableMessageNotification:
+            _preferencesController.receiveNewMatchesNotifications));
     _updateSettingsReaction();
   }
 

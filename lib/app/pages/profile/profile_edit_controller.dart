@@ -68,6 +68,7 @@ abstract class _ProfileEditControllerBase with Store {
   ObservableFuture get removeImageRequest => _removeImageRequest;
 
 //TODO: tratar erro ao adicionar / remover imagem
+//TODO: comprimir imagens
   void addImage() {
     final uuid = Uuid().v4();
     _imagePicker.getImage(source: ImageSource.gallery).then((value) async {

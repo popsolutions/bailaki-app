@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 
 class ChatTile extends StatelessWidget {
@@ -5,9 +7,14 @@ class ChatTile extends StatelessWidget {
   final VoidCallback onTap;
   final String name;
   final String description;
-
+  final Uint8List imageBytes;
   const ChatTile(
-      {Key key, this.padding, this.onTap, this.name, this.description})
+      {Key key,
+      this.padding,
+      this.onTap,
+      this.name,
+      this.description,
+      this.imageBytes})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -17,12 +24,13 @@ class ChatTile extends StatelessWidget {
         padding: padding,
         child: Row(
           children: [
+            /*
             CircleAvatar(
               radius: 50,
               //backgroundColor: Colors.blue,
-              backgroundImage: NetworkImage(
-                  "https://static.billboard.com/files/2021/01/rihanna-sept-2019-billboard-1548-1611156420-compressed.jpg"),
+              backgroundImage: MemoryImage(imageBytes),
             ),
+            */
             const SizedBox(width: 20),
             Flexible(
               child: Column(
