@@ -180,17 +180,20 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
                                 child: Icon(Icons.hourglass_empty_sharp),
                                 onTap: () {},
                               ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(40),
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  color: Color.fromRGBO(254, 0, 236, 1),
-                                  height: 70,
-                                  width: 70,
-                                  child:
-                                      Image.asset('assets/bailakil_logo.png'),
+                              GestureDetector(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(40),
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    color: Color.fromRGBO(254, 0, 236, 1),
+                                    height: 70,
+                                    width: 70,
+                                    child:
+                                        Image.asset('assets/bailakil_logo.png'),
+                                  ),
                                 ),
-                              )
+                                onTap: _like,
+                              ),
                               // CircularInkWell(
                               //   color: Color.fromRGBO(254, 0, 236, 1),
                               //   child: const Icon(
