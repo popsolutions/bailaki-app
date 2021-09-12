@@ -33,11 +33,11 @@ abstract class _SelectPartnerControllerBase with Store {
   }
 
   @action
-  void like() {
+  void like() async {
     final items = _partners.value;
-    final liked = items.removeAt(0);
+    await _sendLikeFacace.sendLike(LikeDto(_userPartnerId, items[0].id));
+    items.removeAt(0);
     update(items);
-    _sendLikeFacace.sendLike(LikeDto(_userPartnerId, liked.id));
   }
 
   @action
