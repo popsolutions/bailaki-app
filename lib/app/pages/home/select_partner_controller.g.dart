@@ -39,11 +39,11 @@ mixin _$SelectPartnerController on _SelectPartnerControllerBase, Store {
   }
 
   @override
-  void like() {
+  void like() async {
     final _$actionInfo = _$_SelectPartnerControllerBaseActionController
         .startAction(name: '_SelectPartnerControllerBase.like');
     try {
-      return super.like();
+      return await super.like();
     } finally {
       _$_SelectPartnerControllerBaseActionController.endAction(_$actionInfo);
     }

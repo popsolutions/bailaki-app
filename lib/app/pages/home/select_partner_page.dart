@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/pages/home/select_partner_controller.dart';
 import 'package:odoo_client/shared/components/circular_inkwell.dart';
+import 'package:odoo_client/shared/components/dialogs.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 import 'package:odoo_client/shared/utils/distance_between.dart';
 
@@ -83,8 +84,12 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
     );
   }
 
-  void _like() {
-    _selectPartnerController.like();
+  void _like() async {
+    try {
+      await _selectPartnerController.like();
+    } catch(e) {
+      showMessage("Ops", "Tivemos problema ao efetuar o like: " + e.toString(), context);
+    }
   }
 
   void _deslike() {

@@ -14,28 +14,5 @@ class SendLikeFacace {
 
   Future<void> sendLike(LikeDto likeDto) async {
     await _relationService.sendLike(likeDto);
-
-    await Future.delayed(Duration(milliseconds: 1000));
-
-    final stop = Stopwatch();
-    stop.start();
-
-    bool success = false;
-
-    while (success == false) {
-      var matches = await _matchService.findByPartnerId(MatchRequestDto(
-          currentPartnerId: likeDto.currentUserPartnerId,
-          partnerId: likeDto.friendPartnerId));
-
-      if (matches.isNotEmpty) {
-        final match = matches.first;
-        await _channelService
-            .save(CreateChannelDto(match.leftPartnerId, match.rightPartnerId));
-        success = true;
-      }
-    }
-
-    stop.stop();
-    print(stop.elapsed);
   }
 }

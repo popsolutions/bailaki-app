@@ -42,7 +42,7 @@ class RelationServiceImpl implements RelationService {
       'left_partner_id': likeDto.currentUserPartnerId,
       'right_partner_id': likeDto.friendPartnerId,
       'type_id': relationTypeId,
-    });
+    }, 'bailaki_SendLike');
     print(createRelationResponse);
   }
 }
