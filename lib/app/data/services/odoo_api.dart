@@ -206,7 +206,13 @@ class Odoo {
     print("<<<<============================================");
     print("RESPONSE: ${response.body}");
     print("<<<<============================================");
-    return new OdooResponse(json.decode(response.body), response.statusCode);
+
+    OdooResponse odooResponse = new OdooResponse(json.decode(response.body), response.statusCode);
+
+    if (odooResponse.hasError())
+      throw FormatException(odooResponse.getErrorMessage(), 'callRequest');
+
+    return odooResponse;
   }
 
   Future<http.Response> callDbRequest(String url, Map payload) async {
