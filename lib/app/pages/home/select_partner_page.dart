@@ -172,20 +172,14 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               CircularInkWell(
-                                  color: Color.fromRGBO(0, 255, 253, 1),
+                                  color: Colors.blueAccent,
                                   child: const Icon(
                                     Icons.close,
                                     size: 45,
-                                    color: Colors.white,
+                                    color: Colors.white70,
                                   ),
                                   onTap: _deslike),
-                              CircularInkWell(
-                                radius: 40,
-                                color: Color.fromRGBO(202, 205, 202, 1),
-                                child: Icon(Icons.hourglass_empty_sharp),
-                                onTap: () {},
-                              ),
-                              GestureDetector(
+                                  GestureDetector(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(40),
                                   child: Container(
