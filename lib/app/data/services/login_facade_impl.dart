@@ -200,7 +200,7 @@ class UserProfile {
       music_genre_ids:List<int>.from(json['music_genre_ids']),
       music_skill_id: json['music_skill_id'],
       function: json['function'],
-      birthdate_date:json['birthdate_date'] != null ? DateTime.parse(json['birthdate_date']) : null,
+      birthdate_date:((json['birthdate_date'] == null) || (json['birthdate_date'] == 'null')) ? null : DateTime.parse(json['birthdate_date']),
       gender: json['gender'],
       name: json['name'],
       interestMales: json['interestFemales'],
