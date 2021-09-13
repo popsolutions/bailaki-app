@@ -30,14 +30,26 @@ class ChannelServiceImpl implements ChannelService {
   }
 
   @override
-  Future<List<Channel>> findByMatch(List<int> partnerIds) async {
-    final response = await _odoo.searchRead('mail.channel', [
-      '|',
-      ['name', '=', '${partnerIds.first},${partnerIds.last}'],
-      ['name', '=', '${partnerIds.last},${partnerIds.first}'],
-    ], []);
+  Future<List<Channel>> findByMatch(List<int> partnerIds, [int channel_id = 0]) async {
+    dynamic domain;
 
+    if (channel_id == 0) {
+      domain = [
+        '|',
+        ['name', '=', '${partnerIds.first},${partnerIds.last}'],
+        ['name', '=', '${partnerIds.last},${partnerIds.first}'],
+      ];
+    } else
+      domain = [
+        ['id', '=', channel_id],
+      ];
+
+    final response = await _odoo.searchRead('mail.channel', domain, []);
     final List channels = response.getRecords();
+
+    if (channel_id != 0) {
+      partnerIds = [channels[0]['channel_partner_ids'][0], channels[0]['channel_partner_ids'][1]];
+    }
 
     final channelPartners = await _odoo.searchRead('res.partner', [
       ['id', 'in', partnerIds],

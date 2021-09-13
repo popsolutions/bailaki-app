@@ -28,6 +28,8 @@ class _ChatPageState extends State<ChatPage> {
   ReactionDisposer _sendMessageReaction;
   UserProfile _user;
   Timer timer;
+  ScrollController _scrollController = ScrollController();
+  bool _shouldAutoscroll = false;
 
   @override
   void initState() {
@@ -38,6 +40,7 @@ class _ChatPageState extends State<ChatPage> {
     _sendMessageReaction = reaction((_) => _chatController.sendMessageRequest.status, _onMessage);
     appLifecycleState = AppLifecycleState.resumed;
 
+    _scrollController.addListener(_scrollListener);
     timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
       searchNewMessages();
     });
@@ -61,6 +64,7 @@ class _ChatPageState extends State<ChatPage> {
   void dispose() {
     _sendMessageReaction();
     _messageEditingController.dispose();
+    _scrollController.removeListener(_scrollListener);
     timer.cancel();
     super.dispose();
   }
@@ -82,8 +86,27 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   searchNewMessages() async {
-    if (appLifecycleState == AppLifecycleState.resumed)
+    if (appLifecycleState == AppLifecycleState.resumed) {
       _chatController.searchNewMessages();
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (_scrollController.hasClients && _shouldAutoscroll) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 500),
+          );
+        }
+      });
+    }
+  }
+
+  void _scrollListener() {
+    if (_scrollController.hasClients && _scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+      _shouldAutoscroll = true;
+    } else {
+      _shouldAutoscroll = false;
+    }
   }
 
   @override
@@ -125,6 +148,10 @@ class _ChatPageState extends State<ChatPage> {
           clipBehavior: Clip.none,
           children: [
             Observer(builder: (_) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+              });
+
               final response = _chatController.messagesRequest;
               final items = response.value;
               switch (response.status) {
@@ -141,6 +168,7 @@ class _ChatPageState extends State<ChatPage> {
                   break;
                 default:
                   return ListView.separated(
+                    controller: _scrollController,
                     separatorBuilder: (_, index) => const SizedBox(height: 25),
                     padding: const EdgeInsets.only(top: 25, bottom: 80),
                     shrinkWrap: true,

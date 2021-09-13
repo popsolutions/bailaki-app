@@ -1,8 +1,11 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/models/channel.dart';
+import 'package:odoo_client/app/data/services/channel_service.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 import 'package:odoo_client/app/pages/home/home_controller.dart';
 import 'package:odoo_client/app/pages/home/select_partner_page.dart';
@@ -38,6 +41,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     _homeController.loadLocation();
     _locationReaction = reaction(
         (_) => _homeController.currentLocation.value, _onLocationUpdate);
+
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
+      //Receive Firebase notification and show message
+      ChannelServiceImpl channelService = ChannelServiceImpl(Odoo());
+      List<Channel> listChannel = await channelService.findByMatch([0], int.parse(message.data['channel_id']));
+
+      Navigator.of(context).pushNamed("/chat", arguments: listChannel[0]);
+    });
+
     super.initState();
   }
 

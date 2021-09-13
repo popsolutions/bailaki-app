@@ -27,6 +27,11 @@ abstract class _ChatControllerBase with Store {
   setlastReadMessageId() async {
     final items = await _messagesRequest.value;
 
+    if (items == null) {
+      _lastReadMessageId = 0;
+      return;
+    }
+
     if (items.length > 0){
       if (items.last.messages.length > 0){
         for (int i = items.length - 1; i >= 0; i--) {
