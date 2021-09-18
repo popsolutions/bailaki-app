@@ -42,15 +42,25 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     _locationReaction = reaction(
         (_) => _homeController.currentLocation.value, _onLocationUpdate);
 
+    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage message) {
+      //Receive Firebase notification and show message
+      if (message != null)
+        showNotifyMessage(message);
+    });
+
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
       //Receive Firebase notification and show message
-      ChannelServiceImpl channelService = ChannelServiceImpl(Odoo());
-      List<Channel> listChannel = await channelService.findByMatch([0], int.parse(message.data['channel_id']));
-
-      Navigator.of(context).pushNamed("/chat", arguments: listChannel[0]);
+      showNotifyMessage(message);
     });
 
     super.initState();
+  }
+
+  void showNotifyMessage(RemoteMessage message) async {
+    ChannelServiceImpl channelService = ChannelServiceImpl(Odoo());
+    List<Channel> listChannel = await channelService.findByMatch([0], int.parse(message.data['channel_id']));
+
+    Navigator.of(context).pushNamed("/chat", arguments: listChannel[0]);
   }
 
   @override
