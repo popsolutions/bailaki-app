@@ -15,6 +15,7 @@ import 'package:odoo_client/app/pages/profile/dance_style_page.dart';
 import 'package:odoo_client/app/pages/profile/genre_page.dart';
 import 'package:odoo_client/app/pages/profile/my_profile_page.dart';
 import 'package:odoo_client/app/pages/profile/profile_edit_page.dart';
+import 'package:odoo_client/app/pages/register/register_page.dart';
 import 'package:odoo_client/app/pages/root_page.dart';
 import 'package:odoo_client/app/pages/settings/settings_page.dart';
 import 'package:odoo_client/shared/injector/all_modules.dart';
@@ -22,7 +23,8 @@ import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/data/services/login_service_impl.dart';
 import 'app/utility/strings.dart';
 
-AppLifecycleState appLifecycleState;  //t.todo - Verificar com Rully onde colocar esta variável de sinalização do status da aplicação
+AppLifecycleState
+    appLifecycleState; //t.todo - Verificar com Rully onde colocar esta variável de sinalização do status da aplicação
 
 class MyHttpOverrides extends HttpOverrides {
   @override
@@ -74,7 +76,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     messaging = FirebaseMessaging.instance;
 
     messaging.getToken().then((value) {
-      firebaseToken = value;//t.todo - Verificar com Rully onde é melhor colocar a parte de informar o token para o odoo
+      firebaseToken =
+          value; //t.todo - Verificar com Rully onde é melhor colocar a parte de informar o token para o odoo
     });
   }
 
@@ -101,7 +104,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
       initialRoute: "/",
       builder: EasyLoading.init(),
       routes: {
-        "/":(_) => RootPage(),
+        "/": (_) => RootPage(),
         "/chat": (_) => const ChatPage(),
         "/settings": (_) => const SettingsPage(),
         "/login": (_) => const LoginPage(),
@@ -111,7 +114,8 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         "/partner_detail": (_) => const PartnerDetailsPage(),
         "/musical_preferences": (_) => const MusicalPreferencesPage(),
         "/genree": (_) => const GenrePage(),
-        "/dance_level": (_) => const DanceLevelPage()
+        "/dance_level": (_) => const DanceLevelPage(),
+        "/register": (_) => RegisterPage(),
       },
     );
   }
