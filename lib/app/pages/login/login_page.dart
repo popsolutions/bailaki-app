@@ -87,7 +87,8 @@ class _LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
-//'https://bailaki.com.br'
+  //'https://bailaki.com.br'
+
   @override
   Widget build(BuildContext context) {
     final email = CustomTextFormField(
@@ -118,8 +119,14 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final signupButton = PrimaryButton(
-      title: 'Signup',
-      onTap: _loginController.signUp,
+      title: 'Sign Up',
+      // onTap: _loginController.signUp,
+      onTap: () {
+        Navigator.pushNamed(
+          context,
+          '/register',
+        );
+      },
       color: Colors.grey[100],
       titleStyle: TextStyle(
         color: Colors.red,
@@ -137,7 +144,6 @@ class _LoginPageState extends State<LoginPage> {
             email,
             const SizedBox(height: 16.0),
             password,
-            const SizedBox(height: 16.0),
             loginButton
           ],
         ),
@@ -218,19 +224,16 @@ class _LoginPageState extends State<LoginPage> {
                           )
                         ],
                       )),
-                      SizedBox(
-                        height: 16,
-                      ),
+                      SizedBox(height: 16),
                       Text(
                         "Trouble logging in?",
                         style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            decoration: TextDecoration.underline),
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
+                        ),
                       ),
-                      SizedBox(
-                        height: 16,
-                      ),
+                      SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[

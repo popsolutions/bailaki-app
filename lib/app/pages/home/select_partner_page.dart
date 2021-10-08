@@ -40,6 +40,7 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
+          color: Colors.white,
           border: Border.all(
             width: 2,
             color: Color.fromRGBO(15, 18, 14, 1),
@@ -52,7 +53,7 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
             if (bytes != null)
               Image.memory(
                 bytes,
-                fit: BoxFit.fill,
+                fit: BoxFit.contain,
               ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -87,8 +88,9 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
   void _like() async {
     try {
       await _selectPartnerController.like();
-    } catch(e) {
-      showMessage("Ops", "Tivemos problema ao efetuar o like: " + e.toString(), context);
+    } catch (e) {
+      showMessage("Ops", "Tivemos problema ao efetuar o like: " + e.toString(),
+          context);
     }
   }
 
@@ -179,7 +181,7 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
                                     color: Colors.white70,
                                   ),
                                   onTap: _deslike),
-                                  GestureDetector(
+                              GestureDetector(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(40),
                                   child: Container(

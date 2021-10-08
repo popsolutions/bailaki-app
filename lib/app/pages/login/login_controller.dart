@@ -29,7 +29,6 @@ abstract class _LoginControllerBase with Store {
 
   @computed
   bool get isLoading => _loginRequest.status == FutureStatus.pending;
-
   set email(String email) => _email = email.trim();
   set password(String password) => _password = password.trim();
 
