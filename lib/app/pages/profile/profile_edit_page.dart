@@ -384,47 +384,50 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     }
 
     return Container(
-        padding: const EdgeInsets.only(bottom: 15, top: 10),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              // Color.fromRGBO(0, 255, 253, 1),
-              // Color.fromRGBO(254, 0, 236, 1),
-              Colors.cyan,
-              Colors.pink,
-            ],
-          ),
+      padding: const EdgeInsets.only(bottom: 15, top: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            // Color.fromRGBO(0, 255, 253, 1),
+            // Color.fromRGBO(254, 0, 236, 1),
+            Colors.cyan,
+            Colors.pink,
+          ],
         ),
-        child: Container(
-          padding: const EdgeInsets.all(12),
-          child: GridView.builder(
-              shrinkWrap: true,
-              physics: ClampingScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisSpacing: 10,
-                mainAxisSpacing: 10,
-                crossAxisCount: 3,
-              ),
-              itemCount: newList.length,
-              itemBuilder: (_, index) {
-                final item = newList[index];
-                final isValid = item.bytes != null;
-                return _buildRoundedImage(
-                    icon: isValid
-                        ? Icon(Icons.close, color: Colors.white)
-                        : Icon(Icons.add, color: Colors.white),
-                    onTap: () {
-                      if (isValid)
-                        _profileEditController.removeImage(item);
-                      else
-                        _profileEditController.addImage();
-                    },
-                    imageBytes: item.bytes);
-              }),
-        ));
+      ),
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        child: GridView.builder(
+          shrinkWrap: true,
+          physics: ClampingScrollPhysics(),
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisSpacing: 10,
+            mainAxisSpacing: 10,
+            crossAxisCount: 3,
+          ),
+          itemCount: newList.length,
+          itemBuilder: (_, index) {
+            final item = newList[index];
+            final isValid = item.bytes != null;
+            return _buildRoundedImage(
+              icon: isValid
+                  ? Icon(Icons.close, color: Colors.white)
+                  : Icon(Icons.add, color: Colors.white),
+              onTap: () {
+                if (isValid)
+                  _profileEditController.removeImage(item);
+                else
+                  _profileEditController.addImage(context); //TODO
+              },
+              imageBytes: item.bytes,
+            );
+          },
+        ),
+      ),
+    );
   }
 
   Widget _buildRoundedImage({
