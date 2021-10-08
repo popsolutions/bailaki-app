@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/login_result.dart';
 import 'package:odoo_client/app/pages/login/login_controller.dart';
+import 'package:odoo_client/app/utility/global.dart';
 import 'package:odoo_client/shared/components/custom_text_form_field.dart';
 import 'package:odoo_client/shared/components/primary_button.dart';
 import 'package:odoo_client/shared/components/dialogs.dart';
@@ -36,8 +37,8 @@ class _LoginPageState extends State<LoginPage> {
     _loginReaction =
         reaction((_) => _loginController.loginRequest.status, _onLoginRequest);
 
-    _loginController.email = 'rihanna@gmail.com';
-    _loginController.password = '123456789';
+    _loginController.email = globalConfig.userOdoo;
+    _loginController.password = globalConfig.pass;
     super.initState();
   }
 
@@ -91,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     final email = CustomTextFormField(
-      initialValue: 'rihanna@gmail.com',
+      initialValue: globalConfig.userOdoo,
       keyboardType: TextInputType.emailAddress,
       labelText: "E-mail",
       onChanged: (e) => _loginController.email = e,
@@ -100,7 +101,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final password = CustomTextFormField(
-      initialValue: '123456789',
+      initialValue: globalConfig.pass,
       obscureText: true,
       labelText: "Password",
       onChanged: (e) => _loginController.password = e,

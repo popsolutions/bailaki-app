@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:odoo_client/app/utility/constant.dart';
+import 'package:odoo_client/app/utility/global.dart';
 import 'package:uuid/uuid.dart';
 import 'odoo_response.dart';
 import 'odoo_version.dart';
@@ -10,11 +11,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class Odoo {
   Odoo({String url}) {
-    _serverURL = 'https://bailaki.com.br';
   }
 
   http.Client _client = http.Client();
-  String _serverURL;
+  get _serverURL => globalConfig.serverURL;
+
   Map<String, String> _headers = {};
   OdooVersion version = new OdooVersion();
   String _sessionId;
@@ -26,16 +27,6 @@ class Odoo {
 
   setSessionId(String session_id) {
     _sessionId = session_id;
-  }
-
-  initOdoo() async {
-    SharedPreferences preferences = await SharedPreferences.getInstance();
-    if (preferences.getString("UserPrefs") != null) {
-      var jsonPrefs = jsonDecode(preferences.getString("UserPrefs"));
-      _serverURL = jsonPrefs['url'];
-      authenticate(
-          jsonPrefs['username'], jsonPrefs['password'], jsonPrefs['db']);
-    }
   }
 
   Future<OdooResponse> getSessionInfo() async {
@@ -56,8 +47,7 @@ class Odoo {
       String username, String password, String database) async {
     var url = createPath("/web/session/authenticate");
     var params = {
-      "db": "bailaki-staging",
-      //"db": database,
+      "db": globalConfig.dbName,
       "login": username,
       "password": password,
       "context": {}

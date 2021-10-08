@@ -8,7 +8,8 @@
          FlutterApplication and put your custom class here. -->
     <application
         android:label="Bailaki"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
