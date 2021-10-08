@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:odoo_client/app/utility/global.dart';
 
 class RegisterPage extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     flutterWebviewPlugin.onUrlChanged.listen((String url) {
       print('*** url:' + url);
-      if (url != 'https://bailaki.com.br/web/signup') {
+      if (url != globalConfig.serverURLRegisterPage) {
         if (popExecuted) return;
 
         print('*** url--- POP');
@@ -32,7 +33,7 @@ class _RegisterPageState extends State<RegisterPage> {
         title: Text('Cadastre-se'),
         centerTitle: true,
       ),
-      body: WebviewScaffold(url: 'https://bailaki.com.br/web/signup'),
+      body: WebviewScaffold(url: globalConfig.serverURLRegisterPage),
     );
   }
 }
