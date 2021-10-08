@@ -4,6 +4,7 @@ import 'package:odoo_client/app/data/pojo/user.dart';
 import 'package:odoo_client/app/data/models/login_dto.dart';
 import 'package:odoo_client/app/data/services/login_service.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
+import 'package:odoo_client/app/utility/global.dart';
 import 'package:odoo_client/shared/authentication_exception.dart';
 import 'package:get_version/get_version.dart';
 
@@ -18,7 +19,7 @@ class LoginServiceImpl implements LoginService {
   Future<User> login(LoginDto loginDto) async {
     final path = _odoo.createPath("/web/session/authenticate");
     final params = {
-      "db": "bailaki-staging",
+      "db": globalConfig.dbName,
       "login": loginDto.username,
       "password": loginDto.password,
       "context": {}

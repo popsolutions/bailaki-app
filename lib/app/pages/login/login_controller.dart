@@ -2,6 +2,7 @@ import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/login_dto.dart';
 import 'package:odoo_client/app/data/models/login_result.dart';
 import 'package:odoo_client/app/data/services/login_facade.dart';
+import 'package:odoo_client/app/utility/global.dart';
 import 'package:url_launcher/url_launcher.dart';
 part 'login_controller.g.dart';
 
@@ -33,7 +34,7 @@ abstract class _LoginControllerBase with Store {
   set password(String password) => _password = password.trim();
 
   void signUp() async {
-    const url = 'https://bailaki.com.br/web/signup';
+    String url = globalConfig.serverURLRegisterPage;
     if (await canLaunch(url)) {
       await launch(url);
     }

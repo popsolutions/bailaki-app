@@ -17,6 +17,7 @@ import 'package:odoo_client/app/pages/profile/my_profile_page.dart';
 import 'package:odoo_client/app/pages/profile/profile_edit_page.dart';
 import 'package:odoo_client/app/pages/root_page.dart';
 import 'package:odoo_client/app/pages/settings/settings_page.dart';
+import 'package:odoo_client/app/utility/global.dart';
 import 'package:odoo_client/shared/injector/all_modules.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/data/services/login_service_impl.dart';
@@ -70,6 +71,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    globalConfig.readconfJson();
     WidgetsBinding.instance.addObserver(this);
     messaging = FirebaseMessaging.instance;
 
