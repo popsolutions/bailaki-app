@@ -20,7 +20,7 @@ class _RegisterPageState extends State<RegisterPage> {
         if (popExecuted) return;
 
         print('*** url--- POP');
-        Navigator.pushNamed(context, '/login');
+        Navigator.pushReplacementNamed(context, '/login');
         popExecuted = true;
       }
     });
