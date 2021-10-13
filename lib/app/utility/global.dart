@@ -3,16 +3,16 @@ import 'package:flutter/services.dart' as rootBundle;
 import 'dart:convert';
 
 GlobalConfig globalConfig = GlobalConfig();
-const String globalConfJson = String.fromEnvironment('conf', defaultValue: ''); //--dart-define=conf=dev_charisma1
-
+const String globalConfJson = String.fromEnvironment('conf',
+    defaultValue: ''); //--dart-define=conf=dev_charisma1
 
 class GlobalConfig {
   String confJsonPath = 'assets/jsons/conf.json';
 
   String dbName = '';
   String serverURL = '';
-  String userOdoo = '';
-  String pass = '';
+  String userOdoo = 'support@popsolutions.co';
+  String pass = '1ND1C0p4c1f1c0';
   String alertaApp = '';
 
   get serverURLRegisterPage => serverURL + '/web/signup';
@@ -35,7 +35,6 @@ class GlobalConfig {
 
   bool devMode = false;
 
-
   //###################
 
   void readconfJson() async {
@@ -44,7 +43,7 @@ class GlobalConfig {
     // String confJson = 'prod_charisma'; //!!!PRODUÇÃO!!!
     // String confJson = 'dev_charisma_TestesApk'; // Quando enviar apk para marcos.
 
-    String confJson = globalConfJson;  // <== OPÇÃO PADRÃO
+    String confJson = globalConfJson; // <== OPÇÃO PADRÃO
 
     if (confJson != '') {
       var jsonFile;
@@ -59,7 +58,8 @@ class GlobalConfig {
       try {
         json = jsonDecode(jsonFile);
       } catch (e) {
-        throw 'Foi definido "--dart-define=conf=" porém o Arquivo "$confJsonPath" não parece um Json válido.' + e.toString();
+        throw 'Foi definido "--dart-define=conf=" porém o Arquivo "$confJsonPath" não parece um Json válido.' +
+            e.toString();
       }
       var conf = json[confJson];
 
