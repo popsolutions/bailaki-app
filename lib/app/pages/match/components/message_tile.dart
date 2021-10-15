@@ -26,12 +26,12 @@ class MessageTile extends StatelessWidget {
         mainAxisAlignment:
             sender ? MainAxisAlignment.end : MainAxisAlignment.start,
         children: [
-          if (!sender)
-            CircleAvatar(
-              radius: 30,
-              //backgroundColor: Colors.blue,
-              backgroundImage:imageBytes != null ? MemoryImage(imageBytes) : null,
-            ),
+          // if (!sender)
+          //   CircleAvatar(
+          //     radius: 30,
+          //     //backgroundColor: Colors.blue,
+          //     backgroundImage:imageBytes != null ? MemoryImage(imageBytes) : null,
+          //   ),
           const SizedBox(width: 20),
           Flexible(
               child: GestureDetector(
