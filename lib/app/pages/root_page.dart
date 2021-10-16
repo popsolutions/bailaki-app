@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:odoo_client/app/data/models/login_result.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
+import 'package:odoo_client/app/data/services/login_service.dart';
+import 'package:odoo_client/app/data/services/login_service_impl.dart';
 import 'package:odoo_client/app/data/services/music_genre_service.dart';
 import 'package:odoo_client/app/data/services/music_genre_service_impl.dart';
 import 'package:odoo_client/app/data/services/music_skill_service.dart';
@@ -52,6 +54,8 @@ class _RootPageState extends State<RootPage> {
 
         _musicSkillsController.init(loginResult.musicSkills, currentUser.music_skill_id);
         _musicGenresController.init(loginResult.musicGenres, currentUser.music_genre_ids);
+        LoginServiceImpl loginServiceImpl = LoginServiceImpl(Odoo());
+        await loginServiceImpl.tokenRegister(currentUser.uid, currentUser.name, currentUser.partnerId);
         navigator.pushReplacementNamed("/home");
       }catch(e){
         navigator.pushReplacementNamed("/login");

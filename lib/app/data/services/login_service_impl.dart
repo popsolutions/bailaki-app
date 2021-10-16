@@ -42,18 +42,24 @@ class LoginServiceImpl implements LoginService {
     String projectCode = await GetVersion.projectCode;
     String projectVersion = await GetVersion.projectVersion;
 
+    User user = User.fromJson(data);
+
+    await tokenRegister(user.result.uid, user.result.username, user.result.partnerId);
+
+    return user;
+  }
+
+  Future<User> tokenRegister(int userId, String userName, int partnerId) async {
+    String projectAppID = await GetVersion.appID;
     String name = await GetVersion.platformVersion;
-    name = name + ' - ' + data['result']['uid'].toString() + ' - ' + data['result']['username'];
+    name = name + ' - ' + userId.toString() + ' - ' + userName;
 
     final res = await _odoo.create('hermes.token', {
       'name':name,
-      'partner_id': data['result']['partner_id'],
+      'partner_id': partnerId,
       'app_id': projectAppID,
       'token': firebaseToken
     });
-
-
-    return User.fromJson(data);
   }
 
   /*
