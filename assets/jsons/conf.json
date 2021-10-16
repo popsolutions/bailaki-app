@@ -1,0 +1,41 @@
+{
+  "prod_Mateus": {
+    "serverURL": "https://bailaki.com.br",
+    "dbName": "bailaki-staging",
+    "userOdoo": "mateus.2006@gmail.com",
+    "pass": "123123",
+
+    "hoursDiffServer": -3,
+    "LatitudeMocked": -22.4808083,
+    "LongitudeMocked": -48.5619883,
+    "devMode": true,
+    "#alertaApp": "ALERTA!!"
+  },
+  "prod_rihanna": {
+    "serverURL": "https://bailaki.com.br",
+    "dbName": "bailaki-staging",
+    "#userOdoo": "support@popsolutions.co",
+    "#pass": "1ND1C0p4c1f1c0",
+    "userOdoo": "rihanna@gmail.com",
+    "pass": "123456789",
+
+    "hoursDiffServer": -3,
+    "LatitudeMocked": -22.4808083,
+    "LongitudeMocked": -48.5619883,
+    "devMode": true,
+    "#alertaApp": "ALERTA!!"
+  },
+  "local_mateus": {
+    "serverURL": "http://192.168.0.55:8069",
+    "dbName": "odoo_mateus",
+    "userOdoo": "m30@gmail.com",
+    "pass": "123123",
+
+    "hoursDiffServer": -3,
+    "LatitudeMocked": -22.4808083,
+    "LongitudeMocked": -48.5619883,
+    "devMode": true,
+    "#alertaApp": "ALERTA!!"
+  }
+}
+x

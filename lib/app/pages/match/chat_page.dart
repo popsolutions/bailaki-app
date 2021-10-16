@@ -37,7 +37,8 @@ class _ChatPageState extends State<ChatPage> {
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _chatController = GetIt.I.get<ChatController>();
     _messageEditingController = TextEditingController();
-    _sendMessageReaction = reaction((_) => _chatController.sendMessageRequest.status, _onMessage);
+    _sendMessageReaction =
+        reaction((_) => _chatController.sendMessageRequest.status, _onMessage);
     appLifecycleState = AppLifecycleState.resumed;
 
     _scrollController.addListener(_scrollListener);
@@ -102,7 +103,9 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   void _scrollListener() {
-    if (_scrollController.hasClients && _scrollController.position.pixels == _scrollController.position.maxScrollExtent) {
+    if (_scrollController.hasClients &&
+        _scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
       _shouldAutoscroll = true;
     } else {
       _shouldAutoscroll = false;
@@ -130,7 +133,9 @@ class _ChatPageState extends State<ChatPage> {
                 },
                 child: CircleAvatar(
                   radius: 22,
-                  backgroundImage:_inversePartner?.photo?.bytes != null ? MemoryImage(_inversePartner?.photo?.bytes) : null,
+                  backgroundImage: _inversePartner?.photo?.bytes != null
+                      ? MemoryImage(_inversePartner?.photo?.bytes)
+                      : null,
                 ),
               ),
               const SizedBox(width: 10),
@@ -149,7 +154,8 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             Observer(builder: (_) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
-                _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+                _scrollController
+                    .jumpTo(_scrollController.position.maxScrollExtent);
               });
 
               final response = _chatController.messagesRequest;
@@ -184,7 +190,7 @@ class _ChatPageState extends State<ChatPage> {
                             itemBuilder: (_, index) {
                               final message = messages[index];
                               return MessageTile(
-                                imageBytes: _inversePartner?.photo?.bytes,
+                                // imageBytes: _inversePartner?.photo?.bytes,
                                 padding: const EdgeInsets.only(
                                     left: 10, right: 10, top: 5),
                                 sender: message.authorId == _user.partnerId,

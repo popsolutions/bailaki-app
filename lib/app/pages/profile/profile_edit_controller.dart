@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/image_dto.dart';
@@ -67,22 +68,86 @@ abstract class _ProfileEditControllerBase with Store {
 
   ObservableFuture get removeImageRequest => _removeImageRequest;
 
-//TODO: tratar erro ao adicionar / remover imagem
-//TODO: comprimir imagens
-  void addImage() {
-    final uuid = Uuid().v4();
-    _imagePicker.getImage(source: ImageSource.gallery).then((value) async {
-      final bytes = await value.readAsBytes();
-      _imageService
-          .sendFile(ImageDto(_partnerId, uuid, bytes))
-          .then((value) async {
-        _images.add(Photo(
-          id: value,
-          name: uuid,
-          bytes: bytes,
-        ));
-      });
-    });
+  //TODO: tratar erro ao adicionar / remover imagem
+  //TODO: comprimir imagens
+
+  void addImage(BuildContext context) {
+    showModalBottomSheet(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20),
+          topLeft: Radius.circular(20),
+        ),
+      ),
+      isScrollControlled: true,
+      context: context,
+      builder: (_) {
+        return Container(
+          // color: goopColors.white,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                margin: EdgeInsets.only(
+                  top: 20,
+                  bottom: 10,
+                ),
+                height: 3,
+                width: 60,
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * .5,
+                child: ElevatedButton.icon(
+                  icon: Icon(Icons.camera_alt),
+                  label: Text('Tire uma foto.'),
+                  onPressed: () async {
+                    final uuid = Uuid().v4();
+                    _imagePicker
+                        .getImage(source: ImageSource.camera)
+                        .then((value) async {
+                      final bytes = await value.readAsBytes();
+                      _imageService
+                          .sendFile(ImageDto(_partnerId, uuid, bytes))
+                          .then((value) async {
+                        _images.add(Photo(
+                          id: value,
+                          name: uuid,
+                          bytes: bytes,
+                        ));
+                      });
+                    });
+                  },
+                ),
+              ),
+              Container(
+                width: MediaQuery.of(context).size.width * .5,
+                child: ElevatedButton.icon(
+                  icon: Icon(Icons.attach_file_outlined),
+                  label: Text('Escolha um arquivo'),
+                  onPressed: () async {
+                    final uuid = Uuid().v4();
+                    _imagePicker
+                        .getImage(source: ImageSource.gallery)
+                        .then((value) async {
+                      final bytes = await value.readAsBytes();
+                      _imageService
+                          .sendFile(ImageDto(_partnerId, uuid, bytes))
+                          .then((value) async {
+                        _images.add(Photo(
+                          id: value,
+                          name: uuid,
+                          bytes: bytes,
+                        ));
+                      });
+                    });
+                  },
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   void removeImage(Photo image) {
