@@ -38,7 +38,7 @@ class _MatchPageState extends State<MatchPage> {
   }
 
   void timerCreate(){
-    timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+    timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
       channelsUpdate();
     });
   }
