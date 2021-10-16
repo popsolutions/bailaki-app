@@ -182,6 +182,31 @@ class Odoo {
     return {"lang": "en_US", "tz": "Europe/Brussels", "uid": _uid};
   }
 
+  Future<OdooResponse> callRequestGet(String url) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _headers["Cookie"] = prefs.getString("session");
+    print("------------------------------------------->>>");
+    print("REQUEST: ${url}");
+    print("------------------------------------------->>>");
+    print("HEADERS.:");
+    _headers.forEach((key, value) {print(key + ':' + (value ?? '') + '\n');});
+    print("------------------------------------------->>>>");
+
+    final response =
+    await _client.get(Uri.parse(url), headers: _headers);
+    _updateCookies(response);
+    print("<<<<============================================");
+    print("RESPONSE: ${response.body}");
+    print("<<<<============================================");
+
+    OdooResponse odooResponse = new OdooResponse(json.decode(response.body), response.statusCode);
+
+    if (odooResponse.hasError())
+      throw FormatException(odooResponse.getErrorMessage(), 'callRequestGet');
+
+    return odooResponse;
+  }
+
   Future<OdooResponse> callRequest(String url, Map payload) async {
     var body = json.encode(payload);
     SharedPreferences prefs = await SharedPreferences.getInstance();

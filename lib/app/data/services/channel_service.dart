@@ -4,7 +4,6 @@ import 'package:odoo_client/app/data/models/memory_image.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 
 abstract class ChannelService {
-  Future<List<Channel>> findByMatch(List<int> partnerIds);
   Future<List<Channel>> findChannel(int partnerId, bool getImages);
   Future<void> save(CreateChannelDto createChannelDto);
 }
