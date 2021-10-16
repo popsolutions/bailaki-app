@@ -11,6 +11,8 @@ import 'package:odoo_client/app/pages/home/home_controller.dart';
 import 'package:odoo_client/app/pages/home/select_partner_page.dart';
 import 'package:odoo_client/app/pages/match/match_page.dart';
 import 'package:odoo_client/app/pages/settings/switch_settings_page.dart';
+import 'package:odoo_client/shared/components/dialogs.dart';
+import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
 class _NavigationBarItemModel {
   final Widget icon;
@@ -28,9 +30,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   HomeController _homeController;
   List<Widget> _widgets;
   ReactionDisposer _locationReaction;
+  AuthenticationController _authenticationController;
 
   @override
   void initState() {
+    _authenticationController = GetIt.I.get<AuthenticationController>();
     WidgetsBinding.instance.addObserver(this);
     _homeController = GetIt.I.get<HomeController>();
     _widgets = const [
@@ -58,7 +62,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   void showNotifyMessage(RemoteMessage message) async {
     ChannelServiceImpl channelService = ChannelServiceImpl(Odoo());
-    List<Channel> listChannel = await channelService.findByMatch([0], int.parse(message.data['channel_id']));
+    List<Channel> listChannel = await channelService.findChannel(_authenticationController.currentUser.partnerId, true, message.data['channel_id']);
 
     Navigator.of(context).pushNamed("/chat", arguments: listChannel[0]);
   }

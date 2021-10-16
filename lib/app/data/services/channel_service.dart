@@ -1,9 +1,11 @@
 import 'package:odoo_client/app/data/models/channel.dart';
 import 'package:odoo_client/app/data/models/create_channel_dto.dart';
+import 'package:odoo_client/app/data/models/memory_image.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 
 abstract class ChannelService {
   Future<List<Channel>> findByMatch(List<int> partnerIds);
+  Future<List<Channel>> findChannel(int partnerId, bool getImages);
   Future<void> save(CreateChannelDto createChannelDto);
 }
 
@@ -30,70 +32,30 @@ class ChannelServiceImpl implements ChannelService {
   }
 
   @override
-  Future<List<Channel>> findByMatch(List<int> partnerIds, [int channel_id = 0]) async {
-    dynamic domain;
+  Future<List<Channel>> findChannel(int partnerId, bool getImages, [String channel_id = '']) async {
+    if (channel_id != '')
+      channel_id = '&channel_id=$channel_id';
 
-    if (channel_id == 0) {
-      domain = [
-        '|',
-        ['name', '=', '${partnerIds.first},${partnerIds.last}'],
-        ['name', '=', '${partnerIds.last},${partnerIds.first}'],
-      ];
-    } else
-      domain = [
-        ['id', '=', channel_id],
-      ];
+    final channelsOdoo = await _odoo.getApi('bailaki/channels_amounts?partner_id=$partnerId&getImages=${getImages ? 'true' : 'false'}$channel_id');
+    final channels = (channelsOdoo.getResponse() as List)
+        ?.map<Channel>((e) => Channel.fromJson(e))
+        ?.toList();
 
-    final response = await _odoo.searchRead('mail.channel', domain, []);
-    final List channels = response.getRecords();
+    return channels;
+  }
 
-    if (channel_id != 0) {
-      partnerIds = [channels[0]['channel_partner_ids'][0], channels[0]['channel_partner_ids'][1]];
-    }
+  Future<void> setChannelImageOtherPartner(int partnerIdNot, Channel channel) async {
+    PartnerChannel partnerChannel = channel.getPartnerOther(partnerIdNot);
 
-    final channelPartners = await _odoo.searchRead('res.partner', [
-      ['id', 'in', partnerIds],
-    ], [
-      'name',
-      'id',
-    ]);
-
-    for (var channelPartner in channelPartners.getRecords()) {
-      final imageResponse = await _odoo.searchRead('res.partner.image', [
-        ['res_partner_id', '=', channelPartner['id']]
-      ], []);
+    final imageResponse = await _odoo.searchRead('res.partner', [
+        ['id', '=', partnerChannel.id]
+      ], ['image_small']);
 
       final List images = imageResponse.getRecords();
 
       if (images.isNotEmpty) {
-        final firstImage = images.first;
-        channelPartner['image'] = firstImage;
+        partnerChannel.photo = Photo.fromJsonImage(images[0]['image_small']);
       }
     }
 
-    print(channelPartners);
-
-    for (var channel in channels) {
-      final messagesResponse = await _odoo.searchRead(
-          'mail.message',
-          [
-            ['res_id', '=', channel['id']],
-          ],
-          [],
-          limit: 1,
-          order: 'id desc');
-
-      final List items = messagesResponse.getRecords();
-      if (items.isNotEmpty) {
-        channel['lastMessage'] = items.first['body'];
-      }
-    }
-
-    final items = channels
-        .map<Channel>((channel) => Channel.fromJson(
-            {...channel, 'partners': channelPartners.getRecords()}))
-        .toList();
-
-    return items;
-  }
 }

@@ -1,11 +1,14 @@
 import 'package:odoo_client/app/data/models/memory_image.dart';
+import 'package:collection/collection.dart';
 
 class Channel {
   final int channelId;
   final String name;
   final int leftPartnerId;
   final int rightPartnerId;
-  final String lastMessage;
+  String lastMessage;
+  int amount_newmessages;
+  bool newChannel = false;
   final List<PartnerChannel> partners;
 
   Channel({
@@ -15,6 +18,7 @@ class Channel {
     this.rightPartnerId,
     this.lastMessage,
     this.partners,
+    this.amount_newmessages
   });
 
   PartnerChannel inverseChatter(int partnerId) {
@@ -28,15 +32,16 @@ class Channel {
           .map<PartnerChannel>((e) => PartnerChannel.fromJson(e))
           .toList(),
       name: json['name'],
-      channelId: json['id'],
+      channelId: json['channelId'],
       lastMessage: json['lastMessage']?.replaceAll('<p>', '')?.replaceAll('</p>', ''),
-      leftPartnerId: json['channel_partner_ids'].isNotEmpty
-          ? json['channel_partner_ids'].first
-          : null,
-      rightPartnerId: json['channel_partner_ids'].isNotEmpty
-          ? json['channel_partner_ids'].last
-          : null,
+      leftPartnerId: json['leftPartnerId'],
+      rightPartnerId: json['rightPartnerId'],
+      amount_newmessages: json['amount_newmessages']
     );
+  }
+
+  PartnerChannel getPartnerOther(int partnerIdOther){
+    return partners.firstWhereOrNull((element) => element.id != partnerIdOther);
   }
 }
 
@@ -50,6 +55,6 @@ class PartnerChannel {
   PartnerChannel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
-    photo = json['image'] != null ? Photo.fromJson(json['image']) : null;
+    photo = json['photo'] != null ? Photo.fromJsonImage(json['photo']) : null;
   }
 }

@@ -8,13 +8,15 @@ class ChatTile extends StatelessWidget {
   final String name;
   final String description;
   final Uint8List imageBytes;
+  final int amount_newmessages;
   const ChatTile(
       {Key key,
       this.padding,
       this.onTap,
       this.name,
       this.description,
-      this.imageBytes})
+      this.imageBytes,
+      this.amount_newmessages})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -61,6 +63,16 @@ class ChatTile extends StatelessWidget {
                       ),
                     ],
                   ),
+                  if (amount_newmessages > 0)
+                  Text(
+                    amount_newmessages.toString(),
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w300,
+                      fontSize: 15,
+                    ),
+                  )
+
                 ],
               ),
             )

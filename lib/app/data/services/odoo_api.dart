@@ -78,6 +78,11 @@ class Odoo {
     return await callRequest(url, createPayload(params));
   }
 
+  Future<OdooResponse> getApi(String api) async {
+    var url = createPath("/$api");
+    return await callRequestGet(url);
+  }
+
   // Call any model method with arguments
   Future<OdooResponse> callKW(String model, String method, List args,
       {dynamic kwargs, Map context}) async {

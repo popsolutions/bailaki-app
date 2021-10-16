@@ -21,8 +21,9 @@ class MessageServiceImpl implements MessageService {
     List domain = [];
     domain.add(['res_id', '=', searchMessageRequestDto.channelId]);
     domain.add(["message_type", "=", "comment"]);
+    domain.add(["processLastMessage", "=", "True"]);
 
-    if (searchMessageRequestDto.lastIdReceived != 0)
+    if ((searchMessageRequestDto.lastIdReceived ?? 0) != 0)
       domain.add(["id", ">", searchMessageRequestDto.lastIdReceived]);
 
     if (searchMessageRequestDto.author_idNot != 0)

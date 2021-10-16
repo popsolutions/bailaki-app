@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
@@ -15,6 +17,7 @@ class MatchPage extends StatefulWidget {
 class _MatchPageState extends State<MatchPage> {
   AuthenticationController _authenticationController;
   MatchController _matchController;
+  Timer timer;
 
   @override
   void initState() {
@@ -24,6 +27,27 @@ class _MatchPageState extends State<MatchPage> {
     _matchController.currentPartnerId =
         _authenticationController.currentUser.partnerId;
     _matchController.load();
+
+    timerCreate();
+  }
+
+  @override
+  void dispose() {
+    timer.cancel();
+    super.dispose();
+  }
+
+  void timerCreate(){
+    timer = Timer.periodic(Duration(seconds: 3), (Timer timer) {
+      channelsUpdate();
+    });
+  }
+
+  void channelsUpdate() async {
+    timer.cancel();
+    await _matchController.update();
+    setState(() {});
+    timerCreate();
   }
 
   @override
@@ -127,6 +151,7 @@ class _MatchPageState extends State<MatchPage> {
                           return ChatTile(
                             imageBytes: inverseChatter?.photo?.bytes,
                             description: item.lastMessage ?? '',
+                            amount_newmessages: item.amount_newmessages,
                             name: inverseChatter.name,
                             padding: const EdgeInsets.all(18),
                             onTap: () {

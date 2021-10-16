@@ -32,4 +32,8 @@ class OdooResponse {
   dynamic getRecords() {
     return getResult()['records'];
   }
+
+  dynamic getResponse() {
+    return _result['data']['response'];
+  }
 }
