@@ -40,9 +40,6 @@ class GlobalConfig {
   void readconfJson() async {
     //### Esta rotina irá carregar as variáveis padrões de acordo com as configurações estabelecidas em "assets/jsons/conf.json"
 
-    // String confJson = 'prod_charisma'; //!!!PRODUÇÃO!!!
-    // String confJson = 'dev_charisma_TestesApk'; // Quando enviar apk para marcos.
-
     String confJson = globalConfJson; // <== OPÇÃO PADRÃO
 
     if (confJson != '') {
@@ -58,8 +55,7 @@ class GlobalConfig {
       try {
         json = jsonDecode(jsonFile);
       } catch (e) {
-        throw 'Foi definido "--dart-define=conf=" porém o Arquivo "$confJsonPath" não parece um Json válido.' +
-            e.toString();
+        throw 'Foi definido "--dart-define=conf=" porém o Arquivo "$confJsonPath" não parece um Json válido.' + e.toString();
       }
       var conf = json[confJson];
 
