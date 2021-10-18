@@ -26,13 +26,12 @@ class ChatTile extends StatelessWidget {
         padding: padding,
         child: Row(
           children: [
-            
             CircleAvatar(
               radius: 50,
               //backgroundColor: Colors.blue,
-              backgroundImage:imageBytes != null ? MemoryImage(imageBytes) : null,
+              backgroundImage:
+                  imageBytes != null ? MemoryImage(imageBytes) : null,
             ),
-            
             const SizedBox(width: 20),
             Flexible(
               child: Column(
@@ -53,26 +52,27 @@ class ChatTile extends StatelessWidget {
                         size: 15,
                       ),
                       const SizedBox(width: 3),
-                      Text(
-                        description,
-                        style: TextStyle(
-                          color: Colors.grey[800],
-                          fontWeight: FontWeight.w300,
-                          fontSize: 15,
+                      Expanded(
+                        child: Text(
+                          description,
+                          style: TextStyle(
+                            color: Colors.grey[800],
+                            fontWeight: FontWeight.w300,
+                            fontSize: 15,
+                          ),
                         ),
                       ),
                     ],
                   ),
                   if (amount_newmessages > 0)
-                  Text(
-                    amount_newmessages.toString(),
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w300,
-                      fontSize: 15,
-                    ),
-                  )
-
+                    Text(
+                      amount_newmessages.toString(),
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                        fontSize: 15,
+                      ),
+                    )
                 ],
               ),
             )

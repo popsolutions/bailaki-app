@@ -37,7 +37,7 @@ class _MatchPageState extends State<MatchPage> {
     super.dispose();
   }
 
-  void timerCreate(){
+  void timerCreate() {
     timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
       channelsUpdate();
     });
@@ -77,7 +77,6 @@ class _MatchPageState extends State<MatchPage> {
                   Row(
                     children: [
                       Icon(
-                        
                         Icons.search,
                         color: Colors.pink,
                         size: 27,
@@ -155,8 +154,10 @@ class _MatchPageState extends State<MatchPage> {
                             name: inverseChatter.name,
                             padding: const EdgeInsets.all(18),
                             onTap: () {
-                              Navigator.of(context)
-                                  .pushNamed("/chat", arguments: item);
+                              Navigator.of(context).pushNamed(
+                                "/chat",
+                                arguments: item,
+                              );
                             },
                           );
                         },
