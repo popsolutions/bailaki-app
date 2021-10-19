@@ -46,14 +46,14 @@ class ChannelServiceImpl implements ChannelService {
   Future<void> setChannelImageOtherPartner(int partnerIdNot, Channel channel) async {
     PartnerChannel partnerChannel = channel.getPartnerOther(partnerIdNot);
 
-    final imageResponse = await _odoo.searchRead('res.partner', [
-        ['id', '=', partnerChannel.id]
-      ], ['image_small']);
+    final imageResponse = await _odoo.searchRead('res.partner.image', [
+        ['res_partner_id', '=', partnerChannel.id]
+      ], ['image'], limit: 1);
 
       final List images = imageResponse.getRecords();
 
       if (images.isNotEmpty) {
-        partnerChannel.photo = Photo.fromJsonImage(images[0]['image_small']);
+        partnerChannel.photo = Photo.fromJsonImage(images[0]['image']);
       }
     }
 
