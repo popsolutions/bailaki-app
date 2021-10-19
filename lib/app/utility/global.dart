@@ -3,16 +3,16 @@ import 'package:flutter/services.dart' as rootBundle;
 import 'dart:convert';
 
 GlobalConfig globalConfig = GlobalConfig();
-const String globalConfJson = String.fromEnvironment('conf',
-    defaultValue: ''); //--dart-define=conf=dev_charisma1
+const String globalConfJson = String.fromEnvironment('conf', defaultValue: ''); //--dart-define=conf=dev_charisma1
+
 
 class GlobalConfig {
   String confJsonPath = 'assets/jsons/conf.json';
 
   String dbName = '';
   String serverURL = '';
-  String userOdoo = 'support@popsolutions.co';
-  String pass = '1ND1C0p4c1f1c0';
+  String userOdoo = '';
+  String pass = '';
   String alertaApp = '';
 
   get serverURLRegisterPage => serverURL + '/web/signup';
@@ -35,12 +35,13 @@ class GlobalConfig {
 
   bool devMode = false;
 
+
   //###################
 
   void readconfJson() async {
     //### Esta rotina irá carregar as variáveis padrões de acordo com as configurações estabelecidas em "assets/jsons/conf.json"
 
-    String confJson = globalConfJson; // <== OPÇÃO PADRÃO
+    String confJson = globalConfJson;  // <== OPÇÃO PADRÃO
 
     if (confJson != '') {
       var jsonFile;

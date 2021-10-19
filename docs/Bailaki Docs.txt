@@ -2,4 +2,5 @@ Apartir desta revisão se tornou necessário para build acrescentar --no-tree-sh
 
 ::Build padrão para celular para dev:
 flutter build apk --no-tree-shake-icons --dart-define=conf=local_mateus
+flutter build apk --no-tree-shake-icons --dart-define=conf=prod_Mateus
 
