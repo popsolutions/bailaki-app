@@ -103,7 +103,10 @@ abstract class _ProfileEditControllerBase with Store {
                   onPressed: () async {
                     final uuid = Uuid().v4();
                     _imagePicker
-                        .getImage(source: ImageSource.camera)
+                        .getImage(
+                      source: ImageSource.camera,
+                      imageQuality: 25,
+                    )
                         .then((value) async {
                       final bytes = await value.readAsBytes();
                       _imageService
@@ -127,7 +130,10 @@ abstract class _ProfileEditControllerBase with Store {
                   onPressed: () async {
                     final uuid = Uuid().v4();
                     _imagePicker
-                        .getImage(source: ImageSource.gallery)
+                        .getImage(
+                      source: ImageSource.gallery,
+                      imageQuality: 25,
+                    )
                         .then((value) async {
                       final bytes = await value.readAsBytes();
                       _imageService
