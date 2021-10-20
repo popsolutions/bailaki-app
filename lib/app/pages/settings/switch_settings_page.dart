@@ -57,8 +57,9 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                           CircleAvatar(
                             radius: 70,
                             backgroundImage: MemoryImage(
-                                _authenticationController
-                                    .currentUser.avatar.bytes),
+                              _authenticationController
+                                  .currentUser.avatar.bytes,
+                            ),
                           )
                         else
                           CircleAvatar(
@@ -73,13 +74,33 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                         const SizedBox(
                           height: 10,
                         ),
-                        Text(
-                          "${user.name}",
-                          style: TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.w600,
-                              // color: Color.fromRGBO(61, 64, 61, 1),
-                              color: Colors.white),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            // Container(
+                            //   width: 100,
+                            //   child: TextFormField(
+                            //     initialValue: user.name,
+                            //     decoration: InputDecoration(),
+                            //   ),
+                            // ),
+                            Text(
+                              "${user.name}",
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontWeight: FontWeight.w600,
+                                  // color: Color.fromRGBO(61, 64, 61, 1),
+                                  color: Colors.white),
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
                         const SizedBox(height: 4),
                         Text(
