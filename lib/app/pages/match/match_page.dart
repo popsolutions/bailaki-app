@@ -146,7 +146,8 @@ class _MatchPageState extends State<MatchPage> {
                         itemBuilder: (_, index) {
                           final item = items[index];
                           final inverseChatter = item.inverseChatter(
-                              _authenticationController.currentUser.partnerId);
+                            _authenticationController.currentUser.partnerId,
+                          );
                           return ChatTile(
                             imageBytes: inverseChatter?.photo?.bytes,
                             description: item.lastMessage ?? '',
