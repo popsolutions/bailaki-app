@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
@@ -131,7 +132,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             counter: 120,
                             hasArrowIndicator: false,
                           ),
-                          height: 120,
+                          height: 200,
                         ),
                         const SizedBox(height: 10),
                         _buildTile(
@@ -159,7 +160,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             },
                             title: "Profissão",
                           ),
-                          height: 70,
+                          height: 100,
                         ),
                         const SizedBox(height: 10),
                         Container(
@@ -291,16 +292,17 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     ));
   }
 
-  Widget _buildTextFieldTile(
-      {String title,
-      String hintText,
-      TextStyle hintTextStyle,
-      String initialValue,
-      TextEditingController controller,
-      void Function(String value) onChanged,
-      int counter,
-      bool enabled = true,
-      bool hasArrowIndicator = true}) {
+  Widget _buildTextFieldTile({
+    String title,
+    String hintText,
+    TextStyle hintTextStyle,
+    String initialValue,
+    TextEditingController controller,
+    void Function(String value) onChanged,
+    int counter,
+    bool enabled = true,
+    bool hasArrowIndicator = true,
+  }) {
     return ContainerTile(
         child: Padding(
       padding: const EdgeInsets.only(top: 4, bottom: 1),
@@ -317,17 +319,19 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 const SizedBox(height: 10),
                 Expanded(
                   child: TextFormField(
+                    maxLengthEnforcement: MaxLengthEnforcement.enforced,
                     initialValue: initialValue,
                     enabled: enabled,
                     controller: controller,
                     maxLines: null,
                     maxLength: 120,
                     onChanged: onChanged,
-                    maxLengthEnforced: true,
-                    buildCounter: (context,
-                            {int currentLength,
-                            bool isFocused,
-                            int maxLength}) =>
+                    buildCounter: (
+                      context, {
+                      int currentLength,
+                      bool isFocused,
+                      int maxLength,
+                    }) =>
                         Container(
                       width: 0,
                       height: 0,
@@ -405,8 +409,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            // Color.fromRGBO(0, 255, 253, 1),
-            // Color.fromRGBO(254, 0, 236, 1),
             Colors.cyan,
             Colors.pink,
           ],
@@ -434,7 +436,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 if (isValid)
                   _profileEditController.removeImage(item);
                 else
-                  _profileEditController.addImage(context); //TODO
+                  _profileEditController.addImage(context);
               },
               imageBytes: item.bytes,
             );
@@ -450,7 +452,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     List<int> imageBytes,
   }) {
     return Stack(
-      overflow: Overflow.visible,
+      clipBehavior: Clip.none,
       children: [
         Container(color: Colors.transparent),
         Padding(
@@ -466,7 +468,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
               child: imageBytes != null
                   ? Image.memory(
                       imageBytes,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.cover,
                     )
                   : Container(),
             ),

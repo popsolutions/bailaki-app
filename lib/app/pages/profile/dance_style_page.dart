@@ -115,9 +115,10 @@ class MusicalPreferenceTile extends StatelessWidget {
       padding: EdgeInsets.zero,
       deleteButtonTooltipMessage: "remove music preference",
       shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(20),
-          side: BorderSide(
-              width: 0.7, color: isSelected ? Colors.blue : Colors.grey)),
+        borderRadius: BorderRadius.circular(20),
+        side:
+            BorderSide(width: 4, color: isSelected ? Colors.blue : Colors.grey),
+      ),
 /*
       deleteIcon: CircleAvatar(
         radius: 8,
