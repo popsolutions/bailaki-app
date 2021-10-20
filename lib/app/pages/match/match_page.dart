@@ -18,6 +18,7 @@ class _MatchPageState extends State<MatchPage> {
   AuthenticationController _authenticationController;
   MatchController _matchController;
   Timer timer;
+  bool timerCreateFlag = false;
 
   @override
   void initState() {
@@ -27,8 +28,6 @@ class _MatchPageState extends State<MatchPage> {
     _matchController.currentPartnerId =
         _authenticationController.currentUser.partnerId;
     _matchController.load();
-
-    timerCreate();
   }
 
   @override
@@ -37,7 +36,8 @@ class _MatchPageState extends State<MatchPage> {
     super.dispose();
   }
 
-  void timerCreate() {
+  void timerchannelsUpdateCreate() {
+    timerCreateFlag = true;
     timer = Timer.periodic(Duration(seconds: 5), (Timer timer) {
       channelsUpdate();
     });
@@ -47,7 +47,7 @@ class _MatchPageState extends State<MatchPage> {
     timer.cancel();
     await _matchController.update();
     setState(() {});
-    timerCreate();
+    timerchannelsUpdateCreate();
   }
 
   @override
@@ -128,6 +128,10 @@ class _MatchPageState extends State<MatchPage> {
                       child: CircularProgressIndicator(),
                     );
                   default:
+
+                    if (!timerCreateFlag)
+                      timerchannelsUpdateCreate();
+
                     if (items.isEmpty) {
                       return Center(
                         child: Text(
