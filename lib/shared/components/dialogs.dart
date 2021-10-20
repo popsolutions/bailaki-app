@@ -3,9 +3,9 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-showMessage(String title, String message, BuildContext context) {
+showMessage(String title, String message, BuildContext context) async {
   if (Platform.isAndroid) {
-    showDialog(
+    await showDialog(
       context: context,
       barrierDismissible: false,
       builder: (BuildContext ctxt) {
@@ -46,7 +46,7 @@ showMessage(String title, String message, BuildContext context) {
     );
   }
   if (Platform.isIOS) {
-    showCupertinoDialog(
+    await showCupertinoDialog(
       context: context,
       builder: (BuildContext ctxt) {
         return CupertinoAlertDialog(

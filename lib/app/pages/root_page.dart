@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:odoo_client/app/data/models/login_result.dart';
@@ -9,6 +11,8 @@ import 'package:odoo_client/app/data/services/music_genre_service_impl.dart';
 import 'package:odoo_client/app/data/services/music_skill_service.dart';
 import 'package:odoo_client/app/data/services/music_skill_service_impl.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
+import 'package:odoo_client/app/utility/global.dart';
+import 'package:odoo_client/shared/components/dialogs.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 import 'package:odoo_client/shared/controllers/music_genres_controller.dart';
 import 'package:odoo_client/shared/controllers/music_skills_controller.dart';
@@ -39,6 +43,8 @@ class _RootPageState extends State<RootPage> {
   }
 
   void _onInitialAuthentication(UserProfile currentUser) async {
+    await readconfJson();
+
     final navigator = Navigator.of(context);
     if (currentUser == null) {
       navigator.pushReplacementNamed("/login");
@@ -60,6 +66,16 @@ class _RootPageState extends State<RootPage> {
       }catch(e){
         navigator.pushReplacementNamed("/login");
       }
+    }
+  }
+
+  void readconfJson() async {
+    try {
+      await globalConfig.readconfJson();
+      print('x');
+    } catch(e) {
+      await showMessage('Opss', 'Falha ao carregar parâmetros iniciais:\n${e.toString()}', context);
+      exit(0);
     }
   }
 
