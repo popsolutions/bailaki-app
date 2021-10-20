@@ -199,17 +199,30 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                               }
                             },
                             child: Observer(builder: (_) {
+                              String subtitleString() {
+                                switch (_profileEditController.gender) {
+                                  case 'male':
+                                    return 'Homem';
+                                    break;
+                                  case 'female':
+                                    return 'Mulher';
+                                    break;
+                                  default:
+                                    return '';
+                                }
+                              }
+
                               return _buildContainer(
-                                subtitle: _profileEditController.gender ?? '',
                                 title: "Gênero",
+                                subtitle: subtitleString(),
                               );
                             }),
                           ),
                           height: 70,
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 5),
                         Container(
-                          width: double.infinity,
+                          width: MediaQuery.of(context).size.width * .8,
                           child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               primary: const Color.fromRGBO(253, 0, 236, 1),
@@ -226,6 +239,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             child: Text('LogOut'),
                           ),
                         ),
+                        const SizedBox(height: 15),
                       ],
                     ),
                   ],
