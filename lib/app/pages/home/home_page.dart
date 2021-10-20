@@ -11,6 +11,7 @@ import 'package:odoo_client/app/pages/home/home_controller.dart';
 import 'package:odoo_client/app/pages/home/select_partner_page.dart';
 import 'package:odoo_client/app/pages/match/match_page.dart';
 import 'package:odoo_client/app/pages/settings/switch_settings_page.dart';
+import 'package:odoo_client/app/utility/global.dart';
 import 'package:odoo_client/shared/components/dialogs.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
@@ -34,6 +35,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    globalHomePage_logout = homePage_logout;
     _authenticationController = GetIt.I.get<AuthenticationController>();
     WidgetsBinding.instance.addObserver(this);
     _homeController = GetIt.I.get<HomeController>();
@@ -58,6 +60,19 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     });
 
     super.initState();
+  }
+
+  void homePage_logout() async {
+
+    showSnackBar(context, 'Seu usuário expirou, será necessário efetuar o login novamente.', milliseconds: 5000);
+
+    _authenticationController.logout();
+
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/',
+          (route) => false,
+    );
   }
 
   void showNotifyMessage(RemoteMessage message) async {

@@ -4,6 +4,7 @@ import 'dart:convert';
 
 GlobalConfig globalConfig = GlobalConfig();
 const String globalConfJson = String.fromEnvironment('conf', defaultValue: ''); //--dart-define=conf=dev_charisma1
+Function globalHomePage_logout;
 
 
 class GlobalConfig {

@@ -86,3 +86,28 @@ showMessage(String title, String message, BuildContext context) async {
     );
   }
 }
+
+showSnackBar(
+    BuildContext context, String _text, {Color backgroundColor = Colors.blueAccent, int milliseconds = 3000}) {
+  try {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        shape: StadiumBorder(),
+        duration: Duration(milliseconds: milliseconds),
+        backgroundColor: backgroundColor,
+        content: Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Text(
+            _text,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+    );
+  }catch(e){
+    print(e.toString());
+  }
+}
