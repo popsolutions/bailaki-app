@@ -128,9 +128,7 @@ class _MatchPageState extends State<MatchPage> {
                       child: CircularProgressIndicator(),
                     );
                   default:
-
-                    if (!timerCreateFlag)
-                      timerchannelsUpdateCreate();
+                    if (!timerCreateFlag) timerchannelsUpdateCreate();
 
                     if (items.isEmpty) {
                       return Center(

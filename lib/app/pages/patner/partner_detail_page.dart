@@ -80,13 +80,13 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                             alignment: Alignment.bottomCenter,
                             children: [
                               Container(
-                                height: 210,
+                                height: 350,
                                 child: TabBarView(
                                   children: data.images
                                       .map(
                                         (e) => Image.memory(
                                           e.bytes,
-                                          fit: BoxFit.fill,
+                                          fit: BoxFit.cover,
                                         ),
                                       )
                                       .toList(),

@@ -53,7 +53,7 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
             if (bytes != null)
               Image.memory(
                 bytes,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
               ),
             Align(
               alignment: Alignment.bottomCenter,
