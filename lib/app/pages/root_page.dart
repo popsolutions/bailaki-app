@@ -31,6 +31,7 @@ class _RootPageState extends State<RootPage> {
 
   @override
   void initState() {
+    globalHomePageStarted = false;
     _musicGenresController = GetIt.I.get<MusicGenresController>();
     _musicSkillsController = GetIt.I.get<MusicSkillsController>();
 
@@ -62,6 +63,7 @@ class _RootPageState extends State<RootPage> {
         _musicGenresController.init(loginResult.musicGenres, currentUser.music_genre_ids);
         LoginServiceImpl loginServiceImpl = LoginServiceImpl(Odoo());
         await loginServiceImpl.tokenRegister(currentUser.uid, currentUser.name, currentUser.partnerId);
+        await globalConfig_ParameterService.setGlobalConfig(_authenticationController.currentUser.uid.toString());
         navigator.pushReplacementNamed("/home");
       }catch(e){
         navigator.pushReplacementNamed("/login");

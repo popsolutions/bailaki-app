@@ -40,7 +40,7 @@ class OdooResponse {
     return getResult()['records'];
   }
 
-  dynamic getResponse() {
+  dynamic getResponseApi() {
     return _result['data']['response'];
   }
 }

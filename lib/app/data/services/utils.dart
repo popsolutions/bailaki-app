@@ -69,4 +69,12 @@ class Utils {
     });
     return _isNet;
   }
+
+  static Log(String source, String log) {
+    print('**Log: $source - $log');
+  }
+
+  static int convertStringToInt(String value) {
+    return int.parse(value);
+  }
 }

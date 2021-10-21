@@ -2,10 +2,14 @@ import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' as rootBundle;
 import 'dart:convert';
 
+import 'package:odoo_client/app/data/services/Config_ParameterService.dart';
+
 GlobalConfig globalConfig = GlobalConfig();
+Config_ParameterService globalConfig_ParameterService = Config_ParameterService();
+
 const String globalConfJson = String.fromEnvironment('conf', defaultValue: ''); //--dart-define=conf=dev_charisma1
 Function globalHomePage_logout;
-
+bool globalHomePageStarted = false;
 
 class GlobalConfig {
   String confJsonPath = 'assets/jsons/conf.json';
@@ -34,6 +38,8 @@ class GlobalConfig {
   double LatitudeMocked;
   double LongitudeMocked;
 
+  bool activeRegisterLogApiUser = false;
+  int activeRegisterLogApiUser_QtdeChar = 0;
   bool devMode = false;
 
 

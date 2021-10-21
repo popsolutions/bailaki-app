@@ -61,11 +61,13 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void _onLoginSuccess(LoginResult result) {
+  void _onLoginSuccess(LoginResult result) async {
     final user = result.userProfile;
     _authenticationController.authenticate(user);
     _musicSkillsController.init(result.musicSkills, user.music_skill_id);
     _musicGenresController.init(result.musicGenres, user.music_genre_ids);
+    await globalConfig_ParameterService.setGlobalConfig(_authenticationController.currentUser.uid.toString());
+
     Navigator.of(context).pushReplacementNamed('/home');
   }
 
