@@ -216,8 +216,9 @@ class _ChatPageState extends State<ChatPage> {
                     left: 10, right: 10, top: 10, bottom: 10),
                 child: Row(
                   children: [
-                    Flexible(
+                    Expanded(
                       child: TextField(
+                        maxLines: null,
                         controller: _messageEditingController,
                         onChanged: (e) {
                           _chatController.message = e;
@@ -241,14 +242,17 @@ class _ChatPageState extends State<ChatPage> {
                     const SizedBox(width: 10),
                     Observer(builder: (_) {
                       return IconButton(
-                        icon: Icon(
-                          Icons.send,
-                          color: _chatController.isEmptyMessage
-                              ? Colors.grey[400]
-                              : Colors.blue,
-                        ),
-                        onPressed: _chatController.send,
-                      );
+                          icon: Icon(
+                            Icons.send,
+                            color: _chatController.isEmptyMessage
+                                ? Colors.grey[400]
+                                : Colors.blue,
+                          ),
+                          onPressed: () {
+                            if (!_chatController.isEmptyMessage) {
+                              _chatController.send();
+                            }
+                          });
                     }),
                   ],
                 ),
