@@ -52,7 +52,8 @@ class LoginServiceImpl implements LoginService {
   Future<User> tokenRegister(int userId, String userName, int partnerId) async {
     String projectAppID = await GetVersion.appID;
     String name = await GetVersion.platformVersion;
-    name = name + ' - ' + userId.toString() + ' - ' + userName;
+    String versaoApp = await GetVersion.projectVersion + ' - ' + await GetVersion.projectCode;
+    name = name + ' - ' + userId.toString() + ' - ' + userName + ' - Versão App: "$versaoApp"';
 
     final res = await _odoo.create('hermes.token', {
       'name':name,
