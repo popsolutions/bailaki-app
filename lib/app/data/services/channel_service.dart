@@ -36,7 +36,7 @@ class ChannelServiceImpl implements ChannelService {
       channel_id = '&channel_id=$channel_id';
 
     final channelsOdoo = await _odoo.getApi('bailaki/channels_amounts?partner_id=$partnerId&getImages=${getImages ? 'true' : 'false'}$channel_id');
-    final channels = (channelsOdoo.getResponse() as List)
+    final channels = (channelsOdoo.getResponseApi() as List)
         ?.map<Channel>((e) => Channel.fromJson(e))
         ?.toList();
 

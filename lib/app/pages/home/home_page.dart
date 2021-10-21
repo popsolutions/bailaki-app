@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/channel.dart';
+import 'package:odoo_client/app/data/services/Config_ParameterService.dart';
 import 'package:odoo_client/app/data/services/channel_service.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 import 'package:odoo_client/app/pages/home/home_controller.dart';
@@ -59,6 +60,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       showNotifyMessage(message);
     });
 
+    globalHomePageStarted = true;
     super.initState();
   }
 

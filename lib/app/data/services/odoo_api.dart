@@ -207,6 +207,15 @@ class Odoo {
     return odooResponse;
   }
 
+  void callRequestGetLogConsoleRegister(String log) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _headers["Cookie"] = prefs.getString("session");
+    var url = createPath('/bailaki/printlog?msg=$log');
+    final response = _client.get(Uri.parse(url), headers: _headers);
+    // OdooResponse odooResponse = new OdooResponse(json.decode(response.body), response.statusCode);
+    // return odooResponse;
+  }
+
   Future<OdooResponse> callRequest(String url, Map payload) async {
     var body = json.encode(payload);
     SharedPreferences prefs = await SharedPreferences.getInstance();
