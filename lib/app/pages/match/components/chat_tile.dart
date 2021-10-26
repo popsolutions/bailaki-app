@@ -80,7 +80,7 @@ class ChatTile extends StatelessWidget {
           child: Visibility(
             visible: amount_newmessages > 0,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 5),
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
               decoration: BoxDecoration(
                 color: Colors.red,
                 borderRadius: BorderRadius.circular(50),
