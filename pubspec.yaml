@@ -35,6 +35,7 @@ dependencies:
   firebase_messaging: ^10.0.4
   get_version: ^0.2.2
   flutter_webview_plugin: ^0.4.0
+  flutter_map:
 
 dev_dependencies:
   flutter_test:

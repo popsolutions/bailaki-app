@@ -5,11 +5,11 @@ import 'package:get_it/get_it.dart';
 import 'package:location/location.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/channel.dart';
-import 'package:odoo_client/app/data/services/Config_ParameterService.dart';
 import 'package:odoo_client/app/data/services/channel_service.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 import 'package:odoo_client/app/pages/home/home_controller.dart';
 import 'package:odoo_client/app/pages/home/select_partner_page.dart';
+import 'package:odoo_client/app/pages/map/map_page.dart';
 import 'package:odoo_client/app/pages/match/match_page.dart';
 import 'package:odoo_client/app/pages/settings/switch_settings_page.dart';
 import 'package:odoo_client/app/utility/global.dart';
@@ -40,19 +40,21 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     _authenticationController = GetIt.I.get<AuthenticationController>();
     WidgetsBinding.instance.addObserver(this);
     _homeController = GetIt.I.get<HomeController>();
-    _widgets = const [
+    _widgets = [
       SelectPartnerPage(),
       MatchPage(),
       SwitchSettingsPage(),
+      MapPage(),
     ];
     _homeController.loadLocation();
     _locationReaction = reaction(
         (_) => _homeController.currentLocation.value, _onLocationUpdate);
 
-    FirebaseMessaging.instance.getInitialMessage().then((RemoteMessage message) {
+    FirebaseMessaging.instance
+        .getInitialMessage()
+        .then((RemoteMessage message) {
       //Receive Firebase notification and show message
-      if (message != null)
-        showNotifyMessage(message);
+      if (message != null) showNotifyMessage(message);
     });
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) async {
@@ -65,21 +67,25 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   void homePage_logout() async {
-
-    showSnackBar(context, 'Seu usuário expirou, será necessário efetuar o login novamente.', milliseconds: 5000);
+    showSnackBar(context,
+        'Seu usuário expirou, será necessário efetuar o login novamente.',
+        milliseconds: 5000);
 
     _authenticationController.logout();
 
     Navigator.pushNamedAndRemoveUntil(
       context,
       '/',
-          (route) => false,
+      (route) => false,
     );
   }
 
   void showNotifyMessage(RemoteMessage message) async {
     ChannelServiceImpl channelService = ChannelServiceImpl(Odoo());
-    List<Channel> listChannel = await channelService.findChannel(_authenticationController.currentUser.partnerId, true, message.data['channel_id']);
+    List<Channel> listChannel = await channelService.findChannel(
+        _authenticationController.currentUser.partnerId,
+        true,
+        message.data['channel_id']);
 
     Navigator.of(context).pushNamed("/chat", arguments: listChannel[0]);
   }
@@ -108,34 +114,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     final odoo = Odoo();
-
-/*
-          EventServiceImpl(odoo).findEvents().then((value) {
-            print(value);
-          });
-          */
-
-      /*
-          final odoo = Odoo();
-          final channelService = ChannelServiceImpl(odoo);
-          final service = SendLikeFacace(MatchServiceImpl(odoo),
-              RelationServiceImpl(odoo), channelService);
-              */
-
-      // 8,7
-      // service.sendLike(LikeDto(8,7));
-
-/*
-  channelService.findByMatch([8,7])
-  .then((value) {
-    print(value);
-  });
-  */
-      // },
-      // ),
       appBar: PreferredSize(
           child: SafeArea(
             child: Observer(builder: (_) {
@@ -172,6 +150,16 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                     ),
                     icon: Icon(
                       Icons.person,
+                      color: Colors.grey[400],
+                    ),
+                  ),
+                  _NavigationBarItemModel(
+                    selectedIcon: Icon(
+                      Icons.map,
+                      color: Colors.red,
+                    ),
+                    icon: Icon(
+                      Icons.map,
                       color: Colors.grey[400],
                     ),
                   ),

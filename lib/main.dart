@@ -26,6 +26,7 @@ import 'package:odoo_client/shared/components/dialogs.dart';
 import 'package:odoo_client/shared/injector/all_modules.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/data/services/login_service_impl.dart';
+import 'app/pages/map/map_page.dart';
 import 'app/utility/strings.dart';
 import 'package:path/path.dart';
 
@@ -66,30 +67,26 @@ void main() async {
 
   final _odoo = Odoo();
 
-
   runZoned(() {
-      runApp(App());
-    }, zoneSpecification: new ZoneSpecification(
-        print: (Zone self, ZoneDelegate parent, Zone zone, String line) async  {
-          parent.print(zone, line);
+    runApp(App());
+  }, zoneSpecification: new ZoneSpecification(
+      print: (Zone self, ZoneDelegate parent, Zone zone, String line) async {
+    parent.print(zone, line);
 
-          if (!globalHomePageStarted)
-            return;
+    if (!globalHomePageStarted) return;
 
-          if (!globalConfig.activeRegisterLogApiUser)
-            return;
+    if (!globalConfig.activeRegisterLogApiUser) return;
 
-          try {
-            if (globalConfig.activeRegisterLogApiUser_QtdeChar > 0)
-              if (line.length > globalConfig.activeRegisterLogApiUser_QtdeChar)
-                line = line.substring(0, globalConfig.activeRegisterLogApiUser_QtdeChar);
+    try {
+      if (globalConfig.activeRegisterLogApiUser_QtdeChar > 0) if (line.length >
+          globalConfig.activeRegisterLogApiUser_QtdeChar)
+        line =
+            line.substring(0, globalConfig.activeRegisterLogApiUser_QtdeChar);
 
-            _odoo.callRequestGetLogConsoleRegister(line);
-            Future.delayed(Duration.zero);
-
-          } catch(e){
-          }
-        }));
+      _odoo.callRequestGetLogConsoleRegister(line);
+      Future.delayed(Duration.zero);
+    } catch (e) {}
+  }));
 }
 
 class App extends StatefulWidget {
@@ -150,6 +147,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         "/genree": (_) => const GenrePage(),
         "/dance_level": (_) => const DanceLevelPage(),
         "/register": (_) => RegisterPage(),
+        "/map": (_) => MapPage(),
       },
     );
   }
