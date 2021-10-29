@@ -162,6 +162,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
                       Icons.map,
                       color: Colors.grey[400],
                     ),
+                    //TODO: REVER APP BAR EM VEMELHO
                   ),
                 ]
                     .map(

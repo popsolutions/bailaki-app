@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:latlong2/latlong.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -14,6 +15,7 @@ class _MapPageState extends State<MapPage> {
         options: MapOptions(
           interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
           zoom: 13.0,
+          center: LatLng(-7.1652, -34.8379),
         ),
         layers: [
           TileLayerOptions(
@@ -21,7 +23,14 @@ class _MapPageState extends State<MapPage> {
             subdomains: ['a', 'b', 'c'],
           ),
           MarkerLayerOptions(
-            markers: [],
+            markers: [
+              Marker(
+                point: LatLng(-7.1652, -34.8379), //TODO: REVER 
+                builder: (_) {
+                  return FlutterLogo();
+                },
+              ),
+            ],
           ),
         ],
       ),
