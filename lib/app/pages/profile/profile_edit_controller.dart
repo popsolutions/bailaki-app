@@ -42,16 +42,13 @@ abstract class _ProfileEditControllerBase with Store {
   List<int> get danceStyleIds => _danceStyles;
 
   int _danceLevel;
-
   int get danceLevelId => _danceLevel;
 
   String _function;
-
   String get function => _function;
 
   @observable
   String _gender;
-
   String get gender => _gender;
 
   @observable

@@ -31,8 +31,6 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            // Color.fromRGBO(0, 255, 253, 1),
-            // Color.fromRGBO(254, 0, 236, 1),
             Colors.cyan,
             Colors.pink,
           ],
@@ -42,8 +40,6 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
         children: [
           Expanded(
             child: Container(
-              // color: Colors.grey[100],
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -71,34 +67,48 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                               size: 70,
                             ),
                           ),
-                        const SizedBox(
-                          height: 10,
-                        ),
+                        const SizedBox(height: 10),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            // Container(
-                            //   width: 100,
-                            //   child: TextFormField(
-                            //     initialValue: user.name,
-                            //     decoration: InputDecoration(),
-                            //   ),
-                            // ),
                             Text(
                               "${user.name}",
                               style: TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.w600,
-                                  // color: Color.fromRGBO(61, 64, 61, 1),
-                                  color: Colors.white),
-                            ),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(
-                                Icons.edit,
+                                fontSize: 24,
+                                fontWeight: FontWeight.w600,
                                 color: Colors.white,
                               ),
+                            ),
+                            IconButton(
+                              icon: Icon(
+                                Icons.edit,
+                                color: Colors.pinkAccent,
+                              ),
+                              onPressed: () async {
+                                await showDialog(
+                                  barrierDismissible: false,
+                                  context: context,
+                                  builder: (_) {
+                                    return AlertDialog(
+                                      title: Text('Edite seu nome'),
+                                      content: TextField(),
+                                      actions: [
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text('Cancelar'),
+                                        ),
+                                        TextButton(
+                                          onPressed: () =>
+                                              Navigator.pop(context),
+                                          child: Text('Salvar'),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
                             ),
                           ],
                         ),
@@ -113,16 +123,6 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                           ),
                         ),
                         const SizedBox(height: 4),
-                        /*
-                        Text(
-                          "${user.}, sp, br",
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.w300,
-                            color: Color.fromRGBO(61, 64, 61, 1),
-                          ),
-                        )
-                        */
                       ],
                     );
                   })
@@ -132,32 +132,33 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
           ),
           Expanded(
             child: Container(
-              // color: Colors.grey[100],
               padding: const EdgeInsets.only(top: 55),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildConfigTile(
-                      icon: const Icon(
-                        Icons.settings,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      title: "Configurações",
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/settings");
-                      }),
+                    icon: const Icon(
+                      Icons.settings,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                    title: "Configurações",
+                    onTap: () {
+                      Navigator.of(context).pushNamed("/settings");
+                    },
+                  ),
                   _buildConfigTile(
-                      icon: const Icon(
-                        Icons.edit_outlined,
-                        size: 30,
-                        color: Colors.white,
-                      ),
-                      title: "Editar Perfil",
-                      onTap: () {
-                        Navigator.of(context).pushNamed("/profile_edit");
-                      }),
+                    icon: const Icon(
+                      Icons.edit_outlined,
+                      size: 30,
+                      color: Colors.white,
+                    ),
+                    title: "Editar Perfil",
+                    onTap: () {
+                      Navigator.of(context).pushNamed("/profile_edit");
+                    },
+                  ),
                 ],
               ),
             ),
