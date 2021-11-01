@@ -100,9 +100,8 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                                           child: Text('Cancelar'),
                                         ),
                                         TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
                                           child: Text('Salvar'),
+                                          onPressed: () {}, //TODO:
                                         ),
                                       ],
                                     );

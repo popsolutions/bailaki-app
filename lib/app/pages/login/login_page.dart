@@ -66,14 +66,18 @@ class _LoginPageState extends State<LoginPage> {
     _authenticationController.authenticate(user);
     _musicSkillsController.init(result.musicSkills, user.music_skill_id);
     _musicGenresController.init(result.musicGenres, user.music_genre_ids);
-    await globalConfig_ParameterService.setGlobalConfig(_authenticationController.currentUser.uid.toString());
+    await globalConfig_ParameterService
+        .setGlobalConfig(_authenticationController.currentUser.uid.toString());
 
     Navigator.of(context).pushReplacementNamed('/home');
   }
 
   void _onLoginError() {
-    showMessage("Authentication Failed", "Please Enter Valid Email or Password",
-        context);
+    showMessage(
+      "Authentication Failed",
+      "Please Enter Valid Email or Password",
+      context,
+    );
   }
 
   void _submit() {
@@ -153,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final signupWidget = Container(
-      alignment: Alignment.bottomCenter,
+      alignment: Alignment.center,
       child: signupButton,
     );
 
@@ -165,8 +169,6 @@ class _LoginPageState extends State<LoginPage> {
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              // Color.fromRGBO(0, 255, 253, 1),
-              // Color.fromRGBO(254, 0, 236, 1),
               Colors.cyan,
               Colors.pink,
             ],
