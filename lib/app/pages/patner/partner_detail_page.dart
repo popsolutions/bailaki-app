@@ -81,16 +81,18 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                             children: [
                               Container(
                                 height: 350,
-                                child: TabBarView(
-                                  children: data.images
-                                      .map(
-                                        (e) => Image.memory(
-                                          e.bytes,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
+                                child: data.images == null
+                                    ? SizedBox.shrink()
+                                    : TabBarView(
+                                        children: data.images
+                                            .map(
+                                              (e) => Image.memory(
+                                                e.bytes,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            )
+                                            .toList(),
+                                      ),
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(bottom: 5),

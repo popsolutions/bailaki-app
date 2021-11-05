@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
+import 'package:odoo_client/app/data/models/update_profile_dto.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
+import 'package:odoo_client/app/data/services/odoo_api.dart';
+import 'package:odoo_client/app/data/services/user_service.dart';
+import 'package:odoo_client/app/data/services/user_service_impl.dart';
+import 'package:odoo_client/app/pages/profile/profile_edit_controller.dart';
 import 'package:odoo_client/shared/components/circular_inkwell.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
@@ -15,6 +20,9 @@ class SwitchSettingsPage extends StatefulWidget {
 class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
   AuthenticationController _authenticationController;
   UserProfile _user;
+
+  final _newNameEC = TextEditingController();
+  ProfileEditController _profileEditController;
 
   @override
   void initState() {
@@ -80,35 +88,6 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                                 color: Colors.white,
                               ),
                             ),
-                            IconButton(
-                              icon: Icon(
-                                Icons.edit,
-                                color: Colors.pinkAccent,
-                              ),
-                              onPressed: () async {
-                                await showDialog(
-                                  barrierDismissible: false,
-                                  context: context,
-                                  builder: (_) {
-                                    return AlertDialog(
-                                      title: Text('Edite seu nome'),
-                                      content: TextField(),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () =>
-                                              Navigator.pop(context),
-                                          child: Text('Cancelar'),
-                                        ),
-                                        TextButton(
-                                          child: Text('Salvar'),
-                                          onPressed: () {}, //TODO:
-                                        ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                            ),
                           ],
                         ),
                         const SizedBox(height: 4),
@@ -154,8 +133,9 @@ class _SwitchSettingsPageState extends State<SwitchSettingsPage> {
                       color: Colors.white,
                     ),
                     title: "Editar Perfil",
-                    onTap: () {
-                      Navigator.of(context).pushNamed("/profile_edit");
+                    onTap: () async {
+                      await Navigator.of(context).pushNamed("/profile_edit");
+                      setState(() {});
                     },
                   ),
                 ],

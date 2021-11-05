@@ -34,6 +34,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     super.initState();
   }
 
+  final _newNameEC = TextEditingController();
+
   void _initProfileData() {
     _user = _authenticationController.currentUser;
     _profileEditController.images.addAll(_user.images);
@@ -117,6 +119,20 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     }),
                     Column(
                       children: [
+                        Container(
+                          color: Colors.transparent,
+                          child: _buildTextFieldTile(
+                            initialValue: _user.name,
+                            title: "Seu nome",
+                            onChanged: (e) {
+                              _profileEditController.aboutYou = e;
+                            },
+                            counter: 120,
+                            hasArrowIndicator: false,
+                          ),
+                          height: 200,
+                        ),
+                        const SizedBox(height: 10),
                         Container(
                           color: Colors.transparent,
                           child: _buildTextFieldTile(

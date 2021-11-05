@@ -1,4 +1,5 @@
 class UpdateProfileDto {
+  final String name;
   final int partnerId;
   final String profile_description;
   final List<int> music_genre_ids;
@@ -18,6 +19,7 @@ class UpdateProfileDto {
   final double partnerCurrentLongitude;
 
   UpdateProfileDto({
+    this.name,
     this.interestMaleGender,
     this.interestFemaleGender,
     this.interestOtherGenres,
@@ -38,6 +40,7 @@ class UpdateProfileDto {
   });
 
   Map<String, dynamic> toJson() => {
+        if (name != null) 'name': name,
         if (refferedFriendMaxDistance != null)
           'referred_friend_max_distance': refferedFriendMaxDistance,
         if (interestMaleGender != null)

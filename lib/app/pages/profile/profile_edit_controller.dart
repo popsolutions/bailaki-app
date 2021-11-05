@@ -34,8 +34,10 @@ abstract class _ProfileEditControllerBase with Store {
   ObservableFuture get updateProfileRequest => _updateProfileRequest;
 
   String _aboutYou;
-
   String get aboutYou => _aboutYou;
+
+  String _name;
+  String get name => _name;
 
   List<int> _danceStyles;
 
@@ -159,6 +161,7 @@ abstract class _ProfileEditControllerBase with Store {
   }
 
   set aboutYou(String value) => _aboutYou = value?.trim();
+  set name(String value) => name = value?.trim();
   set danceStyles(List<MusicGenre> items) =>
       _danceStyles = items.map((e) => e.id).toList();
   set danceLevel(MusicSkill value) => _danceLevel = value.id;
@@ -171,6 +174,7 @@ abstract class _ProfileEditControllerBase with Store {
   void submit() {
     _updateProfileRequest = _userService
         .update(UpdateProfileDto(
+          // name: name,
           birthdate_date: birthdate,
           function: _function,
           gender: _gender,
