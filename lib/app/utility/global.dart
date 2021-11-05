@@ -1,13 +1,14 @@
-import 'package:flutter/services.dart';
 import 'package:flutter/services.dart' as rootBundle;
 import 'dart:convert';
 
 import 'package:odoo_client/app/data/services/Config_ParameterService.dart';
 
 GlobalConfig globalConfig = GlobalConfig();
-Config_ParameterService globalConfig_ParameterService = Config_ParameterService();
+Config_ParameterService globalConfig_ParameterService =
+    Config_ParameterService();
 
-const String globalConfJson = String.fromEnvironment('conf', defaultValue: ''); //--dart-define=conf=dev_charisma1
+const String globalConfJson = String.fromEnvironment('conf',
+    defaultValue: ''); //--dart-define=conf=dev_charisma1
 Function globalHomePage_logout;
 bool globalHomePageStarted = false;
 
@@ -42,13 +43,12 @@ class GlobalConfig {
   int activeRegisterLogApiUser_QtdeChar = 0;
   bool devMode = false;
 
-
   //###################
 
   void readconfJson() async {
     //### Esta rotina irá carregar as variáveis padrões de acordo com as configurações estabelecidas em "assets/jsons/conf.json"
 
-    String confJson = globalConfJson;  // <== OPÇÃO PADRÃO
+    String confJson = globalConfJson; // <== OPÇÃO PADRÃO
 
     if (confJson != '') {
       var jsonFile;
@@ -63,7 +63,8 @@ class GlobalConfig {
       try {
         json = jsonDecode(jsonFile);
       } catch (e) {
-        throw 'Foi definido "--dart-define=conf=" porém o Arquivo "$confJsonPath" não parece um Json válido.' + e.toString();
+        throw 'Foi definido "--dart-define=conf=" porém o Arquivo "$confJsonPath" não parece um Json válido.' +
+            e.toString();
       }
       var conf = json[confJson];
 

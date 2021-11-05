@@ -43,7 +43,7 @@ import 'package:odoo_client/shared/controllers/music_skills_controller.dart';
 void setupSharedModule() {
   final locator = GetIt.I;
 
-  locator.registerFactory(() => Odoo());
+  locator.registerFactory(() => GetIt.I.get<Odoo>());
 
   locator.registerFactory<LoginService>(
     () => LoginServiceImpl(
@@ -112,7 +112,8 @@ void setupSharedModule() {
     ),
   );
 
-  locator.registerLazySingleton(() => AuthenticationController(locator.get<UserDao>()));
+  locator.registerLazySingleton(
+      () => AuthenticationController(locator.get<UserDao>()));
 
   locator.registerLazySingleton(() => MusicGenresController());
 

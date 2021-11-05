@@ -5,9 +5,9 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:intl/intl.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 import 'package:odoo_client/app/pages/home/home_page.dart';
 import 'package:odoo_client/app/pages/login/login_page.dart';
@@ -22,13 +22,11 @@ import 'package:odoo_client/app/pages/register/register_page.dart';
 import 'package:odoo_client/app/pages/root_page.dart';
 import 'package:odoo_client/app/pages/settings/settings_page.dart';
 import 'package:odoo_client/app/utility/global.dart';
-import 'package:odoo_client/shared/components/dialogs.dart';
 import 'package:odoo_client/shared/injector/all_modules.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'app/data/services/login_service_impl.dart';
 import 'app/pages/map/map_page.dart';
 import 'app/utility/strings.dart';
-import 'package:path/path.dart';
 
 AppLifecycleState
     appLifecycleState; //t.todo - Verificar com Rully onde colocar esta variável de sinalização do status da aplicação
@@ -63,9 +61,9 @@ void main() async {
     print(notification);
   });
 
-  // runApp(const App());
-
-  final _odoo = Odoo();
+  final getIt = GetIt.I;
+  getIt.registerSingleton<Odoo>(Odoo());
+  final _odoo = GetIt.I.get<Odoo>();
 
   runZoned(() {
     runApp(App());

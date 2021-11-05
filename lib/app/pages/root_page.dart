@@ -51,21 +51,29 @@ class _RootPageState extends State<RootPage> {
       navigator.pushReplacementNamed("/login");
     } else {
       try {
-        final MusicGenreService _musicGenreService = MusicGenreServiceImpl(Odoo());
-        final MusicSkillService _musicSkillService = MusicSkillServiceImpl(Odoo());
+        final MusicGenreService _musicGenreService =
+            MusicGenreServiceImpl(GetIt.I.get<Odoo>());
+        final MusicSkillService _musicSkillService =
+            MusicSkillServiceImpl(GetIt.I.get<Odoo>());
 
         final musicSkills = await _musicSkillService.findAll();
         final musicGenres = await _musicGenreService.findAll();
 
-        LoginResult loginResult = LoginResult(currentUser, musicSkills, musicGenres);
+        LoginResult loginResult =
+            LoginResult(currentUser, musicSkills, musicGenres);
 
-        _musicSkillsController.init(loginResult.musicSkills, currentUser.music_skill_id);
-        _musicGenresController.init(loginResult.musicGenres, currentUser.music_genre_ids);
-        LoginServiceImpl loginServiceImpl = LoginServiceImpl(Odoo());
-        await loginServiceImpl.tokenRegister(currentUser.uid, currentUser.name, currentUser.partnerId);
-        await globalConfig_ParameterService.setGlobalConfig(_authenticationController.currentUser.uid.toString());
+        _musicSkillsController.init(
+            loginResult.musicSkills, currentUser.music_skill_id);
+        _musicGenresController.init(
+            loginResult.musicGenres, currentUser.music_genre_ids);
+        LoginServiceImpl loginServiceImpl =
+            LoginServiceImpl(GetIt.I.get<Odoo>());
+        await loginServiceImpl.tokenRegister(
+            currentUser.uid, currentUser.name, currentUser.partnerId);
+        await globalConfig_ParameterService.setGlobalConfig(
+            _authenticationController.currentUser.uid.toString());
         navigator.pushReplacementNamed("/home");
-      }catch(e){
+      } catch (e) {
         navigator.pushReplacementNamed("/login");
       }
     }
@@ -75,8 +83,9 @@ class _RootPageState extends State<RootPage> {
     try {
       await globalConfig.readconfJson();
       print('x');
-    } catch(e) {
-      await showMessage('Opss', 'Falha ao carregar parâmetros iniciais:\n${e.toString()}', context);
+    } catch (e) {
+      await showMessage('Opss',
+          'Falha ao carregar parâmetros iniciais:\n${e.toString()}', context);
       exit(0);
     }
   }

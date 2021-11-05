@@ -81,7 +81,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   void showNotifyMessage(RemoteMessage message) async {
-    ChannelServiceImpl channelService = ChannelServiceImpl(Odoo());
+    ChannelServiceImpl channelService = ChannelServiceImpl(GetIt.I.get<Odoo>());
     List<Channel> listChannel = await channelService.findChannel(
         _authenticationController.currentUser.partnerId,
         true,
