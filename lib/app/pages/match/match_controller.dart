@@ -1,3 +1,4 @@
+import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/channel.dart';
 import 'package:odoo_client/app/data/services/channel_facade.dart';
@@ -11,7 +12,8 @@ class MatchController = _MatchControllerBase with _$MatchController;
 
 abstract class _MatchControllerBase with Store {
   final ChannelFacade _channelFacade;
-  final ChannelServiceImpl channelServiceImpl = ChannelServiceImpl(Odoo());
+  final ChannelServiceImpl channelServiceImpl =
+      ChannelServiceImpl(GetIt.I.get<Odoo>());
 
   int _currentPartnerId;
 
@@ -36,22 +38,25 @@ abstract class _MatchControllerBase with Store {
   void update() async {
     //Atualiza(Com o odoo) o amount_newmessages e lastMessage da lista de Channels (_matchesRequest.value)
 
-    List<Channel> listChannel =  await _channelFacade.findByPartner(_currentPartnerId, false);
+    List<Channel> listChannel =
+        await _channelFacade.findByPartner(_currentPartnerId, false);
 
-    for (Channel channel in listChannel){
-      Channel channelFind = _matchesRequest.value.firstWhereOrNull((element) => element.channelId == channel.channelId);
+    for (Channel channel in listChannel) {
+      Channel channelFind = _matchesRequest.value.firstWhereOrNull(
+          (element) => element.channelId == channel.channelId);
 
-       if (channelFind == null){
-         channel.newChannel = true;
-         await channelServiceImpl.setChannelImageOtherPartner(_currentPartnerId, channel);
-         _matchesRequest.value.add(channel);
-       } else {
-         if (channel.amount_newmessages != channelFind.amount_newmessages)
-           channelFind.amount_newmessages = channel.amount_newmessages;
+      if (channelFind == null) {
+        channel.newChannel = true;
+        await channelServiceImpl.setChannelImageOtherPartner(
+            _currentPartnerId, channel);
+        _matchesRequest.value.add(channel);
+      } else {
+        if (channel.amount_newmessages != channelFind.amount_newmessages)
+          channelFind.amount_newmessages = channel.amount_newmessages;
 
-         if (channel.lastMessage != channelFind.lastMessage)
-           channelFind.lastMessage = channel.lastMessage;
-       }
+        if (channel.lastMessage != channelFind.lastMessage)
+          channelFind.lastMessage = channel.lastMessage;
+      }
     }
   }
 }

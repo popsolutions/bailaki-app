@@ -43,7 +43,7 @@ import 'package:odoo_client/shared/controllers/music_skills_controller.dart';
 void setupSharedModule() {
   final locator = GetIt.I;
 
-  locator.registerFactory(() => GetIt.I.get<Odoo>());
+  locator.registerFactory(() => Odoo());
 
   locator.registerFactory<LoginService>(
     () => LoginServiceImpl(

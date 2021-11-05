@@ -21,8 +21,8 @@ abstract class _ChatControllerBase with Store {
   _ChatControllerBase(this._messageService, this._messageDao);
 
   set channelId(int channelId) => _channelId = channelId;
-  set currentPartnerId(int currentPartnerId) => _currentPartnerId = currentPartnerId;
-
+  set currentPartnerId(int currentPartnerId) =>
+      _currentPartnerId = currentPartnerId;
 
   setlastReadMessageId() async {
     final items = await _messagesRequest.value;
@@ -32,8 +32,8 @@ abstract class _ChatControllerBase with Store {
       return;
     }
 
-    if (items.length > 0){
-      if (items.last.messages.length > 0){
+    if (items.length > 0) {
+      if (items.last.messages.length > 0) {
         for (int i = items.length - 1; i >= 0; i--) {
           for (int j = items[i].messages.length - 1; j >= 0; j--) {
             Message message = items[i].messages[j];
@@ -63,7 +63,8 @@ abstract class _ChatControllerBase with Store {
   ObservableFuture get sendMessageRequest => _sendMessageRequest;
 
   @observable
-  ObservableFuture<List<DayMessage>> _messagesRequest = ObservableFuture.value(null);
+  ObservableFuture<List<DayMessage>> _messagesRequest =
+      ObservableFuture.value(null);
   ObservableFuture<List<DayMessage>> get messagesRequest => _messagesRequest;
 
   @action
@@ -77,7 +78,7 @@ abstract class _ChatControllerBase with Store {
   void addMessage(Message message) {
     final items = _messagesRequest.value;
     print(items);
-    if(items.isEmpty){
+    if (items.isEmpty) {
       items.add(DayMessage(DateTime.now(), []));
     }
     items.last.messages.add(message);
@@ -86,8 +87,7 @@ abstract class _ChatControllerBase with Store {
 
   @action
   void searchNewMessages() async {
-    if (searchingNewMessages)
-      return;
+    if (searchingNewMessages) return;
 
     try {
       searchingNewMessages = true;
@@ -96,7 +96,10 @@ abstract class _ChatControllerBase with Store {
         await setlastReadMessageId(); //t.todo verificar se é possível colocar este procedimenhto após o load().
 
       List<DayMessage> listDayMessage = await _messageService.findByChannel(
-          SearchMessageRequestDto(channelId: _channelId, lastIdReceived: _lastReadMessageId, author_idNot: _currentPartnerId));
+          SearchMessageRequestDto(
+              channelId: _channelId,
+              lastIdReceived: _lastReadMessageId,
+              author_idNot: _currentPartnerId));
 
       await listDayMessage.forEach((elementDayMessage) async {
         await elementDayMessage.messages.forEach((elementMessage) async {
@@ -113,8 +116,7 @@ abstract class _ChatControllerBase with Store {
           _lastReadMessageId = elementMessage.id;
         });
       });
-
-    }finally{
+    } finally {
       searchingNewMessages = false;
     }
   }
@@ -138,116 +140,3 @@ abstract class _ChatControllerBase with Store {
     );
   }
 }
-
-/*
-                      FlatButton(
-                          onPressed: () async {
-                            final odoo = Odoo();
-
-                            /*
-                            final channelService = ChannelServiceImpl(odoo);
-                            channelService.findByPartner(ChannelRequestDto(
-                                currentPartnerId: _authenticationController
-                                    .currentUser.partnerId));
-                                    */
-
-//MATCHES QUERY
-/*
-                            final relationTypeResponse = await odoo
-                                .searchRead('res.partner.relation.type', [
-                              ['name', '=', 'Match']
-                            ], [
-                              'id',
-                              'name'
-                            ]);
-
-                            final relationTypeId =
-                                relationTypeResponse.getRecords()[0]["id"];
-
-                            final res =
-                                await odoo.searchRead('res.partner.relation', [
-                              ['type_id', '=', 7],
-                              '|',
-                              [
-                                'left_partner_id',
-                                '=',
-                                _authenticationController.currentUser.partnerId
-                              ],
-                              [
-                                'right_partner_id',
-                                '=',
-                                _authenticationController.currentUser.partnerId
-                              ]
-                            ], []);
-                            print(res);
-                            */
-
-                            /*
-    final createRelationResponse = await odoo.create('res.partner.relation', {
-      'left_partner_id': deslikeDto.currentUserPartnerId,
-      'right_partner_id': deslikeDto.friendPartnerId,
-      'type_id': relationTypeId,
-    });
-    */
-
-                            //    final messages =
-                            //      await odoo.searchRead('mail.message', [], []);
-
-                            // print(messages);
-
-                            /*
-   'music_genre_ids': [
-            [6, 0, music_genre_ids]
-          ],
-                      */
-
-
-                            final channelres =
-                                await odoo.create('mail.channel', {
-                              'description': 'chat',
-                              'name': 'test mitchel with test',
-                              'email_send': false,
-                              'channel_type': 'chat',
-                              'public': 'private',
-                              'channel_partner_ids': [
-                                [4, 3, 0],
-                                [4, 4, 0]
-                              ]
-                            });
-                            print(channelres);
-                            
-
-                            final channels =
-                                (await odoo.searchRead('mail.channel', [
-                            //  ['id', '=', 15],
-                              ['channel_partner_ids', 'in', 3]
-                            ], []));
-                            print(channels);
-
-                            //  print(channelres.getResult());
-/*
-                            final messageres =
-                                await odoo.create('mail.message', {
-                              'author_id': _authenticationController
-                                  .currentUser.partnerId,
-                              'model': 'mail.channel',
-                              'res_id': 15,
-                              'type': 'comment',
-                              'body': "testando novamente o chat",
-                              'channel_ids': [
-                                //      [4, channelres.getResult(), 0]
-                                [4, 15, 0]
-                              ]
-                            });
-
-                            print(messageres);
-                            */
-/*
-                            final data = await odoo.searchRead('mail.message', [
-                              ['res_id', '=', 15]
-                            ], []);
-                            print(data);
-  */
-                          },
-                          child: Text("UÁAA")),
-*/
