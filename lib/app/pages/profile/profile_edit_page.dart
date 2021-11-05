@@ -125,7 +125,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             initialValue: _user.name,
                             title: "Seu nome",
                             onChanged: (e) {
-                              _profileEditController.aboutYou = e;
+                              _profileEditController.name = e;
                             },
                             counter: 120,
                             hasArrowIndicator: false,
