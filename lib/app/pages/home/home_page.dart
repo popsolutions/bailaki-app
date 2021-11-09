@@ -119,7 +119,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           child: SafeArea(
             child: Observer(builder: (_) {
               return BottomNavigationBar(
-                showUnselectedLabels: true,
+                type: BottomNavigationBarType.fixed,
                 onTap: (index) {
                   _homeController.currentIndex = index;
                 },
