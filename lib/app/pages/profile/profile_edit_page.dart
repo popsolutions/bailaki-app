@@ -34,8 +34,6 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     super.initState();
   }
 
-  final _newNameEC = TextEditingController();
-
   void _initProfileData() {
     _user = _authenticationController.currentUser;
     _profileEditController.images.addAll(_user.images);

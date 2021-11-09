@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:get_it/get_it.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -8,6 +10,8 @@ class MapPage extends StatefulWidget {
 }
 
 class _MapPageState extends State<MapPage> {
+  final user = GetIt.I.get<AuthenticationController>().currentUser;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,7 +19,7 @@ class _MapPageState extends State<MapPage> {
         options: MapOptions(
           interactiveFlags: InteractiveFlag.pinchZoom | InteractiveFlag.drag,
           zoom: 13.0,
-          center: LatLng(-7.1652, -34.8379),
+          center: LatLng(user.position.latitude, user.position.longitude),
         ),
         layers: [
           TileLayerOptions(
@@ -25,7 +29,7 @@ class _MapPageState extends State<MapPage> {
           MarkerLayerOptions(
             markers: [
               Marker(
-                point: LatLng(-7.1652, -34.8379), //TODO: REVER 
+                point: LatLng(-7.1652, -34.8379), //TODO: REVER
                 builder: (_) {
                   return FlutterLogo();
                 },
