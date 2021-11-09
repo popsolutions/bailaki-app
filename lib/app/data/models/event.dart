@@ -1,3 +1,5 @@
+import 'package:latlong2/latlong.dart';
+
 class EventModel {
   int id;
   String name;
@@ -9,6 +11,7 @@ class EventModel {
   String dateEnd;
   String state;
   List<int> addressId;
+  LatLng position;
 
   EventModel({
     this.id,
@@ -21,6 +24,7 @@ class EventModel {
     this.dateEnd,
     this.state,
     this.addressId,
+    this.position,
   });
 
   EventModel.fromJson(Map<String, dynamic> json) {
@@ -34,6 +38,7 @@ class EventModel {
     dateEnd = json['date_end'];
     state = json['state'];
     addressId = json['address_id'].cast<int>();
+    position = json['position'];
   }
 
   Map<String, dynamic> toJson() {
@@ -48,6 +53,7 @@ class EventModel {
     data['date_end'] = this.dateEnd;
     data['state'] = this.state;
     data['address_id'] = this.addressId;
+    data['position'] = this.position;
     return data;
   }
 }

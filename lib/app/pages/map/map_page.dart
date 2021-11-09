@@ -28,12 +28,7 @@ class _MapPageState extends State<MapPage> {
           ),
           MarkerLayerOptions(
             markers: [
-              Marker(
-                point: LatLng(-7.1652, -34.8379), //TODO: REVER
-                builder: (_) {
-                  return FlutterLogo();
-                },
-              ),
+              //TODO: IMPLEMENTAR OS EVENTOS
             ],
           ),
         ],
