@@ -40,6 +40,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
     _profileEditController.partnerId = _user?.partnerId;
     _profileEditController.aboutYou = _user?.profile_description;
     _profileEditController.function = _user?.function;
+    _profileEditController.name = _user?.name;
     _profileEditController.gender = _user?.gender;
     _profileEditController.birthdate = _user.birthdate_date;
     _profileEditController.gender = _user.gender;
@@ -63,6 +64,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
       images: List.of(_profileEditController.images),
       profile_description: _profileEditController.aboutYou,
       function: _profileEditController.function,
+      name: _profileEditController.name,
       gender: _profileEditController.gender,
     ));
 
@@ -125,10 +127,10 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             onChanged: (e) {
                               _profileEditController.name = e;
                             },
-                            counter: 120,
+                            counter: 80,
                             hasArrowIndicator: false,
                           ),
-                          height: 200,
+                          height: 100,
                         ),
                         const SizedBox(height: 10),
                         Container(
@@ -335,7 +337,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                     enabled: enabled,
                     controller: controller,
                     maxLines: null,
-                    maxLength: 120,
+                    maxLength: 80,
                     onChanged: onChanged,
                     buildCounter: (
                       context, {
