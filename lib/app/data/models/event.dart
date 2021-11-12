@@ -87,8 +87,8 @@ class EventModel {
       'zip': zip,
       'city': city,
       'statename': statename,
-      'partnerCurrentLatitude': partnerCurrentLatitude,
-      'partnerCurrentLongitude': partnerCurrentLongitude,
+      'partner_current_latitude': partnerCurrentLatitude,
+      'partner_current_longitude': partnerCurrentLongitude,
       'position': LatLng(
         partnerCurrentLatitude,
         partnerCurrentLongitude,
@@ -109,11 +109,11 @@ class EventModel {
       zip: map['zip'],
       city: map['city'],
       statename: map['statename'],
-      partnerCurrentLatitude: map['partnerCurrentLatitude'],
-      partnerCurrentLongitude: map['partnerCurrentLongitude'],
+      partnerCurrentLatitude: map['partner_current_latitude'],
+      partnerCurrentLongitude: map['partner_current_longitude'],
       position: LatLng(
-        map['partnerCurrentLatitude'],
-        map['partnerCurrentLongitude'],
+        map['partner_current_latitude'],
+        map['partner_current_longitude'],
       ),
     );
   }

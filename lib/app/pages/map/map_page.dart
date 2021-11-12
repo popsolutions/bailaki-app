@@ -21,7 +21,7 @@ class _MapPageState extends State<MapPage> {
     final odoo = GetIt.I.get<Odoo>();
     final response = await odoo.getApi('bailaki/events/');
     final List result = await response.getResponseApi();
-    return result.map((e) => EventModel.fromJson(e)).toList(); //TODO: REVER 
+    return result.map((e) => EventModel.fromJson(e)).toList();
   }
 
   getCurrentLocation() async {
@@ -66,6 +66,12 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.refresh_rounded),
+        onPressed: () async {
+          await getCurrentLocation();
+        },
+      ),
       body: FutureBuilder<List<EventModel>>(
         future: getEvents(),
         builder: (context, snapshot) {
@@ -93,21 +99,25 @@ class _MapPageState extends State<MapPage> {
                   Marker(
                     point: _center,
                     builder: (_) => GestureDetector(
-                      child: SvgPicture.asset('assets/local.svg'),
+                      child: Icon(
+                        Icons.person_pin_circle_outlined,
+                        color: Colors.pink,
+                        size: 50,
+                      ),
                       onTap: () {},
                     ),
                   ),
-                  // for (EventModel marker in events)
-                  //   Marker(
-                  //     point: LatLng(
-                  //       marker.partnerCurrentLatitude,
-                  //       marker.partnerCurrentLongitude,
-                  //     ),
-                  //     builder: (_) => GestureDetector(
-                  //       child: SvgPicture.asset('assets/local.svg'),
-                  //       onTap: () {},
-                  //     ),
-                  //   ),
+                  for (EventModel marker in events)
+                    Marker(
+                      point: LatLng(
+                        marker.partnerCurrentLatitude,
+                        marker.partnerCurrentLongitude,
+                      ),
+                      builder: (_) => GestureDetector(
+                        child: SvgPicture.asset('assets/local.svg'),
+                        onTap: () {},
+                      ),
+                    ),
                 ],
               ),
             ],
