@@ -7,7 +7,7 @@ class OdooResponse {
     _result = result;
     _statusCode = statusCode;
 
-    if (getErrorMessage() == 'Session expired'){
+    if (getErrorMessage() == 'Session expired') {
       globalHomePage_logout();
       throw 'Sessão expirada, usuário encaminhado para tela de login';
     }

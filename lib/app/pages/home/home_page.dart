@@ -48,7 +48,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     ];
     _homeController.loadLocation();
     _locationReaction = reaction(
-        (_) => _homeController.currentLocation.value, _onLocationUpdate);
+      (_) => _homeController.currentLocation.value,
+      _onLocationUpdate,
+    );
 
     FirebaseMessaging.instance
         .getInitialMessage()
