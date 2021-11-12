@@ -161,7 +161,7 @@ abstract class _ProfileEditControllerBase with Store {
   }
 
   set aboutYou(String value) => _aboutYou = value?.trim();
-  set name(String value) => name = value?.trim();
+  set name(String value) => _name = value?.trim();
   set danceStyles(List<MusicGenre> items) =>
       _danceStyles = items.map((e) => e.id).toList();
   set danceLevel(MusicSkill value) => _danceLevel = value.id;
