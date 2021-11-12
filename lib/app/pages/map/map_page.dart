@@ -1,5 +1,4 @@
-import 'dart:developer';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get_it/get_it.dart';
@@ -22,15 +21,7 @@ class _MapPageState extends State<MapPage> {
     final odoo = GetIt.I.get<Odoo>();
     final response = await odoo.getApi('bailaki/events/');
     final List result = await response.getResponseApi();
-    List<EventModel> events = [];
-
-    result.map((e) {
-      log('$e');
-      events.add(EventModel.fromJson(e));
-    }).toList();
-
-    return events;
-    // return result.map((e) => EventModel.fromJson(e)).toList();
+    return result.map((e) => EventModel.fromJson(e)).toList(); //TODO: REVER 
   }
 
   getCurrentLocation() async {
@@ -59,7 +50,10 @@ class _MapPageState extends State<MapPage> {
     _locationData = await location.getLocation();
 
     setState(() {
-      _center = LatLng(_locationData.latitude, _locationData.longitude);
+      _center = LatLng(
+        _locationData.latitude,
+        _locationData.longitude,
+      );
     });
   }
 
@@ -99,19 +93,18 @@ class _MapPageState extends State<MapPage> {
                   Marker(
                     point: _center,
                     builder: (_) => GestureDetector(
-                      child: FlutterLogo(),
+                      child: SvgPicture.asset('assets/local.svg'),
                       onTap: () {},
                     ),
                   ),
-
-                  // for (var marker in events)
+                  // for (EventModel marker in events)
                   //   Marker(
                   //     point: LatLng(
                   //       marker.partnerCurrentLatitude,
                   //       marker.partnerCurrentLongitude,
                   //     ),
                   //     builder: (_) => GestureDetector(
-                  //       child: FlutterLogo(),
+                  //       child: SvgPicture.asset('assets/local.svg'),
                   //       onTap: () {},
                   //     ),
                   //   ),

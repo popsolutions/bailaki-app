@@ -38,6 +38,7 @@ dependencies:
   flutter_map:
   geolocator: ^7.7.1
   latlong2: ^0.8.1
+  flutter_svg: ^0.19.3
 
 dev_dependencies:
   flutter_test:
