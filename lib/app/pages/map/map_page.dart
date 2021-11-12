@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:get_it/get_it.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:location/location.dart';
 import '../../data/models/event.dart';
 import '../../data/services/odoo_api.dart';
 import '../../../shared/controllers/authentication_controller.dart';
@@ -15,6 +16,7 @@ class MapPage extends StatefulWidget {
 
 class _MapPageState extends State<MapPage> {
   final user = GetIt.I.get<AuthenticationController>().currentUser;
+  LatLng _center;
 
   Future<List<EventModel>> getEvents() async {
     final odoo = GetIt.I.get<Odoo>();
@@ -29,6 +31,42 @@ class _MapPageState extends State<MapPage> {
 
     return events;
     // return result.map((e) => EventModel.fromJson(e)).toList();
+  }
+
+  getCurrentLocation() async {
+    Location location = Location();
+
+    bool _serviceEnabled;
+    PermissionStatus _permissionGranted;
+    LocationData _locationData;
+
+    _serviceEnabled = await location.serviceEnabled();
+    if (!_serviceEnabled) {
+      _serviceEnabled = await location.requestService();
+      if (!_serviceEnabled) {
+        return;
+      }
+    }
+
+    _permissionGranted = await location.hasPermission();
+    if (_permissionGranted == PermissionStatus.denied) {
+      _permissionGranted = await location.requestPermission();
+      if (_permissionGranted != PermissionStatus.granted) {
+        return;
+      }
+    }
+
+    _locationData = await location.getLocation();
+
+    setState(() {
+      _center = LatLng(_locationData.latitude, _locationData.longitude);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getCurrentLocation();
   }
 
   @override
@@ -48,7 +86,7 @@ class _MapPageState extends State<MapPage> {
               interactiveFlags:
                   InteractiveFlag.pinchZoom | InteractiveFlag.drag,
               zoom: 13.0,
-              center: LatLng(-7.1562, -34.8379),
+              center: _center,
             ),
             layers: [
               TileLayerOptions(
@@ -58,25 +96,25 @@ class _MapPageState extends State<MapPage> {
               ),
               MarkerLayerOptions(
                 markers: [
-                  // Marker(
-                  //   point: LatLng(-7.1562, -34.8379),
-                  //   builder: (_) => GestureDetector(
-                  //     child: FlutterLogo(),
-                  //     onTap: () {},
-                  //   ),
-                  // ),
-
-                  for (var marker in events)
-                    Marker(
-                      point: LatLng(
-                        marker.partnerCurrentLatitude,
-                        marker.partnerCurrentLongitude,
-                      ),
-                      builder: (_) => GestureDetector(
-                        child: FlutterLogo(),
-                        onTap: () {},
-                      ),
+                  Marker(
+                    point: _center,
+                    builder: (_) => GestureDetector(
+                      child: FlutterLogo(),
+                      onTap: () {},
                     ),
+                  ),
+
+                  // for (var marker in events)
+                  //   Marker(
+                  //     point: LatLng(
+                  //       marker.partnerCurrentLatitude,
+                  //       marker.partnerCurrentLongitude,
+                  //     ),
+                  //     builder: (_) => GestureDetector(
+                  //       child: FlutterLogo(),
+                  //       onTap: () {},
+                  //     ),
+                  //   ),
                 ],
               ),
             ],
