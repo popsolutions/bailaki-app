@@ -68,7 +68,8 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.refresh_rounded),
+        backgroundColor: Colors.blue.withOpacity(0.6),
+        child: Icon(Icons.location_searching_sharp),
         onPressed: () async {
           await getCurrentLocation();
         },
