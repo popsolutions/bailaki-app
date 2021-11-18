@@ -122,7 +122,7 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                     ),
                                     const SizedBox(height: 5),
                                     Text(
-                                      "${data.city}/${data.activityState} - ${distance} Km",
+                                      "${data.city}/${data.activityState} - ${(distance/1000).toStringAsFixed(2)} Km",
                                       style: TextStyle(
                                         color: Color.fromRGBO(142, 144, 141, 1),
                                       ),

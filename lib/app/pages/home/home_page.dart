@@ -105,6 +105,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   void _onLocationUpdate(LocationData location) {
+    _authenticationController.currentUser.position.latitude = location.latitude;
+    _authenticationController.currentUser.position.longitude = location.longitude;
+
     _homeController.updateLocation(location, _authenticationController.currentUser.partnerId);
   }
 

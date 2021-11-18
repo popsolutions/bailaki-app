@@ -70,7 +70,7 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
                   children: [
                     Flexible(
                       child: Text(
-                        "$name, $age - ${distance?.toStringAsFixed(2)} km",
+                        "$name, $age - ${(distance/1000)?.toStringAsFixed(2)} km",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
