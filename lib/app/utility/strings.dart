@@ -1,5 +1,5 @@
 class Strings {
-  static const String app_title = "Odoo Mobile";
+  static const String app_title = "Bailaki";
 
   static const String internetMessage = "No Internet Connection!";
   static const String loginAgainMessage = "Setting Saved! Please Login!";

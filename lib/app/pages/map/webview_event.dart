@@ -17,7 +17,7 @@ class _WebView_eventStatePage extends State<WebView_eventPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dados do envento'),
+        title: Text('Dados do evento'),
         centerTitle: true,
       ),
       body: WebviewScaffold(url: widget.eventModel.urlEventOdoo()),
