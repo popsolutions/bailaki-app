@@ -8,6 +8,7 @@ import 'package:odoo_client/app/data/models/channel.dart';
 import 'package:odoo_client/app/data/services/channel_service.dart';
 import 'package:odoo_client/app/data/services/odoo_api.dart';
 import 'package:odoo_client/app/pages/home/home_controller.dart';
+import 'package:odoo_client/app/pages/home/select_partner_controller.dart';
 import 'package:odoo_client/app/pages/home/select_partner_page.dart';
 import 'package:odoo_client/app/pages/map/map_page.dart';
 import 'package:odoo_client/app/pages/match/match_page.dart';
@@ -104,7 +105,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   void _onLocationUpdate(LocationData location) {
-    _homeController.updateLocation(location);
+    _homeController.updateLocation(location, _authenticationController.currentUser.partnerId);
   }
 
   @override
