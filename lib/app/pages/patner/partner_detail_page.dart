@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/pages/patner/partner_detail_controller.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
+import 'package:odoo_client/shared/controllers/music_genres_controller.dart';
 import 'package:odoo_client/shared/utils/distance_between.dart';
 
 class PartnerDetailsPage extends StatefulWidget {
@@ -16,6 +17,8 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
     with SingleTickerProviderStateMixin {
   int id;
 
+  MusicGenresController _musicGenresController;
+  List genders;
   PartnerDetailController _partnerDetailController;
   AuthenticationController _authenticationController;
 
@@ -23,6 +26,9 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
   void initState() {
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _partnerDetailController = GetIt.I.get<PartnerDetailController>();
+    _musicGenresController = GetIt.I.get<MusicGenresController>();
+
+    genders = _musicGenresController.selectedMusicGenres.toList();
 
     super.initState();
   }
@@ -120,14 +126,6 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                       "${data.name}, ${data.age}",
                                       style: TextStyle(fontSize: 24),
                                     ),
-                                    const SizedBox(height: 5),
-                                    Text(
-                                      "${data.city}/${data.activityState} - ${(distance/1000).toStringAsFixed(2)} Km",
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(142, 144, 141, 1),
-                                      ),
-                                    ),
-                                    const SizedBox(height: 12),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 10, right: 10),
@@ -136,14 +134,70 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                         color: Color.fromRGBO(200, 203, 199, 1),
                                       ),
                                     ),
-                                    const SizedBox(height: 12),
                                     Text(
-                                      "${data.bio}",
+                                      "${data.city ?? ''}/${data.activityState ?? ''} - ${(distance / 1000).toStringAsFixed(2) ?? ''} Km",
                                       style: TextStyle(
                                         color: Color.fromRGBO(142, 144, 141, 1),
                                       ),
                                     ),
-                                    const SizedBox(height: 12),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: const Divider(
+                                        thickness: 1,
+                                        color: Color.fromRGBO(200, 203, 199, 1),
+                                      ),
+                                    ),
+                                    Text(
+                                      "${data.jobPosition ?? ''}",
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(142, 144, 141, 1),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: const Divider(
+                                        thickness: 1,
+                                        color: Color.fromRGBO(200, 203, 199, 1),
+                                      ),
+                                    ),
+                                    Text(
+                                      "${data.jobPosition ?? ''}",
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(142, 144, 141, 1),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: const Divider(
+                                        thickness: 1,
+                                        color: Color.fromRGBO(200, 203, 199, 1),
+                                      ),
+                                    ),
+                                    Wrap(
+                                      spacing: 10,
+                                      children: _musicGenresController
+                                          .selectedMusicGenres
+                                          .map((item) {
+                                        return Chip(label: Text(item.name));
+                                      }).toList(),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 10),
+                                      child: const Divider(
+                                        thickness: 1,
+                                        color: Color.fromRGBO(200, 203, 199, 1),
+                                      ),
+                                    ),
+                                    Text(
+                                      "${data.bio ?? ''}",
+                                      style: TextStyle(
+                                        color: Color.fromRGBO(142, 144, 141, 1),
+                                      ),
+                                    ),
                                     Padding(
                                       padding: const EdgeInsets.only(
                                           left: 10, right: 10),

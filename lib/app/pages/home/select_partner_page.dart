@@ -70,11 +70,11 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
                   children: [
                     Flexible(
                       child: Text(
-                        "$name, $age - ${(distance/1000)?.toStringAsFixed(2)} km",
+                        "$name, $age - ${(distance / 1000)?.toStringAsFixed(2)} km",
                         style: TextStyle(color: Colors.white),
                       ),
                     ),
-                    Icon(Icons.zoom_out_outlined, color: Colors.white, size: 25)
+                    Icon(Icons.person, color: Colors.white, size: 25)
                   ],
                 ),
               ),
@@ -109,8 +109,6 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
-            // Color.fromRGBO(0, 255, 253, 1),
-            // Color.fromRGBO(254, 0, 236, 1),
             Colors.cyan,
             Colors.pink,
           ],

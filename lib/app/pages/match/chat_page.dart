@@ -128,8 +128,10 @@ class _ChatPageState extends State<ChatPage> {
             children: [
               GestureDetector(
                 onTap: () {
-                  Navigator.of(context).pushNamed('/partner_detail',
-                      arguments: _inversePartner.id);
+                  Navigator.of(context).pushNamed(
+                    '/partner_detail',
+                    arguments: _inversePartner.id,
+                  );
                 },
                 child: CircleAvatar(
                   radius: 22,
@@ -142,6 +144,14 @@ class _ChatPageState extends State<ChatPage> {
               Text(
                 '${_channel.inverseChatter(_user.partnerId).name}',
                 style: const TextStyle(color: Colors.black),
+              ),
+              Spacer(),
+              IconButton(
+                icon: Icon(
+                  Icons.delete_forever,
+                  color: Colors.red,
+                ),
+                onPressed: () async {},
               ),
             ],
           ),
@@ -224,19 +234,20 @@ class _ChatPageState extends State<ChatPage> {
                           _chatController.message = e;
                         },
                         decoration: InputDecoration(
-                            contentPadding: const EdgeInsets.only(
-                                left: 15, right: 15, top: 10, bottom: 10),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(30),
-                                borderSide: BorderSide.none),
-                            filled: true,
-                            fillColor: Colors.grey[300],
-                            hintText: "Digite uma mensagem...",
-                            hintStyle: TextStyle(
-                              color: Colors.grey[600],
-                              fontWeight: FontWeight.w500,
-                              fontSize: 17,
-                            )),
+                          contentPadding: const EdgeInsets.only(
+                              left: 15, right: 15, top: 10, bottom: 10),
+                          border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(30),
+                              borderSide: BorderSide.none),
+                          filled: true,
+                          fillColor: Colors.grey[300],
+                          hintText: "Digite uma mensagem...",
+                          hintStyle: TextStyle(
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17,
+                          ),
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),

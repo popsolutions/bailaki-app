@@ -142,7 +142,7 @@ class _MatchPageState extends State<MatchPage> {
                     }
 
                     return ListView.builder(
-                        physics: ScrollPhysics(),
+                        physics: BouncingScrollPhysics(),
                         padding: const EdgeInsets.only(top: 12),
                         shrinkWrap: true,
                         itemBuilder: (_, index) {
