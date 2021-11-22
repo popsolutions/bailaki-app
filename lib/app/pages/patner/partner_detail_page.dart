@@ -126,71 +126,30 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                       "${data.name}, ${data.age}",
                                       style: TextStyle(fontSize: 24),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: const Divider(
-                                        thickness: 1,
-                                        color: Color.fromRGBO(200, 203, 199, 1),
-                                      ),
-                                    ),
-                                    Text(
-                                      "${data.city ?? ''}/${data.activityState ?? ''} - ${(distance / 1000).toStringAsFixed(2) ?? ''} Km",
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(142, 144, 141, 1),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: const Divider(
-                                        thickness: 1,
-                                        color: Color.fromRGBO(200, 203, 199, 1),
+                                    Visibility(
+                                      visible:
+                                          data.city != null && data.city != '',
+                                      child: Text(
+                                        "${data.city ?? ''}/${data.activityState ?? ''} - ${(distance / 1000).toStringAsFixed(2) ?? ''} Km",
+                                        style: TextStyle(
+                                          color:
+                                              Color.fromRGBO(142, 144, 141, 1),
+                                        ),
                                       ),
                                     ),
                                     Text(
                                       "${data.jobPosition ?? ''}",
                                       style: TextStyle(
                                         color: Color.fromRGBO(142, 144, 141, 1),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: const Divider(
-                                        thickness: 1,
-                                        color: Color.fromRGBO(200, 203, 199, 1),
-                                      ),
-                                    ),
-                                    Text(
-                                      "${data.jobPosition ?? ''}",
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(142, 144, 141, 1),
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: const Divider(
-                                        thickness: 1,
-                                        color: Color.fromRGBO(200, 203, 199, 1),
                                       ),
                                     ),
                                     Wrap(
-                                      spacing: 10,
+                                      spacing: 4,
                                       children: _musicGenresController
                                           .selectedMusicGenres
                                           .map((item) {
                                         return Chip(label: Text(item.name));
                                       }).toList(),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: const Divider(
-                                        thickness: 1,
-                                        color: Color.fromRGBO(200, 203, 199, 1),
-                                      ),
                                     ),
                                     Text(
                                       "${data.bio ?? ''}",
@@ -198,14 +157,7 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                                         color: Color.fromRGBO(142, 144, 141, 1),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          left: 10, right: 10),
-                                      child: const Divider(
-                                        thickness: 1,
-                                        color: Color.fromRGBO(200, 203, 199, 1),
-                                      ),
-                                    ),
+
                                     /*
                                     const SizedBox(height: 12),
                                     Text(
