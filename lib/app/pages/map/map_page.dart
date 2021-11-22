@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:get_it/get_it.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:odoo_client/app/pages/map/webview_event.dart';
 import '../../data/models/event.dart';
 import '../../data/services/odoo_api.dart';
 import '../../../shared/controllers/authentication_controller.dart';
@@ -67,7 +68,8 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.refresh_rounded),
+        backgroundColor: Colors.blue.withOpacity(0.6),
+        child: Icon(Icons.location_searching_sharp),
         onPressed: () async {
           await getCurrentLocation();
         },
@@ -115,7 +117,9 @@ class _MapPageState extends State<MapPage> {
                       ),
                       builder: (_) => GestureDetector(
                         child: SvgPicture.asset('assets/local.svg'),
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => WebView_eventPage(marker)));
+                        },
                       ),
                     ),
                 ],

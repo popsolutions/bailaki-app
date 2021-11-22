@@ -55,11 +55,11 @@ mixin _$HomeController on _HomeControllerBase, Store {
   }
 
   @override
-  void updateLocation(LocationData locationData) {
+  void updateLocation(LocationData locationData, int partnerId) {
     final _$actionInfo = _$_HomeControllerBaseActionController.startAction(
         name: '_HomeControllerBase.updateLocation');
     try {
-      return super.updateLocation(locationData);
+      return super.updateLocation(locationData, partnerId);
     } finally {
       _$_HomeControllerBaseActionController.endAction(_$actionInfo);
     }

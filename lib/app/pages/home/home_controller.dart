@@ -3,6 +3,7 @@ import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/update_profile_dto.dart';
 import 'package:odoo_client/app/data/services/location_service.dart';
 import 'package:odoo_client/app/data/services/user_service.dart';
+import 'package:odoo_client/shared/components/custom_text_form_field.dart';
 part 'home_controller.g.dart';
 
 class HomeController = _HomeControllerBase with _$HomeController;
@@ -25,9 +26,10 @@ abstract class _HomeControllerBase with Store {
   }
 
   @action
-  void updateLocation(LocationData locationData) {
+  void updateLocation(LocationData locationData, int partnerId) {
     _userService.update(
       UpdateProfileDto(
+        partnerId: partnerId,
         partnerCurrentLatitude: locationData.latitude,
         partnerCurrentLongitude: locationData.longitude,
       ),
