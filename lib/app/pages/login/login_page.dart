@@ -115,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final loginButton = PrimaryButton(
-      title: 'Log In',
+      title: 'Entrar',
       onTap: _submit,
       color: Colors.grey[100],
       titleStyle: TextStyle(
@@ -125,7 +125,7 @@ class _LoginPageState extends State<LoginPage> {
     );
 
     final signupButton = PrimaryButton(
-      title: 'Sign Up',
+      title: 'Cadastrar',
       // onTap: _loginController.signUp,
       onTap: () {
         Navigator.pushNamed(
@@ -185,7 +185,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: 250,
                     height: 80,
                     child: Image.asset(
-                      "assets/logo_branca.png",
+                      "assets/logo.png",
                       fit: BoxFit.fill,
                     ),
                   ),
@@ -197,15 +197,16 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        "By tapping Log in, you agree with our",
+                        "Ao tocar em Login, você concorda com nossos",
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                         ),
+                        textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 4),
                       Text.rich(TextSpan(
-                        text: "Terms of service",
+                        text: "Termos de serviço",
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
@@ -213,14 +214,14 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         children: [
                           TextSpan(
-                            text: " and ",
+                            text: " e ",
                             style: TextStyle(
                               color: Colors.black,
                               decoration: TextDecoration.none,
                             ),
                           ),
                           TextSpan(
-                            text: "Privacy Policy",
+                            text: "Política de Privacidade",
                             style: TextStyle(
                               color: Colors.white,
                               decoration: TextDecoration.underline,
@@ -230,7 +231,7 @@ class _LoginPageState extends State<LoginPage> {
                       )),
                       SizedBox(height: 16),
                       Text(
-                        "Trouble logging in?",
+                        "Problemas para fazer login?",
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -243,19 +244,19 @@ class _LoginPageState extends State<LoginPage> {
                         children: <Widget>[
                           Flexible(
                             child: Text(
-                              "We don't post anything on Facebook",
+                              "Nós não postamos nada no Facebook",
                               style: TextStyle(
                                 color: Colors.black,
                               ),
                             ),
                           ),
-                          SizedBox(
-                            width: 3,
-                          ),
-                          Icon(
-                            Icons.keyboard_arrow_down,
-                            color: Colors.black,
-                          ),
+                          // SizedBox(
+                          //   width: 3,
+                          // ),
+                          // Icon(
+                          //   Icons.keyboard_arrow_down,
+                          //   color: Colors.black,
+                          // ),
                         ],
                       ),
                       SizedBox(
