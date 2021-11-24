@@ -21,6 +21,7 @@ class EventModel {
   LatLng position;
   double partnerCurrentLatitude;
   double partnerCurrentLongitude;
+  String website_url;
 
   EventModel({
     this.id,
@@ -37,6 +38,7 @@ class EventModel {
     this.position,
     this.partnerCurrentLatitude,
     this.partnerCurrentLongitude,
+    this.website_url
   });
 
   // EventModel.fromJson(dynamic json) {
@@ -118,6 +120,7 @@ class EventModel {
         map['partner_current_latitude'],
         map['partner_current_longitude'],
       ),
+      website_url: map['website_url']
     );
   }
 
@@ -125,13 +128,7 @@ class EventModel {
   factory EventModel.fromJson(dynamic source) => EventModel.fromMap(source);
 
   String urlEventOdoo(){
-    //Gerar a Url equivalente a url gerada pelo gerador de site do Odoo:
-    // A url é gerada no formato <host>event/<Nome_Evento>-<startdate_YYYY_DD_MM>-<enddate_YYYY_DD_MM>-<id>/register
-
-    String dateStr(DateTime date) => DateFormat('yyyy-MM-dd').format(date);
-
-    String url = '/event/${Utils.removeDiacritics(name.replaceAll(' ', '-'))}-${dateStr(date_begin)}-${dateStr(date_end)}-${id.toString()}/register';
-    url = globalConfig.serverURL + url;
+    String url = globalConfig.serverURL + (website_url ?? '');
     return url;
   }
 }
