@@ -6,7 +6,11 @@ import 'package:get_it/get_it.dart';
 import 'package:intl/intl.dart';
 import 'package:mobx/mobx.dart';
 import 'package:odoo_client/app/data/models/channel.dart';
+import 'package:odoo_client/app/data/models/like_dto.dart';
 import 'package:odoo_client/app/data/services/login_facade_impl.dart';
+import 'package:odoo_client/app/data/services/odoo_api.dart';
+import 'package:odoo_client/app/data/services/relation_service_impl.dart';
+import 'package:odoo_client/app/pages/home/select_partner_controller.dart';
 import 'package:odoo_client/app/pages/match/chat_controller.dart';
 import 'package:odoo_client/app/pages/match/components/message_group.dart';
 import 'package:odoo_client/app/pages/match/components/message_tile.dart';
@@ -151,7 +155,13 @@ class _ChatPageState extends State<ChatPage> {
                   Icons.delete_forever,
                   color: Colors.red,
                 ),
-                onPressed: () async {},
+                onPressed: () async {
+                  final relation = RelationServiceImpl(GetIt.I.get<Odoo>());
+                  await relation.unmatch(
+                    LikeDto(_channel.rightPartnerId, _channel.leftPartnerId),
+                  );
+                  Navigator.pop(context);
+                },
               ),
             ],
           ),

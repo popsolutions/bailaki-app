@@ -38,11 +38,35 @@ class RelationServiceImpl implements RelationService {
     ]);
     final relationTypeId = relationTypeResponse.getRecords()[0]["id"];
 
-    final createRelationResponse = await _odoo.create('res.partner.relation', {
-      'left_partner_id': likeDto.currentUserPartnerId,
-      'right_partner_id': likeDto.friendPartnerId,
-      'type_id': relationTypeId,
-    }, 'bailaki_SendLike');
+    final createRelationResponse = await _odoo.create(
+        'res.partner.relation',
+        {
+          'left_partner_id': likeDto.currentUserPartnerId,
+          'right_partner_id': likeDto.friendPartnerId,
+          'type_id': relationTypeId,
+        },
+        'bailaki_SendLike');
+    print(createRelationResponse);
+  }
+
+  @override
+  Future<void> unmatch(LikeDto likeDto) async {
+    final relationTypeResponse =
+        await _odoo.searchRead('res.partner.relation.type', [
+      ['name', '=', 'Unmatch']
+    ], [
+      'id'
+    ]);
+    final relationTypeId = relationTypeResponse.getRecords()[0]["id"];
+
+    final createRelationResponse = await _odoo.create(
+        'res.partner.relation',
+        {
+          'left_partner_id': likeDto.currentUserPartnerId,
+          'right_partner_id': likeDto.friendPartnerId,
+          'type_id': relationTypeId,
+        },
+        'bailaki_SendLike');
     print(createRelationResponse);
   }
 }

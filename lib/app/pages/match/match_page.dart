@@ -141,30 +141,36 @@ class _MatchPageState extends State<MatchPage> {
                       );
                     }
 
-                    return ListView.builder(
-                        physics: BouncingScrollPhysics(),
-                        padding: const EdgeInsets.only(top: 12),
-                        shrinkWrap: true,
-                        itemBuilder: (_, index) {
-                          final item = items[index];
-                          final inverseChatter = item.inverseChatter(
-                            _authenticationController.currentUser.partnerId,
-                          );
-                          return ChatTile(
-                            imageBytes: inverseChatter?.photo?.bytes,
-                            description: item.lastMessage ?? '',
-                            amount_newmessages: item.amount_newmessages,
-                            name: inverseChatter.name,
-                            padding: const EdgeInsets.all(18),
-                            onTap: () {
-                              Navigator.of(context).pushNamed(
-                                "/chat",
-                                arguments: item,
-                              );
-                            },
-                          );
-                        },
-                        itemCount: items.length);
+                    return RefreshIndicator(
+                      onRefresh: () async {
+                        _matchController.load();
+                      },
+                      child: ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          padding: const EdgeInsets.only(top: 12),
+                          shrinkWrap: true,
+                          itemBuilder: (_, index) {
+                            final item = items[index];
+                            final inverseChatter = item.inverseChatter(
+                              _authenticationController.currentUser.partnerId,
+                            );
+                            return ChatTile(
+                              imageBytes: inverseChatter?.photo?.bytes,
+                              description: item.lastMessage ?? '',
+                              amount_newmessages: item.amount_newmessages,
+                              name: inverseChatter.name,
+                              padding: const EdgeInsets.all(18),
+                              onTap: () async {
+                                await Navigator.of(context).pushNamed(
+                                  "/chat",
+                                  arguments: item,
+                                );
+                                _matchController.load();
+                              },
+                            );
+                          },
+                          itemCount: items.length),
+                    );
                 }
               }),
             )
