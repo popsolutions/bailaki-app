@@ -67,7 +67,6 @@ class Config_ParameterService {
         globalConfig.activeRegisterLogApiUser_QtdeChar = 0;
       }
     }
-    print('x');
   }
 }
 

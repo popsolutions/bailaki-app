@@ -52,7 +52,25 @@ class PartnerServiceImpl implements PartnerService {
   Future<PartnerDetail> finById(int id) async {
     final partnerDetailResponse = await _odoo.searchRead(Strings.res_partner, [
       ["id", "=", id]
-    ], ["age","bio","name","email","phone","city","title","website","jobPosition","country","birthdate","gender","activityState","position","images","partner_current_latitude","partner_current_longitude"]);
+    ], [
+      "age",
+      "bio",
+      "name",
+      "email",
+      "phone",
+      "city",
+      "title",
+      "website",
+      "jobPosition",
+      "country",
+      "birthdate",
+      "gender",
+      "activityState",
+      "position",
+      "images",
+      "partner_current_latitude",
+      "partner_current_longitude",
+    ]);
 
     final photosResponse = await _odoo.searchRead('res.partner.image', [
       ['res_partner_id', '=', id]

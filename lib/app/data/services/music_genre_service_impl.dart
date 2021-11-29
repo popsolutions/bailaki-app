@@ -8,8 +8,11 @@ class MusicGenreServiceImpl implements MusicGenreService {
   MusicGenreServiceImpl(this._odoo);
   @override
   Future<List<MusicGenre>> findAll() async {
-    final response =
-        await _odoo.searchRead('res.partner.music.genre', [], ["id", "name"]);
+    final response = await _odoo.searchRead(
+      'res.partner.music.genre',
+      [],
+      ["id", "name"],
+    );
 
     final items = response
         .getRecords()

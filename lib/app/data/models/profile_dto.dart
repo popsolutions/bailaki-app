@@ -1,10 +1,12 @@
 import 'package:latlng/latlng.dart';
+
 import 'package:odoo_client/app/data/models/memory_image.dart';
 
 class ProfileDto {
   final String profile_description;
   final List<int> music_genre_ids;
   final int music_skill_id;
+  final String music_skill_name;
   final String function;
   final DateTime birthdate_date;
   final String gender;
@@ -33,6 +35,7 @@ class ProfileDto {
       this.profile_description,
       this.music_genre_ids,
       this.music_skill_id,
+      this.music_skill_name,
       this.function,
       this.birthdate_date,
       this.gender,
@@ -55,6 +58,8 @@ class ProfileDto {
             : null,
         music_skill_id:
             json['music_skill_id'] is! bool ? json['music_skill_id'][0] : null,
+        music_skill_name:
+            json['music_skill_id'] is! bool ? json['music_skill_id'][1] : null,
         profile_description: json['profile_description'] is! bool
             ? json['profile_description']
             : null,
@@ -84,5 +89,10 @@ class ProfileDto {
             ? json["referred_friend_min_age"]
             : null,
         referredFriendsIds: List<int>.from(json['referred_friend_ids']));
+  }
+
+  @override
+  String toString() {
+    return 'ProfileDto(profile_description: $profile_description, music_genre_ids: $music_genre_ids, music_skill_id: $music_skill_id, function: $function, birthdate_date: $birthdate_date, gender: $gender, refferedFriendMaxDistance: $refferedFriendMaxDistance, city: $city, activityState: $activityState, position: $position, interestMales: $interestMales, interestFemales: $interestFemales, interestOtherGenres: $interestOtherGenres, images: $images, enableMessageNotification: $enableMessageNotification, enableMatchNotification: $enableMatchNotification, referredFriendMinAge: $referredFriendMinAge, referredFriendMaxAge: $referredFriendMaxAge, referredFriendsIds: $referredFriendsIds)';
   }
 }

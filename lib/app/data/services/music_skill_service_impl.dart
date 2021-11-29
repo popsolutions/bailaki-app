@@ -9,8 +9,10 @@ class MusicSkillServiceImpl implements MusicSkillService {
 
   @override
   Future<List<MusicSkill>> findAll() async {
-    final response =
-        await _odoo.searchRead('res.partner.music.skill', [], ["id", "name"]);
+    final response = await _odoo.searchRead('res.partner.music.skill', [], [
+      "id",
+      "name",
+    ]);
     final items = response
         .getRecords()
         .map<MusicSkill>((e) => MusicSkill.fromJson(e))

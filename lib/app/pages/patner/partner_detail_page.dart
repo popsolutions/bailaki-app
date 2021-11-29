@@ -1,7 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/models/profile_dto.dart';
+import 'package:odoo_client/app/data/services/odoo_api.dart';
+import 'package:odoo_client/app/data/services/user_service_impl.dart';
 import 'package:odoo_client/app/pages/patner/partner_detail_controller.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 import 'package:odoo_client/shared/controllers/music_genres_controller.dart';
@@ -21,12 +26,14 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
   List genders;
   PartnerDetailController _partnerDetailController;
   AuthenticationController _authenticationController;
+  UserServiceImpl _userService;
 
   @override
   void initState() {
     _authenticationController = GetIt.I.get<AuthenticationController>();
     _partnerDetailController = GetIt.I.get<PartnerDetailController>();
     _musicGenresController = GetIt.I.get<MusicGenresController>();
+    _userService = UserServiceImpl(Odoo());
 
     genders = _musicGenresController.selectedMusicGenres.toList();
 
@@ -72,6 +79,7 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                 user.position.longitude,
                 data.position.latitude,
                 data.position.longitude);
+
             return SafeArea(
               child: LayoutBuilder(builder: (context, constraints) {
                 return SingleChildScrollView(
@@ -112,106 +120,135 @@ class _PartnerDetailsPageState extends State<PartnerDetailsPage>
                           ),
                         ),
                         const SizedBox(height: 20),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.only(left: 15, right: 15),
+                        FutureBuilder<ProfileDto>(
+                            future: _userService.findProfile(id),
+                            builder: (context, snapshot) {
+                              ProfileDto user = snapshot.data;
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return Center(
+                                    child: CircularProgressIndicator());
+                              }
+
+                              return Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      "${data.name}, ${data.age}",
-                                      style: TextStyle(fontSize: 24),
-                                    ),
-                                    Visibility(
-                                      visible:
-                                          data.city != null && data.city != '',
-                                      child: Text(
-                                        "${data.city ?? ''}/${data.activityState ?? ''} - ${(distance / 1000).toStringAsFixed(2) ?? ''} Km",
-                                        style: TextStyle(
-                                          color:
-                                              Color.fromRGBO(142, 144, 141, 1),
-                                        ),
-                                      ),
-                                    ),
-                                    Text(
-                                      "${data.jobPosition ?? ''}",
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(142, 144, 141, 1),
-                                      ),
-                                    ),
-                                    Wrap(
-                                      spacing: 4,
-                                      children: _musicGenresController
-                                          .selectedMusicGenres
-                                          .map((item) {
-                                        return Chip(label: Text(item.name));
-                                      }).toList(),
-                                    ),
-                                    Text(
-                                      "${data.bio ?? ''}",
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(142, 144, 141, 1),
-                                      ),
-                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 15, right: 15),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${data.name}, ${data.age}",
+                                            style: TextStyle(fontSize: 24),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Profissão: ${user.function ?? ''}",
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  142, 144, 141, 1),
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "Nível: ${user.music_skill_name ?? ''}",
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  142, 144, 141, 1),
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            "${user.profile_description ?? ''}",
+                                            style: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  142, 144, 141, 1),
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Wrap(
+                                            spacing: 4,
+                                            children: _musicGenresController
+                                                .musicGenres
+                                                .where(
+                                                  (element) => user
+                                                      .music_genre_ids
+                                                      .contains(element.id),
+                                                )
+                                                .map((e) =>
+                                                    Chip(label: Text(e.name)))
+                                                .toSet()
+                                                .toList(),
+                                          ),
+                                          // Wrap(
+                                          //   spacing: 4,
+                                          //   children: _musicGenresController
+                                          //       .musicGenres
+                                          //       .map((item) {
+                                          //     return Chip(
+                                          //         label: Text(item.name));
+                                          //   }).toList(),
+                                          // ),
 
-                                    /*
-                                    const SizedBox(height: 12),
-                                    Text(
-                                      "3 amigos em comum",
-                                      style: TextStyle(
-                                        color: Color.fromRGBO(142, 144, 141, 1),
+                                          /*
+                                        const SizedBox(height: 12),
+                                        Text(
+                                          "3 amigos em comum",
+                                          style: TextStyle(
+                                            color: Color.fromRGBO(142, 144, 141, 1),
+                                          ),
+                                        ),
+                                        const SizedBox(height: 16),
+                                        */
+                                        ],
                                       ),
                                     ),
-                                    const SizedBox(height: 16),
-                                    */
+                                    /*
+                                  Container(
+                                    height: 100,
+                                    child: ListView.separated(
+                                      padding: const EdgeInsets.only(
+                                          left: 10, right: 20),
+                                      scrollDirection: Axis.horizontal,
+                                      separatorBuilder: (_, index) =>
+                                          const SizedBox(width: 20),
+                                      itemBuilder: (_, index) {
+                                        final item = imgs[index];
+                        
+                                        return Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            CircleAvatar(
+                                              radius: 36,
+                                              backgroundImage: NetworkImage(item),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            Text(
+                                              "Ada Lovelace",
+                                              textAlign: TextAlign.center,
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Color.fromRGBO(
+                                                      161, 166, 164, 1)),
+                                            )
+                                          ],
+                                        );
+                                      },
+                                      itemCount: 5,
+                                    ),
+                                  )
+                                  */
                                   ],
                                 ),
-                              ),
-                              /*
-                              Container(
-                                height: 100,
-                                child: ListView.separated(
-                                  padding: const EdgeInsets.only(
-                                      left: 10, right: 20),
-                                  scrollDirection: Axis.horizontal,
-                                  separatorBuilder: (_, index) =>
-                                      const SizedBox(width: 20),
-                                  itemBuilder: (_, index) {
-                                    final item = imgs[index];
-
-                                    return Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        CircleAvatar(
-                                          radius: 36,
-                                          backgroundImage: NetworkImage(item),
-                                        ),
-                                        const SizedBox(height: 5),
-                                        Text(
-                                          "Ada Lovelace",
-                                          textAlign: TextAlign.center,
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                              fontSize: 16,
-                                              color: Color.fromRGBO(
-                                                  161, 166, 164, 1)),
-                                        )
-                                      ],
-                                    );
-                                  },
-                                  itemCount: 5,
-                                ),
-                              )
-                              */
-                            ],
-                          ),
-                        ),
+                              );
+                            }),
                       ],
                     ),
                   ),

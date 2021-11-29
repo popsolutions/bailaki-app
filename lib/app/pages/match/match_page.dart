@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
+import 'package:odoo_client/app/data/models/channel.dart';
 import 'package:odoo_client/app/pages/match/components/chat_tile.dart';
 import 'package:odoo_client/app/pages/match/match_controller.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
@@ -150,7 +151,7 @@ class _MatchPageState extends State<MatchPage> {
                           padding: const EdgeInsets.only(top: 12),
                           shrinkWrap: true,
                           itemBuilder: (_, index) {
-                            final item = items[index];
+                            Channel item = items[index];
                             final inverseChatter = item.inverseChatter(
                               _authenticationController.currentUser.partnerId,
                             );

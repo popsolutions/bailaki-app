@@ -17,6 +17,9 @@ abstract class _SelectPartnerControllerBase with Store {
 
   int _userPartnerId;
 
+  get userPartnerId => _userPartnerId;
+  set userPartnerId(int userPartnerId) => _userPartnerId = userPartnerId;
+
   _SelectPartnerControllerBase(
       this._partnerService, this._relationService, this._sendLikeFacace);
 
@@ -24,8 +27,6 @@ abstract class _SelectPartnerControllerBase with Store {
   ObservableFuture<List<Partner>> _partners = ObservableFuture.value(null);
 
   ObservableFuture<List<Partner>> get partners => _partners;
-
-  set userPartnerId(int userPartnerId) => _userPartnerId = userPartnerId;
 
   @action
   void loadPartners() {

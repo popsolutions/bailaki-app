@@ -82,7 +82,6 @@ class _RootPageState extends State<RootPage> {
   void readconfJson() async {
     try {
       await globalConfig.readconfJson();
-      print('x');
     } catch (e) {
       await showMessage('Opss',
           'Falha ao carregar parâmetros iniciais:\n${e.toString()}', context);
