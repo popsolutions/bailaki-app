@@ -87,8 +87,7 @@ showMessage(String title, String message, BuildContext context) async {
   }
 }
 
-showSnackBar(
-    BuildContext context, String _text, {Color backgroundColor = Colors.blueAccent, int milliseconds = 3000}) {
+showSnackBar(BuildContext context, String _text, {Color backgroundColor = Colors.blueAccent, int milliseconds = 3000}) {
   try {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
@@ -107,7 +106,66 @@ showSnackBar(
         ),
       ),
     );
-  }catch(e){
+  } catch (e) {
     print(e.toString());
   }
+}
+
+Future<bool> inputQuestion(BuildContext context, String _titulo, String _corpo,
+    [Function _functionConfirmar = null, String labelConfirmar = 'CONFIRMAR', String labelCancelar = 'CANCELAR']) async {
+  bool confirmSelect = false;
+
+//Botões
+  Widget _btnConfirmar = FlatButton(
+    child: Text(
+      labelConfirmar,
+      style: TextStyle(color: Colors.green, fontSize: 18),
+    ),
+    onPressed: () {
+      confirmSelect = true;
+
+      if (_functionConfirmar != null) _functionConfirmar();
+
+      Navigator.of(context).pop();
+    },
+  );
+
+  Widget _btnCancelar = FlatButton(
+    child: Text(
+      labelCancelar,
+      style: TextStyle(color: Colors.redAccent, fontSize: 18),
+    ),
+    onPressed: () {
+      Navigator.of(context).pop();
+    },
+  );
+// AlertDialog
+  AlertDialog alert = AlertDialog(
+    shape: RoundedRectangleBorder(
+      borderRadius: new BorderRadius.circular(10.0),
+    ),
+    title: Text(
+      _titulo,
+      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+    ),
+    content: Text(_corpo),
+    actions: [
+      _btnConfirmar,
+      _btnCancelar,
+    ],
+  );
+// Exibindo
+  await showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return alert;
+    },
+  );
+
+  return confirmSelect;
+}
+
+Future<bool> inputQuestionThrow(BuildContext context, String _titulo, String _corpo,
+    [Function _functionConfirmar = null, String labelConfirmar = 'CONFIRMAR', String labelCancelar = 'CANCELAR']) async {
+  if (!(await inputQuestion(context, _titulo, _corpo, _functionConfirmar, labelConfirmar, labelCancelar))) throw 'inputQuestion-Cancelar';
 }

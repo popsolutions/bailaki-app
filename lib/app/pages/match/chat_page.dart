@@ -15,6 +15,7 @@ import 'package:odoo_client/app/pages/match/chat_controller.dart';
 import 'package:odoo_client/app/pages/match/components/message_group.dart';
 import 'package:odoo_client/app/pages/match/components/message_tile.dart';
 import 'package:odoo_client/main.dart';
+import 'package:odoo_client/shared/components/dialogs.dart';
 import 'package:odoo_client/shared/controllers/authentication_controller.dart';
 
 class ChatPage extends StatefulWidget {
@@ -157,6 +158,7 @@ class _ChatPageState extends State<ChatPage> {
                 ),
                 onPressed: () async {
                   final relation = RelationServiceImpl(GetIt.I.get<Odoo>());
+                  await inputQuestionThrow(context, 'Confirmação', 'Deseja realmente excluir este Match?');
                   await relation.unmatch(
                     LikeDto(_channel.rightPartnerId, _channel.leftPartnerId),
                   );
