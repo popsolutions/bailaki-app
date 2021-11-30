@@ -108,13 +108,12 @@ class _AppState extends State<App> with WidgetsBindingObserver {
     super.initState();
 
     WidgetsBinding.instance.addObserver(this);
-    // messaging = FirebaseMessaging.instance;
-    firebaseToken = '';
+    messaging = FirebaseMessaging.instance;
 
-    // messaging.getToken().then((value) {
-    //   firebaseToken =
-    //       value; //t.todo - Verificar com Rully onde é melhor colocar a parte de informar o token para o odoo
-    // });
+    messaging.getToken().then((value) {
+      firebaseToken =
+          value; //t.todo - Verificar com Rully onde é melhor colocar a parte de informar o token para o odoo
+    });
   }
 
   @override
