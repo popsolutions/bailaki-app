@@ -2,8 +2,10 @@ import 'package:flutter/services.dart' as rootBundle;
 import 'dart:convert';
 
 import 'package:odoo_client/app/data/services/Config_ParameterService.dart';
+import 'package:odoo_client/app/data/services/ServiceNotifier.dart';
 
 GlobalConfig globalConfig = GlobalConfig();
+ServiceNotifier globalServiceNotifier = ServiceNotifier();
 Config_ParameterService globalConfig_ParameterService =
     Config_ParameterService();
 

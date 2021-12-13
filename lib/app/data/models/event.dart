@@ -22,6 +22,7 @@ class EventModel {
   double partnerCurrentLatitude;
   double partnerCurrentLongitude;
   String website_url;
+  int event_type_id;
 
   EventModel({
     this.id,
@@ -38,7 +39,8 @@ class EventModel {
     this.position,
     this.partnerCurrentLatitude,
     this.partnerCurrentLongitude,
-    this.website_url
+    this.website_url,
+    this.event_type_id
   });
 
   // EventModel.fromJson(dynamic json) {
@@ -114,6 +116,7 @@ class EventModel {
       zip: map['zip'],
       city: map['city'],
       statename: map['statename'],
+      event_type_id: map['event_type_id'],
       partnerCurrentLatitude: map['partner_current_latitude'],
       partnerCurrentLongitude: map['partner_current_longitude'],
       position: LatLng(

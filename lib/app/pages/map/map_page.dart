@@ -4,10 +4,15 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:get_it/get_it.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:location/location.dart';
+import 'package:odoo_client/app/data/models/event_type.dart';
+import 'package:odoo_client/app/data/services/ServiceNotifier.dart';
 import 'package:odoo_client/app/pages/map/webview_event.dart';
+import 'package:odoo_client/app/pages/profile/dance_style_page.dart';
+import 'package:odoo_client/app/utility/global.dart';
 import '../../data/models/event.dart';
 import '../../data/services/odoo_api.dart';
 import '../../../shared/controllers/authentication_controller.dart';
+import 'package:collection/collection.dart';
 
 class MapPage extends StatefulWidget {
   @override
@@ -19,10 +24,18 @@ class _MapPageState extends State<MapPage> {
   LatLng _center;
 
   Future<List<EventModel>> getEvents() async {
+    List<EventModel> listEventModel = [];
     final odoo = GetIt.I.get<Odoo>();
     final response = await odoo.getApi('bailaki/events/');
     final List result = await response.getResponseApi();
-    return result.map((e) => EventModel.fromJson(e)).toList();
+    result.map((e) {
+      Even_typeModel even_typeModel = globalServiceNotifier.listEven_typeModel.firstWhereOrNull((element) => element.id == e['event_type_id']);
+
+      if ((even_typeModel != null) && (even_typeModel.selected))
+        listEventModel.add(EventModel.fromJson(e));
+    }).toList();
+
+    return listEventModel;
   }
 
   getCurrentLocation() async {
@@ -67,12 +80,45 @@ class _MapPageState extends State<MapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.blue.withOpacity(0.6),
-        child: Icon(Icons.location_searching_sharp),
-        onPressed: () async {
-          await getCurrentLocation();
-        },
+      floatingActionButton: Stack(
+        children: <Widget>[
+          Padding(
+            padding: EdgeInsets.only(left: 31),
+            child: Align(
+              alignment: Alignment.bottomLeft,
+              child: FloatingActionButton(
+                backgroundColor: Colors.blue.withOpacity(0.6),
+                onPressed: () async {
+                  await showDialog(
+                      context: context,
+                      builder: (_) =>
+                          AlertDialog(backgroundColor: Color.fromRGBO(245, 247, 250, 1), insetPadding: EdgeInsets.all(16), content: listEvenFilter(), actions: <Widget>[
+                            FlatButton(
+                              child: new Text('OK'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            )
+                          ]));
+                  setState(() {
+
+                  });
+                },
+                child: Icon(Icons.search),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: FloatingActionButton(
+              backgroundColor: Colors.blue.withOpacity(0.6),
+              onPressed: () async {
+                await getCurrentLocation();
+              },
+              child: Icon(Icons.location_searching_sharp),
+            ),
+          ),
+        ],
       ),
       body: FutureBuilder<List<EventModel>>(
         future: getEvents(),
@@ -127,6 +173,65 @@ class _MapPageState extends State<MapPage> {
             ],
           );
         },
+      ),
+    );
+  }
+}
+
+class listEvenFilter extends StatefulWidget {
+  @override
+  _listEvenFilterState createState() => _listEvenFilterState();
+}
+
+class _listEvenFilterState extends State<listEvenFilter> {
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+              height: 120,
+              padding: const EdgeInsets.only(
+                  left: 12, right: 12, top: 20, bottom: 15),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                      "Selecione os estilos musicais que você gostaria de encontrar"),
+                  Center(
+                    child: Text(
+                      "ESTILOS MUSICAIS",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Color.fromARGB(92, 92, 92, 1),
+                      ),
+                    ),
+                  )
+                ],
+              )),
+          Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
+              child: Wrap(
+                spacing: 10,
+                children: globalServiceNotifier.listEven_typeModel.map((item) {
+                  final isSelected = item.selected;
+                  return MusicalPreferenceTile(
+                    title: item.name,
+                    isSelected: isSelected,
+                    onPressed: () {
+                      item.selected = !item.selected;
+                      setState(() {
+
+                      });
+                    },
+                  );
+                }).toList(),
+              )
+          ),
+        ],
       ),
     );
   }

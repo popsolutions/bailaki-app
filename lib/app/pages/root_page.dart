@@ -72,6 +72,8 @@ class _RootPageState extends State<RootPage> {
             currentUser.uid, currentUser.name, currentUser.partnerId);
         await globalConfig_ParameterService.setGlobalConfig(
             _authenticationController.currentUser.uid.toString());
+
+        globalServiceNotifier.init();
         navigator.pushReplacementNamed("/home");
       } catch (e) {
         navigator.pushReplacementNamed("/login");

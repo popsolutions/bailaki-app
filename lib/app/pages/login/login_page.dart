@@ -69,6 +69,8 @@ class _LoginPageState extends State<LoginPage> {
     await globalConfig_ParameterService
         .setGlobalConfig(_authenticationController.currentUser.uid.toString());
 
+    globalServiceNotifier.init();
+
     Navigator.of(context).pushReplacementNamed('/home');
   }
 
