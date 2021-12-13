@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:get_it/get_it.dart';
 import 'package:mobx/mobx.dart';
@@ -87,15 +88,24 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
 
   void _like() async {
     try {
+      EasyLoading.show(maskType: EasyLoadingMaskType.black);
       await _selectPartnerController.like();
+      EasyLoading.dismiss();
     } catch (e) {
-      showMessage("Ops", "Tivemos problema ao efetuar o like: " + e.toString(),
-          context);
+      EasyLoading.dismiss();
+      showMessage("Ops", "Tivemos problema ao efetuar o like: " + e.toString(), context);
     }
   }
 
-  void _deslike() {
-    _selectPartnerController.deslike();
+  void _deslike() async {
+    try {
+      EasyLoading.show(maskType: EasyLoadingMaskType.black);
+      _selectPartnerController.deslike();
+      EasyLoading.dismiss();
+    } catch (e) {
+      EasyLoading.dismiss();
+      showMessage("Ops", "Tivemos problema ao efetuar o deslike: " + e.toString(), context);
+    }
   }
 
   @override
