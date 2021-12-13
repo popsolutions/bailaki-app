@@ -87,8 +87,7 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
 
   void _like() async {
     try {
-      await Future.delayed(Duration(seconds: 3));
-      _selectPartnerController.like();
+      await _selectPartnerController.like();
     } catch (e) {
       showMessage("Ops", "Tivemos problema ao efetuar o like: " + e.toString(),
           context);
