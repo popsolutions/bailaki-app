@@ -6,3 +6,6 @@ flutter build apk --no-tree-shake-icons --dart-define=conf=prod_Mateus
 flutter build apk --no-tree-shake-icons --dart-define=conf=prod_Ganesha
 flutter build apk --no-tree-shake-icons --dart-define=conf=PROD
 
+
+Apk para Deploy:
+flutter build appbundle --no-tree-shake-icons --dart-define=conf=PROD

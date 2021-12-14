@@ -1,7 +1,7 @@
 name: odoo_client
 description: A new Flutter application.
 
-version: 1.0.0+2
+version: 1.0.0+4
 
 environment:
   sdk: '>=2.9.0 <3.0.0'
