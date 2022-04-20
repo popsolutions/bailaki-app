@@ -185,6 +185,23 @@ class listEvenFilter extends StatefulWidget {
 
 class _listEvenFilterState extends State<listEvenFilter> {
   @override
+  Widget marcarDesmarcaText(String text, bool setCheckedTo) {
+    return GestureDetector(
+        onTap: () {
+          globalServiceNotifier.listEven_typeModel.forEach((element) {
+            element.selected = setCheckedTo;
+          });
+          setState(() {});
+        },
+        child: Center(child: Text(text,
+            style: TextStyle(
+              // fontWeight: FontWeight.bold,
+              fontSize: 14,
+              color: Colors.blue,
+            )
+        )));
+  }
+
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
@@ -212,8 +229,15 @@ class _listEvenFilterState extends State<listEvenFilter> {
                   )
                 ],
               )),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              marcarDesmarcaText('Marcar Todos', true),
+              marcarDesmarcaText('Desmarcar Todos', false),
+            ],
+          ),
           Padding(
-              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20),
+              padding: const EdgeInsets.only(left: 15, right: 15, bottom: 20, top: 8),
               child: Wrap(
                 spacing: 10,
                 children: globalServiceNotifier.listEven_typeModel.map((item) {
