@@ -250,14 +250,6 @@ class _LoginPageState extends State<LoginPage> {
                         ],
                       )),
                       SizedBox(height: 16),
-                      Text(
-                        "Problemas para fazer login?",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          decoration: TextDecoration.underline,
-                        ),
-                      ),
                       SizedBox(height: 16),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
