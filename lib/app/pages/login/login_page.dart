@@ -208,8 +208,9 @@ class _LoginPageState extends State<LoginPage> {
                         child: Text(
                           "Esqueci minha senha",
                           style: TextStyle(
-                            color: Colors.indigo,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
+                            decoration: TextDecoration.underline,
                           ),
                           textAlign: TextAlign.center,
                         ),
