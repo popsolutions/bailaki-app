@@ -198,6 +198,23 @@ class _LoginPageState extends State<LoginPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.pushNamed(
+                            context,
+                            '/ForgotoPasswordPage',
+                          );
+                        },
+                        child: Text(
+                          "Esqueci minha senha",
+                          style: TextStyle(
+                            color: Colors.indigo,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(height: 8),
                       Text(
                         "Ao tocar em Login, você concorda com nossos",
                         style: TextStyle(

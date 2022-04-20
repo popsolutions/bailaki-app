@@ -24,6 +24,7 @@ class GlobalConfig {
   String alertaApp = '';
 
   get serverURLRegisterPage => serverURL + '/web/signup';
+  get serverForgotoPassword => serverURL + '/web/reset_password';
 
   bool darkMode = false;
 

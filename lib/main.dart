@@ -19,6 +19,7 @@ import 'package:odoo_client/app/pages/profile/dance_style_page.dart';
 import 'package:odoo_client/app/pages/profile/genre_page.dart';
 import 'package:odoo_client/app/pages/profile/my_profile_page.dart';
 import 'package:odoo_client/app/pages/profile/profile_edit_page.dart';
+import 'package:odoo_client/app/pages/register/forgoto_password.dart';
 import 'package:odoo_client/app/pages/register/register_page.dart';
 import 'package:odoo_client/app/pages/root_page.dart';
 import 'package:odoo_client/app/pages/settings/settings_page.dart';
@@ -151,6 +152,7 @@ class _AppState extends State<App> with WidgetsBindingObserver {
         "/genree": (_) => const GenrePage(),
         "/dance_level": (_) => const DanceLevelPage(),
         "/register": (_) => RegisterPage(),
+        "/ForgotoPasswordPage": (_) => ForgotoPasswordPage(),
         "/map": (_) => MapPage(),
       },
     );
