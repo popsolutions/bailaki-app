@@ -159,7 +159,7 @@ class _MatchPageState extends State<MatchPage> {
                               imageBytes: inverseChatter?.photo?.bytes,
                               description: item.lastMessage ?? '',
                               amount_newmessages: item.amount_newmessages,
-                              name: inverseChatter.name,
+                              name: inverseChatter?.name ?? '',
                               padding: const EdgeInsets.all(18),
                               onTap: () async {
                                 await Navigator.of(context).pushNamed(
