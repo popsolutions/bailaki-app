@@ -245,6 +245,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                               primary: const Color.fromRGBO(253, 0, 236, 1),
                             ),
                             onPressed: () async {
+                              await _profileEditController.submit();
                               _authenticationController.logout();
 
                               Navigator.pushNamedAndRemoveUntil(
