@@ -45,4 +45,6 @@ class Partner {
         i["id"].toString();
         */
   }
+
+  int get Age => (DateTime.now().difference(birthdate).inDays / 365).truncate();
 }

@@ -164,7 +164,7 @@ class _SelectPartnerPageState extends State<SelectPartnerPage> {
                       child: _buildCard(
                         distance: distance,
                         name: current.name,
-                        age: 19,
+                        age: current.Age,
                         bytes: current?.avatarPhoto?.bytes,
                         onTap: () => Navigator.of(context).pushNamed(
                             '/partner_detail',
