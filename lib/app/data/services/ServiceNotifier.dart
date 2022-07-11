@@ -4,6 +4,7 @@ import 'package:odoo_client/app/data/services/odoo_api.dart';
 class ServiceNotifier {
   List<Even_typeModel> listEven_typeModel = [];
   Odoo odoo = Odoo();
+  bool cadastroRealizado = false;
 
   void init() {
     listEven_typeModel_Load();

@@ -129,11 +129,15 @@ class _LoginPageState extends State<LoginPage> {
     final signupButton = PrimaryButton(
       title: 'Cadastrar',
       // onTap: _loginController.signUp,
-      onTap: () {
-        Navigator.pushNamed(
+      onTap: () async {
+        globalServiceNotifier.cadastroRealizado = false;
+        await Navigator.pushNamed(
           context,
           '/register',
         );
+
+        if (globalServiceNotifier.cadastroRealizado)
+          await showMessage('Bem vindo', 'Seu Cadastrado foi concluído com sucesso.', context);
       },
       color: Colors.grey[100],
       titleStyle: TextStyle(
